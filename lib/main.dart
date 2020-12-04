@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyFirstStflWidget());
+    return MaterialApp(title: "App", home: MyFirstWidget());
   }
 }
 
-class MyFirstStlsWidget extends StatelessWidget {
-  int count = 0;
+class MyFirstWidget extends StatelessWidget {
+  //contextFunction() => context.runtimeType;
 
   @override
   Widget build(BuildContext context) {
-    print("StatefulWidget: ${count++}");
     return Container(
       child: Center(child: Text("Hello!")),
     );
@@ -29,11 +28,10 @@ class MyFirstStflWidget extends StatefulWidget {
 }
 
 class _MyFirstStflWidgetState extends State<MyFirstStflWidget> {
-  int count = 0;
+  contextFunction() => context.runtimeType;
 
   @override
   Widget build(BuildContext context) {
-    print("StatefulWidget: ${count++}");
     return Container(child: Center(child: Text("Hello!")));
   }
 }
