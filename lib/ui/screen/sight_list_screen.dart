@@ -13,6 +13,7 @@ class _SightListScreenState extends State<SightListScreen> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             elevation: 0,
+            centerTitle: false,
             toolbarHeight: 150,
             title: Text("Список\nинтересных мест",
                 maxLines: 2,
