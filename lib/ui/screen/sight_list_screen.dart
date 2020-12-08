@@ -15,13 +15,30 @@ class _SightListScreenState extends State<SightListScreen> {
             elevation: 0,
             centerTitle: false,
             toolbarHeight: 150,
-            title: Text("Список\nинтересных мест",
-                maxLines: 2,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Color(0xFF3B3E5B),
-                    fontFamily: "Roboto",
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold))));
+            title: RichText(
+                text: TextSpan(
+                    style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold),
+                    children: [
+                  TextSpan(
+                      text: "С",
+                      style: TextStyle(color: Color(0xFF4CAF50)),
+                      children: [
+                        TextSpan(
+                          text: "писок\n",
+                          style: TextStyle(color: Color(0xFF3B3E5B)),
+                        )
+                      ]),
+                  TextSpan(
+                      text: "и",
+                      style: TextStyle(color: Color(0xFFFCDD3D)),
+                      children: [
+                        TextSpan(
+                            text: "нтересных мест",
+                            style: TextStyle(color: Color(0xFF3B3E5B)))
+                      ])
+                ]))));
   }
 }
