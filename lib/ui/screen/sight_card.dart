@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:places/colors.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/text_styles.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -24,26 +26,22 @@ class SightCard extends StatelessWidget {
               Expanded(
                 child: Container(
                     padding: EdgeInsets.all(16),
-                    color: Color(0xFFF5F5F5),
+                    color: colorBackground,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
                           sight.name,
                           maxLines: 2,
-                          style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                          style:
+                              textRegular.copyWith(color: colorLightSecondary),
                         ),
                         SizedBox(height: 2),
                         Text(
                           sight.details,
                           maxLines: 1,
-                          style: TextStyle(
-                              color: Color(0xFF7C7E92),
-                              fontFamily: "Roboto",
-                              fontSize: 14),
+                          style:
+                              textSmall.copyWith(color: colorLightSecondary2),
                         ),
                       ],
                     )),
@@ -55,8 +53,7 @@ class SightCard extends StatelessWidget {
             left: 16,
             child: Text(
               sight.type,
-              style: TextStyle(
-                  color: Colors.white, fontFamily: "Roboto", fontSize: 14),
+              style: textSmallBold.copyWith(color: Colors.white),
             ),
           ),
           Positioned(
