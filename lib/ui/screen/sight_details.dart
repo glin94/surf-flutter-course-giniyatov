@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-
-import '../res/colors.dart';
-import '../../mocks.dart';
-import '../res/text_styles.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/text_styles.dart';
 
 class SightDetails extends StatelessWidget {
   final Sight sight = mocks[1];
@@ -11,107 +10,172 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Stack(
+        child: Column(
+      children: [
+        GalleryWidget(),
+        DetailsWidget(sight: sight),
+      ],
+    ));
+  }
+}
+
+class GalleryWidget extends StatelessWidget {
+  const GalleryWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 360,
+          color: Colors.deepPurple,
+        ),
+        Positioned(
+          top: 36,
+          left: 16,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: 32,
+            width: 32,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class DetailsWidget extends StatelessWidget {
+  const DetailsWidget({
+    Key key,
+    @required this.sight,
+  }) : super(key: key);
+
+  final Sight sight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 24,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Column(
-            children: [
-              Container(
-                height: 360,
-                color: Colors.deepPurple,
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, top: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(sight.name,
-                            style:
-                                textTitle.copyWith(color: colorLightSecondary)),
-                        SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Text(sight.type,
-                                style: textSmallBold.copyWith(
-                                    color: colorLightSecondary)),
-                            SizedBox(width: 16),
-                            Text(
-                              "закрыто до 09:00",
-                              style: textSmall.copyWith(
-                                  color: colorLightSecondary2),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          sight.details,
-                          maxLines: 4,
-                          style: textSmall.copyWith(color: colorLightSecondary),
-                        ),
-                        const SizedBox(height: 24),
-                        Container(
-                          child: Center(
-                            child: Text(
-                              "ПОСТРОИТЬ МАРШРУТ",
-                              style: textButton.copyWith(color: Colors.white),
-                            ),
-                          ),
-                          height: 48,
-                          decoration: BoxDecoration(
-                              color: colorLightGreen,
-                              borderRadius: BorderRadius.circular(12)),
-                        ),
-                        const SizedBox(height: 24),
-                        Container(height: 1, color: colorInnactiveBlack),
-                        const SizedBox(height: 8),
-                        Container(
-                          height: 40,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    child: Center(
-                                        child: Text("Запланировать",
-                                            style: textSmall.copyWith(
-                                                color: colorInnactiveBlack))),
-                                  )),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  child: Center(
-                                      child: Text(
-                                    "В Избранное",
-                                    style: textSmall.copyWith(
-                                        color: colorLightSecondary),
-                                  )),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+          _buildDetails(),
+          _buildRouteButton(),
+          _buildPlanningAndFavouriteButtons()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlanningAndFavouriteButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        children: [
+          Container(
+            height: 1,
+            color: colorInnactiveBlack,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Запланировать",
+                    style: textSmall.copyWith(
+                      color: colorInnactiveBlack,
                     ),
                   ),
                 ),
-              ),
-            ],
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "В Избранное",
+                    style: textSmall.copyWith(
+                      color: colorLightSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Positioned(
-              top: 36,
-              left: 16,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                height: 32,
-                width: 32,
-              ))
         ],
       ),
+    );
+  }
+
+  Widget _buildRouteButton() {
+    return MaterialButton(
+      elevation: 0,
+      minWidth: double.infinity,
+      color: colorLightGreen,
+      child: Text(
+        "ПОСТРОИТЬ МАРШРУТ",
+        style: textButton.copyWith(
+          color: Colors.white,
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget _buildDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          sight.name,
+          style: textTitle.copyWith(
+            color: colorLightSecondary,
+          ),
+        ),
+        Row(
+          children: [
+            Text(
+              sight.type,
+              style: textSmallBold.copyWith(
+                color: colorLightSecondary,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Text(
+                sight.isOpen
+                    ? "открыто"
+                    : "закрыто до ${sight.openingTime.hour.toString().padLeft(2, '0')}:00",
+                style: textSmall.copyWith(
+                  color: colorLightSecondary2,
+                ),
+              ),
+            )
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Text(
+            sight.details,
+            maxLines: 4,
+            style: textSmall.copyWith(
+              color: colorLightSecondary,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
