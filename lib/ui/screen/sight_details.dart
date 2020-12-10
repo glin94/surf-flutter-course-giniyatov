@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/colors.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
-import 'package:places/text_styles.dart';
+
+import '../res/colors.dart';
+import '../../mocks.dart';
+import '../res/text_styles.dart';
 
 class SightDetails extends StatelessWidget {
   final Sight sight = mocks[1];

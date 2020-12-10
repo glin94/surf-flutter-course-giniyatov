@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:places/colors.dart';
-import 'package:places/mocks.dart';
-import 'package:places/text_styles.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/text_styles.dart';
+
+import '../../mocks.dart';
+import 'sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
   @override

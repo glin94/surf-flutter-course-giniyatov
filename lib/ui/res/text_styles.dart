@@ -1,5 +1,4 @@
 import 'package:flutter/painting.dart';
-import 'package:places/colors.dart';
 
 //text styles
 final TextStyle _text = TextStyle(
