@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 const Color colorBackground = Color(0xFFF5F5F5),
     colorInnactiveBlack = Color.fromRGBO(124, 126, 146, 0.56),
     colorError = Color(0xFFEF4343),
@@ -19,3 +21,15 @@ const Color colorBackground = Color(0xFFF5F5F5),
     colorDarkGreen = Color(0xFF6ADA6F),
     colorDarkYellow = Color(0xFFFFE769),
     colorDarkRed = Color(0xFFCF2A2A);
+
+const LinearGradient gradient = LinearGradient(
+    begin: FractionalOffset.topCenter,
+    end: FractionalOffset.bottomCenter,
+    colors: [
+      Color(0xFF252849),
+      Color(0xFF143B3E5B),
+    ],
+    stops: [
+      0.0,
+      1.0,
+    ]);

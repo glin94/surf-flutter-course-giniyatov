@@ -81,7 +81,9 @@ class DetailsWidget extends StatelessWidget {
 
   Widget _buildPlanningAndFavouriteButtons() {
     return Padding(
-      padding: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.only(
+        top: 24,
+      ),
       child: Column(
         children: [
           Container(
@@ -89,7 +91,9 @@ class DetailsWidget extends StatelessWidget {
             color: colorInnactiveBlack,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(
+              top: 8,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

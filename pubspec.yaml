@@ -1,9 +1,8 @@
 name: places
-description: A new Flutter project.
-
-publish_to: 'none'
-
 version: 1.0.0+1
+description: A new Flutter project.
+repository: https://github.com/glin94/surf-flutter-course-giniyatov
+
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -20,8 +19,9 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  uses-material-design: true
   assets:
-    - res/
+    - res/assets/
   fonts:
     - family: Roboto
       fonts:
@@ -34,4 +34,3 @@ flutter:
           style: italic
           weight: 700
 
-  uses-material-design: true
