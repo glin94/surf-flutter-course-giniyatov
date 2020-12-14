@@ -14,17 +14,22 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          toolbarHeight: 150,
-          title: Text("Список\nинтересных мест",
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: AppBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            elevation: 0,
+            centerTitle: false,
+            toolbarHeight: 100,
+            title: Text(
+              "Список\nинтересных мест",
               maxLines: 2,
               textAlign: TextAlign.left,
               style: textLargeTitle.copyWith(
                 color: colorLightSecondary,
-              )),
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

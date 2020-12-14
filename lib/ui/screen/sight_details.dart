@@ -13,7 +13,12 @@ class SightDetails extends StatelessWidget {
         child: Column(
       children: [
         GalleryWidget(),
-        DetailsWidget(sight: sight),
+        SizedBox(
+          height: 15,
+        ),
+        DetailsWidget(
+          sight: sight,
+        ),
       ],
     ));
   }
@@ -60,10 +65,8 @@ class DetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 24,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
