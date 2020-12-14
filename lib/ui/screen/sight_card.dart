@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
+//Карточка
 class SightCard extends StatelessWidget {
   final Sight sight;
 
@@ -22,36 +25,18 @@ class SightCard extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 3 / 2,
-            child: _buildImage(sight.url),
+            child: _buildTop(sight.url),
           ),
-          _buildDetails(),
+          _buildBottom(),
         ],
       ),
     );
   }
 
-  Widget _buildImage(String url) {
+  Widget _buildTop(String url) {
     return Stack(children: [
-      Container(
-        width: double.infinity,
-        foregroundDecoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: const Radius.circular(16),
-              topRight: const Radius.circular(16),
-            ),
-            backgroundBlendMode: BlendMode.multiply,
-            color: Colors.transparent.withOpacity(.4),
-            gradient: gradient),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(url),
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-        ),
+      ImageWidget(
+        url: url,
       ),
       Positioned(
         top: 16,
@@ -66,24 +51,22 @@ class SightCard extends StatelessWidget {
       Positioned(
         top: 18,
         right: 19,
-        child: Image.asset(
+        child: SvgPicture.asset(
           icHeart,
-          fit: BoxFit.cover,
-          width: 24,
-          height: 24,
+          color: Colors.white,
         ),
       ),
     ]);
   }
 
-  Container _buildDetails() {
+  Container _buildBottom() {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
         color: colorBackground,
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
+          bottomLeft: const Radius.circular(16),
+          bottomRight: const Radius.circular(16),
         ),
       ),
       padding: const EdgeInsets.all(16),

@@ -42,8 +42,8 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
         ),
         body: _isLoading
-            ? Center(
-                child: CupertinoActivityIndicator(
+            ? const Center(
+                child: const CupertinoActivityIndicator(
                   animating: true,
                   radius: 16,
                 ),

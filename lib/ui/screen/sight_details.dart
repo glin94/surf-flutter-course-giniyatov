@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/common/widgets/image.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
@@ -12,8 +15,10 @@ class SightDetails extends StatelessWidget {
     return Material(
         child: Column(
       children: [
-        GalleryWidget(),
-        SizedBox(
+        GalleryWidget(
+          sight: sight,
+        ),
+        const SizedBox(
           height: 15,
         ),
         DetailsWidget(
@@ -24,8 +29,12 @@ class SightDetails extends StatelessWidget {
   }
 }
 
+//Галлерея
 class GalleryWidget extends StatelessWidget {
+  final Sight sight;
+
   const GalleryWidget({
+    @required this.sight,
     Key key,
   }) : super(key: key);
 
@@ -35,7 +44,9 @@ class GalleryWidget extends StatelessWidget {
       children: [
         Container(
           height: 360,
-          color: Colors.deepPurple,
+          child: ImageWidget(
+            url: sight.url,
+          ),
         ),
         Positioned(
           top: 36,
@@ -47,6 +58,12 @@ class GalleryWidget extends StatelessWidget {
             ),
             height: 32,
             width: 32,
+            child: IconButton(
+              icon: SvgPicture.asset(
+                icArrow,
+              ),
+              onPressed: () {},
+            ),
           ),
         )
       ],
@@ -76,68 +93,6 @@ class DetailsWidget extends StatelessWidget {
           _buildPlanningAndFavouriteButtons()
         ],
       ),
-    );
-  }
-
-  Widget _buildPlanningAndFavouriteButtons() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 24,
-      ),
-      child: Column(
-        children: [
-          Container(
-            height: 1,
-            color: colorInnactiveBlack,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Запланировать",
-                    style: textSmall.copyWith(
-                      color: colorInnactiveBlack,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "В Избранное",
-                    style: textSmall.copyWith(
-                      color: colorLightSecondary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRouteButton() {
-    return MaterialButton(
-      elevation: 0,
-      minWidth: double.infinity,
-      color: colorLightGreen,
-      child: Text(
-        "ПОСТРОИТЬ МАРШРУТ",
-        style: textButton.copyWith(
-          color: Colors.white,
-        ),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      onPressed: () {},
     );
   }
 
@@ -173,7 +128,9 @@ class DetailsWidget extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24,
+          ),
           child: Text(
             sight.details,
             maxLines: 4,
@@ -183,6 +140,79 @@ class DetailsWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildRouteButton() {
+    return Container(
+      width: double.infinity,
+      height: 48,
+      child: RaisedButton.icon(
+        label: Text(
+          "ПОСТРОИТЬ МАРШРУТ",
+          style: textButton.copyWith(
+            color: Colors.white,
+          ),
+        ),
+        icon: SvgPicture.asset(icGO),
+        color: colorLightGreen,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        onPressed: () {},
+      ),
+    );
+  }
+
+  Widget _buildPlanningAndFavouriteButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 24,
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: 1,
+            color: colorInnactiveBlack,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 8,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton.icon(
+                  icon: SvgPicture.asset(
+                    icCalendar,
+                    color: colorInnactiveBlack,
+                  ),
+                  onPressed: () {},
+                  label: Text(
+                    "Запланировать",
+                    style: textSmall.copyWith(
+                      color: colorInnactiveBlack,
+                    ),
+                  ),
+                ),
+                TextButton.icon(
+                  icon: SvgPicture.asset(
+                    icHeart,
+                    color: colorLightSecondary,
+                  ),
+                  onPressed: () {},
+                  label: Text(
+                    "В Избранное",
+                    style: textSmall.copyWith(
+                      color: colorLightSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
