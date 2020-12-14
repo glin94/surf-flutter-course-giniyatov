@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/screen/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
   @override
@@ -10,36 +12,27 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            elevation: 0,
-            centerTitle: false,
-            toolbarHeight: 150,
-            title: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                    style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: "С",
-                          style: TextStyle(color: Color(0xFF4CAF50)),
-                          children: [
-                            TextSpan(
-                              text: "писок\n",
-                              style: TextStyle(color: Color(0xFF3B3E5B)),
-                            )
-                          ]),
-                      TextSpan(
-                          text: "и",
-                          style: TextStyle(color: Color(0xFFFCDD3D)),
-                          children: [
-                            TextSpan(
-                                text: "нтересных мест",
-                                style: TextStyle(color: Color(0xFF3B3E5B)))
-                          ])
-                    ]))));
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        centerTitle: false,
+        toolbarHeight: 150,
+        title: Text(
+          "Список\nинтересных мест",
+          maxLines: 2,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+              color: Color(0xFF3B3E5B),
+              fontFamily: "Roboto",
+              fontSize: 32,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: mocks.map((item) => SightCard(sight: item)).toList(),
+        ),
+      ),
+    );
   }
 }
