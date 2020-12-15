@@ -12,15 +12,6 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    Future.delayed(
-        Duration(seconds: 1), () => setState(() => _isLoading = false));
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +32,10 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
           ),
         ),
-        body: _isLoading
-            ? const Center(
-                child: const CupertinoActivityIndicator(
-                  animating: true,
-                  radius: 16,
-                ),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  children:
-                      mocks.map((item) => SightCard(sight: item)).toList(),
-                ),
-              ));
+        body: SingleChildScrollView(
+          child: Column(
+            children: mocks.map((item) => SightCard(sight: item)).toList(),
+          ),
+        ));
   }
 }

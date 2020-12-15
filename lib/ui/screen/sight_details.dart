@@ -5,6 +5,7 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 class SightDetails extends StatelessWidget {
@@ -29,14 +30,14 @@ class SightDetails extends StatelessWidget {
   }
 }
 
-//Галлерея
 class GalleryWidget extends StatelessWidget {
-  final Sight sight;
-
+  ///  Галлерея
   const GalleryWidget({
     @required this.sight,
     Key key,
   }) : super(key: key);
+
+  final Sight sight;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,11 @@ class GalleryWidget extends StatelessWidget {
       children: [
         Container(
           height: 360,
+          width: double.infinity,
+          foregroundDecoration: BoxDecoration(
+              backgroundBlendMode: BlendMode.multiply,
+              color: Colors.transparent.withOpacity(.4),
+              gradient: gradient),
           child: ImageWidget(
             url: sight.url,
           ),
@@ -117,9 +123,7 @@ class DetailsWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                sight.isOpen
-                    ? "открыто"
-                    : "закрыто до ${sight.openingTime.hour.toString().padLeft(2, '0')}:00",
+                openOrCloseText(sight),
                 style: textSmall.copyWith(
                   color: colorLightSecondary2,
                 ),
@@ -133,7 +137,6 @@ class DetailsWidget extends StatelessWidget {
           ),
           child: Text(
             sight.details,
-            maxLines: 4,
             style: textSmall.copyWith(
               color: colorLightSecondary,
             ),

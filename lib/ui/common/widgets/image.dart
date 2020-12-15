@@ -1,37 +1,30 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/ui/res/colors.dart';
 
-//виджет для отображения картинок
 class ImageWidget extends StatelessWidget {
-  final String url;
+  ///  Виджет для отображения картинок
 
   const ImageWidget({
     @required this.url,
     Key key,
   }) : super(key: key);
+  final String url;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      foregroundDecoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CupertinoActivityIndicator(
+            radius: 16,
+            animating: true,
           ),
-          backgroundBlendMode: BlendMode.multiply,
-          color: Colors.transparent.withOpacity(.4),
-          gradient: gradient),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(url),
-        ),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
-      ),
+        );
+      },
     );
   }
 }

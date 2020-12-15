@@ -4,6 +4,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 //Карточка
@@ -35,9 +36,25 @@ class SightCard extends StatelessWidget {
 
   Widget _buildTop(String url) {
     return Stack(children: [
-      ImageWidget(
-        url: url,
-      ),
+      Container(
+          width: double.infinity,
+          height: double.infinity,
+          foregroundDecoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: const Radius.circular(16),
+                topRight: const Radius.circular(16),
+              ),
+              backgroundBlendMode: BlendMode.multiply,
+              color: Colors.transparent.withOpacity(.4),
+              gradient: gradient),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: const Radius.circular(16.0),
+                topRight: const Radius.circular(16.0)),
+            child: ImageWidget(
+              url: url,
+            ),
+          )),
       Positioned(
         top: 16,
         left: 16,
@@ -84,9 +101,7 @@ class SightCard extends StatelessWidget {
             height: 2,
           ),
           Text(
-            sight.isOpen
-                ? "открыто"
-                : "закрыто до ${sight.openingTime.hour.toString().padLeft(2, '0')}:00",
+            openOrCloseText(sight),
             maxLines: 1,
             style: textSmall.copyWith(
               color: colorLightSecondary2,
