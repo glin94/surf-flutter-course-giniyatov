@@ -15,19 +15,20 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Column(
-      children: [
-        GalleryWidget(
-          sight: sight,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        DetailsWidget(
-          sight: sight,
-        ),
-      ],
-    ));
+      child: Column(
+        children: [
+          GalleryWidget(
+            sight: sight,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          DetailsWidget(
+            sight: sight,
+          ),
+        ],
+      ),
+    );
   }
 }
 
