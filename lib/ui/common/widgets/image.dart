@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+///  Виджет для отображения картинок
 class ImageWidget extends StatelessWidget {
-  ///  Виджет для отображения картинок
-
   const ImageWidget({
-    @required this.url,
     Key key,
+    @required this.url,
   }) : super(key: key);
+
   final String url;
 
   @override

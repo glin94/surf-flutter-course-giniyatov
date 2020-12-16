@@ -8,6 +8,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
+/// Экран отображения детальной информации об интересном месте
 class SightDetails extends StatelessWidget {
   final Sight sight = mocks[1];
 
@@ -30,11 +31,11 @@ class SightDetails extends StatelessWidget {
   }
 }
 
+///  Галлерея для детального отображения интересного места
 class GalleryWidget extends StatelessWidget {
-  ///  Галлерея
   const GalleryWidget({
-    @required this.sight,
     Key key,
+    @required this.sight,
   }) : super(key: key);
 
   final Sight sight;
@@ -49,7 +50,7 @@ class GalleryWidget extends StatelessWidget {
           foregroundDecoration: BoxDecoration(
               backgroundBlendMode: BlendMode.multiply,
               color: Colors.transparent.withOpacity(.4),
-              gradient: gradient),
+              gradient: cardGradient),
           child: ImageWidget(
             url: sight.url,
           ),

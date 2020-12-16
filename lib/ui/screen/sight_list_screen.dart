@@ -6,6 +6,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
+/// Экран отображения списка интересных мест
 class SightListScreen extends StatefulWidget {
   @override
   _SightListScreenState createState() => _SightListScreenState();
@@ -33,6 +34,9 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
         ),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
           child: Column(
             children: mocks.map((item) => SightCard(sight: item)).toList(),
           ),

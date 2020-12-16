@@ -7,38 +7,47 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
-//Карточка
+/// Карточка интересного места на главном экране
 class SightCard extends StatelessWidget {
-  final Sight sight;
-
   const SightCard({
     Key key,
     @required this.sight,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
+
+  final Sight sight;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          AspectRatio(
-            aspectRatio: 3 / 2,
-            child: _buildTop(sight.url),
-          ),
-          _buildBottom(),
-        ],
-      ),
-    );
+    return AspectRatio(
+        aspectRatio: 3 / 2,
+        child: Column(
+          children: [
+            SightCardTop(
+              sight: sight,
+            ),
+            SightCardBottom(
+              sight: sight,
+            ),
+          ],
+        ));
   }
+}
 
-  Widget _buildTop(String url) {
+/// Верхняя часть карточки интересного места на главном экране
+class SightCardTop extends StatelessWidget {
+  const SightCardTop({
+    Key key,
+    @required this.sight,
+  }) : super(key: key);
+
+  final Sight sight;
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(children: [
       Container(
           width: double.infinity,
-          height: double.infinity,
+          height: 95,
           foregroundDecoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: const Radius.circular(16),
@@ -46,13 +55,13 @@ class SightCard extends StatelessWidget {
               ),
               backgroundBlendMode: BlendMode.multiply,
               color: Colors.transparent.withOpacity(.4),
-              gradient: gradient),
+              gradient: cardGradient),
           child: ClipRRect(
             borderRadius: const BorderRadius.only(
                 topLeft: const Radius.circular(16.0),
                 topRight: const Radius.circular(16.0)),
             child: ImageWidget(
-              url: url,
+              url: sight.url,
             ),
           )),
       Positioned(
@@ -75,10 +84,22 @@ class SightCard extends StatelessWidget {
       ),
     ]);
   }
+}
 
-  Container _buildBottom() {
+/// Нижняя часть карточки интересного места на главном экране
+class SightCardBottom extends StatelessWidget {
+  const SightCardBottom({
+    Key key,
+    @required this.sight,
+  }) : super(key: key);
+
+  final Sight sight;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 92,
       decoration: const BoxDecoration(
         color: colorBackground,
         borderRadius: const BorderRadius.only(

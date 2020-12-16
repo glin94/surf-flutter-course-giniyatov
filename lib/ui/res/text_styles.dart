@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
-//text styles
+/// text styles
 final TextStyle _text = TextStyle(
       fontFamily: "Roboto",
       fontStyle: FontStyle.normal,
