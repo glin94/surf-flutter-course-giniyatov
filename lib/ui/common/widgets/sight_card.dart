@@ -8,7 +8,7 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Карточка интересного места на главном экране
-class SightCard extends StatelessWidget {
+class SightCard extends StatefulWidget {
   const SightCard({
     Key key,
     @required this.sight,
@@ -17,18 +17,38 @@ class SightCard extends StatelessWidget {
   final Sight sight;
 
   @override
+  _SightCardState createState() => _SightCardState();
+}
+
+class _SightCardState extends State<SightCard> {
+  List<Widget> icons;
+
+  Widget visitingText;
+
+  _SightCardState({this.icons, this.visitingText});
+
+  @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 3 / 2,
-      child: Column(
-        children: [
-          SightCardTop(
-            sight: sight,
-          ),
-          SightCardBottom(
-            sight: sight,
-          ),
-        ],
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: 188,
+        maxHeight: 218,
+      ),
+      width: double.infinity,
+      child: AspectRatio(
+        aspectRatio: 3 / 2,
+        child: Column(
+          children: [
+            SightCardTop(
+              sight: widget.sight,
+              icons: icons,
+            ),
+            SightCardBottom(
+              sight: widget.sight,
+              visitingText: visitingText,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -39,16 +59,21 @@ class SightCardTop extends StatelessWidget {
   const SightCardTop({
     Key key,
     @required this.sight,
+    this.icons,
   }) : super(key: key);
 
   final Sight sight;
+  final List<Widget> icons;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
           width: double.infinity,
-          height: 95,
+          constraints: BoxConstraints(
+            maxHeight: 96,
+            minHeight: 96,
+          ),
           foregroundDecoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: const Radius.circular(16),
@@ -59,8 +84,9 @@ class SightCardTop extends StatelessWidget {
               gradient: cardGradient),
           child: ClipRRect(
             borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0)),
+              topLeft: const Radius.circular(16.0),
+              topRight: const Radius.circular(16.0),
+            ),
             child: ImageWidget(
               url: sight.url,
             ),
@@ -78,9 +104,15 @@ class SightCardTop extends StatelessWidget {
       Positioned(
         top: 18,
         right: 19,
-        child: SvgPicture.asset(
-          icHeart,
-          color: Colors.white,
+        child: Wrap(
+          spacing: 17,
+          children: icons ??
+              [
+                SvgPicture.asset(
+                  icHeart,
+                  color: Colors.white,
+                )
+              ],
         ),
       ),
     ]);
@@ -92,15 +124,20 @@ class SightCardBottom extends StatelessWidget {
   const SightCardBottom({
     Key key,
     @required this.sight,
+    this.visitingText,
   }) : super(key: key);
 
   final Sight sight;
+  final Widget visitingText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 92,
+      constraints: BoxConstraints(
+        maxHeight: 122,
+        minHeight: 92,
+      ),
       decoration: const BoxDecoration(
         color: colorBackground,
         borderRadius: const BorderRadius.only(
@@ -122,6 +159,7 @@ class SightCardBottom extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
+          visitingText ?? Container(),
           Text(
             openOrCloseText(sight),
             maxLines: 1,
@@ -133,4 +171,62 @@ class SightCardBottom extends StatelessWidget {
       ),
     );
   }
+
+  static visitingTexto() {}
+}
+
+///  Карточка планируемых для посещения мест (наследуется от SightCard)
+class SightCardWantToVisit extends SightCard {
+  SightCardWantToVisit(sight) : super(sight: sight);
+
+  @override
+  _SightCardState createState() => _SightCardState(
+        icons: [
+          SvgPicture.asset(
+            icCalendar,
+            color: Colors.white,
+          ),
+          SvgPicture.asset(
+            icClose,
+            color: Colors.white,
+          ),
+        ],
+        visitingText: Container(
+          height: 30,
+          child: Text(
+            sight.plannedOrAchievedText,
+            style: textSmall.copyWith(
+              color: colorLightGreen,
+            ),
+          ),
+        ),
+      );
+}
+
+///  Карточка для экрана посещенных мест (наследуется от SightCard)
+class SightCardVisited extends SightCard {
+  SightCardVisited(sight) : super(sight: sight);
+
+  @override
+  _SightCardState createState() => _SightCardState(
+        icons: [
+          SvgPicture.asset(
+            icShare,
+            color: Colors.white,
+          ),
+          SvgPicture.asset(
+            icClose,
+            color: Colors.white,
+          ),
+        ],
+        visitingText: Container(
+          height: 30,
+          child: Text(
+            sight.plannedOrAchievedText,
+            style: textSmall.copyWith(
+              color: colorLightSecondary2,
+            ),
+          ),
+        ),
+      );
 }
