@@ -7,24 +7,25 @@ import 'package:places/ui/res/strings/common_strings.dart';
 
 /// Экран "Посетил"
 class VisitedTab extends StatelessWidget {
+  final visitedList = mocks.where((element) => element.isAchieved).toList();
   @override
   Widget build(BuildContext context) {
-    return mocks.where((element) => element.isAchieved).toList().isNotEmpty
+    return visitedList.isNotEmpty
         ? SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,
             ),
             child: Column(
-              children: mocks
-                  .where((element) => element.isAchieved)
-                  .toList()
+              children: visitedList
                   .map<Widget>(
                     (item) => Padding(
                       padding: const EdgeInsets.only(
                         bottom: 11,
                       ),
-                      child: SightCardVisited(item),
+                      child: SightCard.visited(
+                        sight: item,
+                      ),
                     ),
                   )
                   .toList(),

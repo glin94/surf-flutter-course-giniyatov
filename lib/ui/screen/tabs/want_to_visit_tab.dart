@@ -7,11 +7,11 @@ import 'package:places/ui/res/strings/common_strings.dart';
 
 /// Экран ""Хочу посетить"
 class WantToVisitTab extends StatelessWidget {
-  const WantToVisitTab({Key key}) : super(key: key);
-
+  final List wantToVisitList =
+      mocks.where((element) => !element.isAchieved).toList();
   @override
   Widget build(BuildContext context) {
-    return mocks.where((element) => !element.isAchieved).toList().isNotEmpty
+    return wantToVisitList.isNotEmpty
         ? SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -26,7 +26,9 @@ class WantToVisitTab extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         bottom: 11,
                       ),
-                      child: SightCardWantToVisit(item),
+                      child: SightCard.wantToVisit(
+                        sight: item,
+                      ),
                     ),
                   )
                   .toList(),

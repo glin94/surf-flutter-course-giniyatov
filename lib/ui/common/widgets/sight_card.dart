@@ -8,24 +8,66 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Карточка интересного места на главном экране
-class SightCard extends StatefulWidget {
-  const SightCard({
+class SightCard extends StatelessWidget {
+  SightCard({
     Key key,
     @required this.sight,
   }) : super(key: key);
 
   final Sight sight;
 
-  @override
-  _SightCardState createState() => _SightCardState();
-}
+  List<Widget> icons = [
+    SvgPicture.asset(
+      icHeart,
+      color: Colors.white,
+    )
+  ];
 
-class _SightCardState extends State<SightCard> {
-  List<Widget> icons;
+  Widget visitingTextContainer = Container();
 
-  Widget visitingText;
+  ///  Карточка планируемых для посещения мест
+  SightCard.wantToVisit({@required this.sight}) {
+    icons = [
+      SvgPicture.asset(
+        icCalendar,
+        color: Colors.white,
+      ),
+      SvgPicture.asset(
+        icClose,
+        color: Colors.white,
+      )
+    ];
+    visitingTextContainer = Container(
+        height: 30,
+        child: Text(
+          sight.plannedOrAchievedText,
+          style: textSmall.copyWith(
+            color: colorLightGreen,
+          ),
+        ));
+  }
 
-  _SightCardState({this.icons, this.visitingText});
+  ///  Карточка для экрана посещенных мест (наследуется от SightCard)
+  SightCard.visited({@required this.sight}) {
+    icons = [
+      SvgPicture.asset(
+        icShare,
+        color: Colors.white,
+      ),
+      SvgPicture.asset(
+        icClose,
+        color: Colors.white,
+      ),
+    ];
+    visitingTextContainer = Container(
+        height: 30,
+        child: Text(
+          sight.plannedOrAchievedText,
+          style: textSmall.copyWith(
+            color: colorLightSecondary2,
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +82,12 @@ class _SightCardState extends State<SightCard> {
         child: Column(
           children: [
             SightCardTop(
-              sight: widget.sight,
+              sight: sight,
               icons: icons,
             ),
             SightCardBottom(
-              sight: widget.sight,
-              visitingText: visitingText,
+              sight: sight,
+              visitingText: visitingTextContainer,
             ),
           ],
         ),
@@ -74,14 +116,7 @@ class SightCardTop extends StatelessWidget {
             maxHeight: 96,
             minHeight: 96,
           ),
-          foregroundDecoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(16),
-                topRight: const Radius.circular(16),
-              ),
-              backgroundBlendMode: BlendMode.multiply,
-              color: Colors.transparent.withOpacity(.4),
-              gradient: cardGradient),
+          foregroundDecoration: _buildDecoration(),
           child: ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: const Radius.circular(16.0),
@@ -106,16 +141,21 @@ class SightCardTop extends StatelessWidget {
         right: 19,
         child: Wrap(
           spacing: 17,
-          children: icons ??
-              [
-                SvgPicture.asset(
-                  icHeart,
-                  color: Colors.white,
-                )
-              ],
+          children: icons,
         ),
       ),
     ]);
+  }
+
+  BoxDecoration _buildDecoration() {
+    return BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: const Radius.circular(16),
+          topRight: const Radius.circular(16),
+        ),
+        backgroundBlendMode: BlendMode.multiply,
+        color: Colors.transparent.withOpacity(.4),
+        gradient: cardGradient);
   }
 }
 
@@ -171,62 +211,4 @@ class SightCardBottom extends StatelessWidget {
       ),
     );
   }
-
-  static visitingTexto() {}
-}
-
-///  Карточка планируемых для посещения мест (наследуется от SightCard)
-class SightCardWantToVisit extends SightCard {
-  SightCardWantToVisit(sight) : super(sight: sight);
-
-  @override
-  _SightCardState createState() => _SightCardState(
-        icons: [
-          SvgPicture.asset(
-            icCalendar,
-            color: Colors.white,
-          ),
-          SvgPicture.asset(
-            icClose,
-            color: Colors.white,
-          ),
-        ],
-        visitingText: Container(
-          height: 30,
-          child: Text(
-            sight.plannedOrAchievedText,
-            style: textSmall.copyWith(
-              color: colorLightGreen,
-            ),
-          ),
-        ),
-      );
-}
-
-///  Карточка для экрана посещенных мест (наследуется от SightCard)
-class SightCardVisited extends SightCard {
-  SightCardVisited(sight) : super(sight: sight);
-
-  @override
-  _SightCardState createState() => _SightCardState(
-        icons: [
-          SvgPicture.asset(
-            icShare,
-            color: Colors.white,
-          ),
-          SvgPicture.asset(
-            icClose,
-            color: Colors.white,
-          ),
-        ],
-        visitingText: Container(
-          height: 30,
-          child: Text(
-            sight.plannedOrAchievedText,
-            style: textSmall.copyWith(
-              color: colorLightSecondary2,
-            ),
-          ),
-        ),
-      );
 }

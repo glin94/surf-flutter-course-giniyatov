@@ -56,7 +56,7 @@ class _VisitingScreenState extends State<VisitingScreen>
         ),
       ),
       body: TabBarView(controller: _controller, children: <Widget>[
-        const WantToVisitTab(),
+        WantToVisitTab(),
         VisitedTab(),
       ]),
     );
