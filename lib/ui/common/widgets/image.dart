@@ -18,8 +18,8 @@ class ImageWidget extends StatelessWidget {
       loadingBuilder: (BuildContext context, Widget child,
           ImageChunkEvent loadingProgress) {
         if (loadingProgress == null) return child;
-        return Center(
-          child: CupertinoActivityIndicator(
+        return const Center(
+          child: const CupertinoActivityIndicator(
             radius: 16,
             animating: true,
           ),

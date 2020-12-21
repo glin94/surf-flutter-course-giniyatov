@@ -3,17 +3,16 @@ version: 1.0.0+1
 description: A new Flutter project.
 repository: https://github.com/glin94/surf-flutter-course-giniyatov
 
-
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter_svg: ^0.19.1
-
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  
+  flutter_svg: ^0.19.1
+  intl: ^0.16.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -33,4 +32,3 @@ flutter:
         - asset: res/fonts/Roboto-BoldItalic.ttf
           style: italic
           weight: 700
-

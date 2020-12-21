@@ -9,26 +9,88 @@ import 'package:places/ui/res/text_styles.dart';
 
 /// Карточка интересного места на главном экране
 class SightCard extends StatelessWidget {
-  const SightCard({
+  SightCard({
     Key key,
     @required this.sight,
   }) : super(key: key);
 
   final Sight sight;
 
+  List<Widget> icons = [
+    SvgPicture.asset(
+      icHeart,
+      color: Colors.white,
+    )
+  ];
+
+  Widget visitingTextContainer = Container();
+
+  ///  Карточка планируемых для посещения мест
+  SightCard.wantToVisit({@required this.sight}) {
+    icons = [
+      SvgPicture.asset(
+        icCalendar,
+        color: Colors.white,
+      ),
+      SvgPicture.asset(
+        icClose,
+        color: Colors.white,
+      )
+    ];
+    visitingTextContainer = Container(
+        height: 30,
+        child: Text(
+          sight.plannedOrAchievedText,
+          style: textSmall.copyWith(
+            color: colorLightGreen,
+          ),
+        ));
+  }
+
+  ///  Карточка для экрана посещенных мест (наследуется от SightCard)
+  SightCard.visited({@required this.sight}) {
+    icons = [
+      SvgPicture.asset(
+        icShare,
+        color: Colors.white,
+      ),
+      SvgPicture.asset(
+        icClose,
+        color: Colors.white,
+      ),
+    ];
+    visitingTextContainer = Container(
+        height: 30,
+        child: Text(
+          sight.plannedOrAchievedText,
+          style: textSmall.copyWith(
+            color: colorLightSecondary2,
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 3 / 2,
-      child: Column(
-        children: [
-          SightCardTop(
-            sight: sight,
-          ),
-          SightCardBottom(
-            sight: sight,
-          ),
-        ],
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: 188,
+        maxHeight: 218,
+      ),
+      width: double.infinity,
+      child: AspectRatio(
+        aspectRatio: 3 / 2,
+        child: Column(
+          children: [
+            SightCardTop(
+              sight: sight,
+              icons: icons,
+            ),
+            SightCardBottom(
+              sight: sight,
+              visitingText: visitingTextContainer,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -39,28 +101,27 @@ class SightCardTop extends StatelessWidget {
   const SightCardTop({
     Key key,
     @required this.sight,
+    this.icons,
   }) : super(key: key);
 
   final Sight sight;
+  final List<Widget> icons;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
           width: double.infinity,
-          height: 95,
-          foregroundDecoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(16),
-                topRight: const Radius.circular(16),
-              ),
-              backgroundBlendMode: BlendMode.multiply,
-              color: Colors.transparent.withOpacity(.4),
-              gradient: cardGradient),
+          constraints: BoxConstraints(
+            maxHeight: 96,
+            minHeight: 96,
+          ),
+          foregroundDecoration: _buildDecoration(),
           child: ClipRRect(
             borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0)),
+              topLeft: const Radius.circular(16.0),
+              topRight: const Radius.circular(16.0),
+            ),
             child: ImageWidget(
               url: sight.url,
             ),
@@ -78,12 +139,23 @@ class SightCardTop extends StatelessWidget {
       Positioned(
         top: 18,
         right: 19,
-        child: SvgPicture.asset(
-          icHeart,
-          color: Colors.white,
+        child: Wrap(
+          spacing: 17,
+          children: icons,
         ),
       ),
     ]);
+  }
+
+  BoxDecoration _buildDecoration() {
+    return BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: const Radius.circular(16),
+          topRight: const Radius.circular(16),
+        ),
+        backgroundBlendMode: BlendMode.multiply,
+        color: Colors.transparent.withOpacity(.4),
+        gradient: cardGradient);
   }
 }
 
@@ -92,15 +164,20 @@ class SightCardBottom extends StatelessWidget {
   const SightCardBottom({
     Key key,
     @required this.sight,
+    this.visitingText,
   }) : super(key: key);
 
   final Sight sight;
+  final Widget visitingText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 92,
+      constraints: BoxConstraints(
+        maxHeight: 122,
+        minHeight: 92,
+      ),
       decoration: const BoxDecoration(
         color: colorBackground,
         borderRadius: const BorderRadius.only(
@@ -122,6 +199,7 @@ class SightCardBottom extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
+          visitingText ?? Container(),
           Text(
             openOrCloseText(sight),
             maxLines: 1,

@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/common/widgets/sight_card.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatefulWidget {
@@ -38,7 +38,18 @@ class _SightListScreenState extends State<SightListScreen> {
           horizontal: 16,
         ),
         child: Column(
-          children: mocks.map((item) => SightCard(sight: item)).toList(),
+          children: mocks
+              .map(
+                (item) => Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 11,
+                  ),
+                  child: SightCard(
+                    sight: item,
+                  ),
+                ),
+              )
+              .toList(),
         ),
       ),
     );
