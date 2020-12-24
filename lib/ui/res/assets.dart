@@ -12,3 +12,7 @@ const String icMap = '$_baseResPath/Map.svg';
 const String icSettings = '$_baseResPath/Settings.svg';
 const String icClose = '$_baseResPath/Close.svg';
 const String icCamera = '$_baseResPath/Camera.svg';
+const String icListFilled = '$_baseResPath/ListFilled.svg';
+const String icMapFilled = '$_baseResPath/MapFilled.svg';
+const String icHeartFilled = '$_baseResPath/HeartFilled.svg';
+const String icSettingsFilled = '$_baseResPath/SettingsFilled.svg';
