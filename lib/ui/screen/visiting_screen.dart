@@ -28,14 +28,8 @@ class _VisitingScreenState extends State<VisitingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        centerTitle: true,
         title: Text(
           "Избранное",
-          style: textSubTitle.copyWith(
-            color: colorLightMain,
-          ),
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(52),
@@ -47,7 +41,7 @@ class _VisitingScreenState extends State<VisitingScreen>
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: Color(0xFFF5F5F5),
+                color: Theme.of(context).primaryColorDark,
                 borderRadius: BorderRadius.circular(40),
               ),
               child: _buildTabs(_selectedIndex),
@@ -70,16 +64,16 @@ class _VisitingScreenState extends State<VisitingScreen>
               child: Center(
                 child: Text(
                   "Хочу посетить",
-                  style: textSmallBold.copyWith(
+                  style: textBody1.copyWith(
                     color: _selectedIndex == 0
-                        ? Colors.white
+                        ? Theme.of(context).backgroundColor
                         : colorInnactiveBlack,
                   ),
                 ),
               ),
               decoration: _selectedIndex == 0
                   ? BoxDecoration(
-                      color: colorLightSecondary,
+                      color: Theme.of(context).secondaryHeaderColor,
                       borderRadius: BorderRadius.circular(40),
                     )
                   : const BoxDecoration(),
@@ -89,16 +83,16 @@ class _VisitingScreenState extends State<VisitingScreen>
             child: Container(
               decoration: _selectedIndex == 1
                   ? BoxDecoration(
-                      color: colorLightSecondary,
+                      color: Theme.of(context).secondaryHeaderColor,
                       borderRadius: BorderRadius.circular(40),
                     )
                   : const BoxDecoration(),
               child: Center(
                 child: Text(
                   "Посетил",
-                  style: textSmallBold.copyWith(
+                  style: textBody1.copyWith(
                     color: _selectedIndex == 1
-                        ? Colors.white
+                        ? Theme.of(context).backgroundColor
                         : colorInnactiveBlack,
                   ),
                 ),

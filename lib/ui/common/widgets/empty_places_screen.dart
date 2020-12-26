@@ -27,7 +27,7 @@ class EmptyPlacesScreen extends StatelessWidget {
         const SizedBox(height: 32),
         Text(
           "Пусто",
-          style: textSubTitle.copyWith(color: colorInnactiveBlack),
+          style: textHeadLine6.copyWith(color: colorInnactiveBlack),
         ),
         SizedBox(height: 8),
         Container(
@@ -35,7 +35,7 @@ class EmptyPlacesScreen extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: textSmall.copyWith(color: colorInnactiveBlack),
+            style: textBody2.copyWith(color: colorInnactiveBlack),
           ),
         ),
       ],

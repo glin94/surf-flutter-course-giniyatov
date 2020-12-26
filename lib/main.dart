@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 
@@ -11,18 +13,19 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: lightTheme,
       title: "SightApp",
-      home: BottomNavigation(),
+      home: NavigationScreen(),
     );
   }
 }
 
-class BottomNavigation extends StatefulWidget {
+class NavigationScreen extends StatefulWidget {
   @override
-  _BottomNavigationState createState() => _BottomNavigationState();
+  _NavigationScreenState createState() => _NavigationScreenState();
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
 
   static List<Widget> _screens = <Widget>[
@@ -37,7 +40,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       child: Center(
         child: SvgPicture.asset(icSettings),
       ),
-    ),
+    )
   ];
 
   void _onItemTapped(int index) => setState(
@@ -51,23 +54,49 @@ class _BottomNavigationState extends State<BottomNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: colorLightSecondary,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(icList),
-            label: "Список интересных мест",
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(icMap),
+            icon: SvgPicture.asset(
+              icList,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: SvgPicture.asset(
+              icListFilled,
+              color: Theme.of(context).iconTheme.color,
+            ),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(icHeart),
-            label: "Хочу посетить/Посещенные места",
+            icon: SvgPicture.asset(
+              icMap,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: SvgPicture.asset(
+              icMapFilled,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            label: "",
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(icSettings),
+            icon: SvgPicture.asset(
+              icHeart,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: SvgPicture.asset(
+              icHeartFilled,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              icSettings,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: SvgPicture.asset(
+              icSettingsFilled,
+              color: Theme.of(context).iconTheme.color,
+            ),
             label: "",
           ),
         ],

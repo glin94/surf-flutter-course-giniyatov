@@ -41,7 +41,7 @@ class SightCard extends StatelessWidget {
         height: 30,
         child: Text(
           sight.plannedOrAchievedText,
-          style: textSmall.copyWith(
+          style: textBody2.copyWith(
             color: colorLightGreen,
           ),
         ));
@@ -63,8 +63,8 @@ class SightCard extends StatelessWidget {
         height: 30,
         child: Text(
           sight.plannedOrAchievedText,
-          style: textSmall.copyWith(
-            color: colorLightSecondary2,
+          style: textBody2.copyWith(
+            color: colorDarkSecondary2,
           ),
         ));
   }
@@ -131,7 +131,7 @@ class SightCardTop extends StatelessWidget {
         left: 16,
         child: Text(
           sight.type,
-          style: textSmallBold.copyWith(
+          style: textBody1.copyWith(
             color: Colors.white,
           ),
         ),
@@ -178,8 +178,8 @@ class SightCardBottom extends StatelessWidget {
         maxHeight: 122,
         minHeight: 92,
       ),
-      decoration: const BoxDecoration(
-        color: colorBackground,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColorDark,
         borderRadius: const BorderRadius.only(
           bottomLeft: const Radius.circular(16),
           bottomRight: const Radius.circular(16),
@@ -192,20 +192,18 @@ class SightCardBottom extends StatelessWidget {
           Text(
             sight.name,
             maxLines: 2,
-            style: textRegular.copyWith(
-              color: colorLightSecondary,
-            ),
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(
             height: 2,
           ),
-          visitingText ?? Container(),
+          visitingText,
           Text(
             openOrCloseText(sight),
             maxLines: 1,
-            style: textSmall.copyWith(
-              color: colorLightSecondary2,
-            ),
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  color: colorDarkSecondary2,
+                ),
           ),
         ],
       ),

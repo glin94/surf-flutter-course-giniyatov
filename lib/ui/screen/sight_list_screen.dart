@@ -19,7 +19,6 @@ class _SightListScreenState extends State<SightListScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
         child: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           centerTitle: false,
           toolbarHeight: 100,
@@ -27,9 +26,7 @@ class _SightListScreenState extends State<SightListScreen> {
             "Список\nинтересных мест",
             maxLines: 2,
             textAlign: TextAlign.left,
-            style: textLargeTitle.copyWith(
-              color: colorLightSecondary,
-            ),
+            style: Theme.of(context).textTheme.headline4,
           ),
         ),
       ),
@@ -42,7 +39,7 @@ class _SightListScreenState extends State<SightListScreen> {
               .map(
                 (item) => Padding(
                   padding: const EdgeInsets.only(
-                    bottom: 11,
+                    bottom: 24,
                   ),
                   child: SightCard(
                     sight: item,

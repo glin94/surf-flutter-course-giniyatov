@@ -96,39 +96,37 @@ class DetailsWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildDetails(),
+          _buildDetails(context),
           _buildRouteButton(),
-          _buildPlanningAndFavouriteButtons()
+          _buildPlanningAndFavouriteButtons(context),
         ],
       ),
     );
   }
 
-  Widget _buildDetails() {
+  Widget _buildDetails(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           sight.name,
-          style: textTitle.copyWith(
-            color: colorLightSecondary,
-          ),
+          style: Theme.of(context).textTheme.headline5,
         ),
         Row(
           children: [
             Text(
               sight.type,
-              style: textSmallBold.copyWith(
-                color: colorLightSecondary,
-              ),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: colorDarkSecondary2,
+                  ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
                 openOrCloseText(sight),
-                style: textSmall.copyWith(
-                  color: colorLightSecondary2,
-                ),
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: colorInnactiveBlack,
+                    ),
               ),
             )
           ],
@@ -139,9 +137,7 @@ class DetailsWidget extends StatelessWidget {
           ),
           child: Text(
             sight.details,
-            style: textSmall.copyWith(
-              color: colorLightSecondary,
-            ),
+            style: textBody2,
           ),
         ),
       ],
@@ -155,21 +151,15 @@ class DetailsWidget extends StatelessWidget {
       child: RaisedButton.icon(
         label: Text(
           "ПОСТРОИТЬ МАРШРУТ",
-          style: textButton.copyWith(
-            color: Colors.white,
-          ),
+          style: textButton,
         ),
         icon: SvgPicture.asset(icGO),
-        color: colorLightGreen,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
         onPressed: () {},
       ),
     );
   }
 
-  Widget _buildPlanningAndFavouriteButtons() {
+  Widget _buildPlanningAndFavouriteButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
@@ -195,7 +185,7 @@ class DetailsWidget extends StatelessWidget {
                   onPressed: () {},
                   label: Text(
                     "Запланировать",
-                    style: textSmall.copyWith(
+                    style: textBody2.copyWith(
                       color: colorInnactiveBlack,
                     ),
                   ),
@@ -203,14 +193,12 @@ class DetailsWidget extends StatelessWidget {
                 TextButton.icon(
                   icon: SvgPicture.asset(
                     icHeart,
-                    color: colorLightSecondary,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {},
                   label: Text(
                     "В Избранное",
-                    style: textSmall.copyWith(
-                      color: colorLightSecondary,
-                    ),
+                    style: textBody2.copyWith(),
                   ),
                 ),
               ],
