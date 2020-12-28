@@ -3,6 +3,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 final lightTheme = ThemeData(
+  accentColor: colorLightMain,
   backgroundColor: Colors.white,
   secondaryHeaderColor: colorLightSecondary,
   iconTheme: IconThemeData(
@@ -65,6 +66,7 @@ final lightTheme = ThemeData(
 );
 
 final darkTheme = ThemeData(
+  accentColor: Colors.white,
   backgroundColor: colorDarkSecondary,
   secondaryHeaderColor: Colors.white,
   iconTheme: IconThemeData(
@@ -117,6 +119,6 @@ final darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(12),
     ),
     buttonColor: colorDarkGreen,
-    textTheme: ButtonTextTheme.primary,
+    textTheme: ButtonTextTheme.accent,
   ),
 );

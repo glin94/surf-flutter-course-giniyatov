@@ -17,9 +17,13 @@ class SightCard extends StatelessWidget {
   final Sight sight;
 
   List<Widget> icons = [
-    SvgPicture.asset(
-      icHeart,
-      color: Colors.white,
+    IconButton(
+      iconSize: 24,
+      onPressed: () => print("favorite"),
+      icon: SvgPicture.asset(
+        icHeart,
+        color: Colors.white,
+      ),
     )
   ];
 
@@ -28,14 +32,20 @@ class SightCard extends StatelessWidget {
   ///  Карточка планируемых для посещения мест
   SightCard.wantToVisit({@required this.sight}) {
     icons = [
-      SvgPicture.asset(
-        icCalendar,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("calendar"),
+        icon: SvgPicture.asset(
+          icCalendar,
+          color: Colors.white,
+        ),
       ),
-      SvgPicture.asset(
-        icClose,
-        color: Colors.white,
-      )
+      IconButton(
+        onPressed: () => print("close"),
+        icon: SvgPicture.asset(
+          icClose,
+          color: Colors.white,
+        ),
+      ),
     ];
     visitingTextContainer = Container(
         height: 30,
@@ -50,13 +60,19 @@ class SightCard extends StatelessWidget {
   ///  Карточка для экрана посещенных мест (наследуется от SightCard)
   SightCard.visited({@required this.sight}) {
     icons = [
-      SvgPicture.asset(
-        icShare,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("share"),
+        icon: SvgPicture.asset(
+          icShare,
+          color: Colors.white,
+        ),
       ),
-      SvgPicture.asset(
-        icClose,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("close"),
+        icon: SvgPicture.asset(
+          icClose,
+          color: Colors.white,
+        ),
       ),
     ];
     visitingTextContainer = Container(
@@ -137,10 +153,9 @@ class SightCardTop extends StatelessWidget {
         ),
       ),
       Positioned(
-        top: 18,
-        right: 19,
+        top: 8,
+        right: 8,
         child: Wrap(
-          spacing: 17,
           children: icons,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/themes.dart';
@@ -40,7 +41,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       child: Center(
         child: SvgPicture.asset(icSettings),
       ),
-    )
+    ),
   ];
 
   void _onItemTapped(int index) => setState(
@@ -64,7 +65,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icListFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "",
+            label: "Cписок интересных мест",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -75,7 +76,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icMapFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "",
+            label: "Карта",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -86,7 +87,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icHeartFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "",
+            label: "Избранное",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -97,7 +98,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icSettingsFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "",
+            label: "Настройки",
           ),
         ],
         currentIndex: _selectedIndex,

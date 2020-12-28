@@ -15,18 +15,20 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        children: [
-          GalleryWidget(
-            sight: sight,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          DetailsWidget(
-            sight: sight,
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            GalleryWidget(
+              sight: sight,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            DetailsWidget(
+              sight: sight,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -70,7 +72,7 @@ class GalleryWidget extends StatelessWidget {
               icon: SvgPicture.asset(
                 icArrow,
               ),
-              onPressed: () {},
+              onPressed: () => print("back"),
             ),
           ),
         )
@@ -154,7 +156,7 @@ class DetailsWidget extends StatelessWidget {
           style: textButton,
         ),
         icon: SvgPicture.asset(icGO),
-        onPressed: () {},
+        onPressed: () => print("GO!"),
       ),
     );
   }
@@ -182,7 +184,7 @@ class DetailsWidget extends StatelessWidget {
                     icCalendar,
                     color: colorInnactiveBlack,
                   ),
-                  onPressed: () {},
+                  onPressed: () => print("plan"),
                   label: Text(
                     "Запланировать",
                     style: textBody2.copyWith(
@@ -195,7 +197,7 @@ class DetailsWidget extends StatelessWidget {
                     icHeart,
                     color: Theme.of(context).iconTheme.color,
                   ),
-                  onPressed: () {},
+                  onPressed: () => print("favorite"),
                   label: Text(
                     "В Избранное",
                     style: textBody2.copyWith(),
