@@ -148,17 +148,15 @@ class DetailsWidget extends StatelessWidget {
 
   Widget _buildRouteButton() {
     return Container(
-      width: double.infinity,
-      height: 48,
-      child: RaisedButton.icon(
-        label: Text(
-          "ПОСТРОИТЬ МАРШРУТ",
-          style: textButton,
-        ),
-        icon: SvgPicture.asset(icGO),
-        onPressed: () => print("GO!"),
-      ),
-    );
+        width: double.infinity,
+        height: 48,
+        child: ElevatedButton.icon(
+          label: Text(
+            "ПОСТРОИТЬ МАРШРУТ",
+          ),
+          icon: SvgPicture.asset(icGO),
+          onPressed: () => print("GO!"),
+        ));
   }
 
   Widget _buildPlanningAndFavouriteButtons(BuildContext context) {
