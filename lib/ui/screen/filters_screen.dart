@@ -51,7 +51,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         leading: IconButton(
           iconSize: 32,
-          icon: SvgPicture.asset(icArrow),
+          icon: SvgPicture.asset(
+            icArrow,
+            color: Theme.of(context).accentColor,
+          ),
           onPressed: () {},
         ),
         actions: [buildClearFilterButton()],

@@ -25,3 +25,4 @@ const String icBed = '$_baseResPath/Bed.svg';
 const String icStar = '$_baseResPath/Star.svg';
 const String icTree = '$_baseResPath/Tree.svg';
 const String icTickChoice = '$_baseResPath/Tick_choise.svg';
+const String icInfo = '$_baseResPath/Info.svg';

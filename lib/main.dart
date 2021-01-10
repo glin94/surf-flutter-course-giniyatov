@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/domain/theme.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/settings_screens.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 
 void main() => runApp(App());
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+
+    themeModel.addListener(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: lightTheme,
+      theme: themeModel.isDark ? darkTheme : lightTheme,
       title: "SightApp",
       home: NavigationScreen(),
     );
@@ -31,11 +45,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     SightListScreen(),
     FiltersScreen(),
     VisitingScreen(),
-    Container(
-      child: Center(
-        child: SvgPicture.asset(icSettings),
-      ),
-    ),
+    SettingsScreen()
   ];
 
   void _onItemTapped(int index) => setState(

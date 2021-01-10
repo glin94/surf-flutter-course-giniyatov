@@ -53,7 +53,8 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: "Apollo cafe",
-    url: "https://pbs.twimg.com/media/D7fW3pDWsAAF9b7.jpg",
+    url:
+        "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL",
     openingHours: [9, 18],
     details:
         "Благодаря нам Вы сможете насладиться сытными завтраками и основными блюдами нашего кафе, не выходя из дома. Вам не придется тратить время на кухне. Мы готовим из свежих и вкусных продуктов, упаковываем каждое блюда так,чтобы заказ был доставлен еще горячим.",
