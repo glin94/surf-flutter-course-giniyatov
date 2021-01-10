@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/util/filter.dart';
-import 'package:places/util/formatter.dart';
 
 ///Экран фильтров
 class FiltersScreen extends StatefulWidget {
@@ -57,7 +58,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
           onPressed: () {},
         ),
-        actions: [buildClearFilterButton()],
+        actions: [
+          buildClearFilterButton(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -76,7 +79,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     Row(
                       children: [
                         Text(
-                          "КАТЕГОРИИ",
+                          categoriesText,
                           style: Theme.of(context).textTheme.caption,
                         ),
                       ],
@@ -104,7 +107,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   CupertinoButton buildClearFilterButton() {
     return CupertinoButton(
       child: Text(
-        "Очистить",
+        cancelText,
         style: textSubtitle1.copyWith(
           color: colorLightGreen,
         ),
@@ -211,7 +214,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Расстояние",
+            distanceText,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
@@ -248,10 +251,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
       height: 48,
       width: double.infinity,
       child: ElevatedButton(
-          child: Text(
-            "ПОКАЗАТЬ (${_filterSights.length})",
-          ),
-          onPressed: () {}),
+        child: Text(
+          "$viewButtonText (${_filterSights.length})",
+        ),
+        onPressed: () {},
+      ),
     );
   }
 }

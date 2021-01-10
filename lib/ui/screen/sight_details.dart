@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -152,7 +153,7 @@ class DetailsWidget extends StatelessWidget {
         height: 48,
         child: ElevatedButton.icon(
           label: Text(
-            "ПОСТРОИТЬ МАРШРУТ",
+            goButtonText,
           ),
           icon: SvgPicture.asset(icGO),
           onPressed: () => print("GO!"),
@@ -184,7 +185,7 @@ class DetailsWidget extends StatelessWidget {
                   ),
                   onPressed: () => print("plan"),
                   label: Text(
-                    "Запланировать",
+                    plannedButtonText,
                     style: textBody2.copyWith(
                       color: colorInnactiveBlack,
                     ),

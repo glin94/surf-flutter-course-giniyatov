@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Карточка интересного места на главном экране
@@ -95,15 +95,45 @@ class SightCard extends StatelessWidget {
       width: double.infinity,
       child: AspectRatio(
         aspectRatio: 3 / 2,
-        child: Column(
+        child: Stack(
           children: [
-            SightCardTop(
-              sight: sight,
-              icons: icons,
+            Column(
+              children: [
+                SightCardTop(
+                  sight: sight,
+                  icons: icons,
+                ),
+                SightCardBottom(
+                  sight: sight,
+                  visitingText: visitingTextContainer,
+                ),
+              ],
             ),
-            SightCardBottom(
-              sight: sight,
-              visitingText: visitingTextContainer,
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Text(
+                sight.type,
+                style: textBody1.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                splashColor: Theme.of(context).accentColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {},
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Wrap(
+                children: icons,
+              ),
             ),
           ],
         ),
@@ -125,41 +155,23 @@ class SightCardTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
-          width: double.infinity,
-          constraints: BoxConstraints(
-            maxHeight: 96,
-            minHeight: 96,
-          ),
-          foregroundDecoration: _buildDecoration(),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: const Radius.circular(16.0),
-              topRight: const Radius.circular(16.0),
-            ),
-            child: ImageWidget(
-              url: sight.url,
-            ),
-          )),
-      Positioned(
-        top: 16,
-        left: 16,
-        child: Text(
-          sight.type,
-          style: textBody1.copyWith(
-            color: Colors.white,
-          ),
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxHeight: 96,
+        minHeight: 96,
+      ),
+      foregroundDecoration: _buildDecoration(),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: const Radius.circular(16.0),
+          topRight: const Radius.circular(16.0),
+        ),
+        child: ImageWidget(
+          url: sight.url,
         ),
       ),
-      Positioned(
-        top: 8,
-        right: 8,
-        child: Wrap(
-          children: icons,
-        ),
-      ),
-    ]);
+    );
   }
 
   BoxDecoration _buildDecoration() {

@@ -2,7 +2,7 @@ import 'package:places/ui/res/assets.dart';
 
 import 'domain/sight.dart';
 
-/// Моковое геопозиция
+/// Моковая геопозиция
 final location = {"lat": 55.796127, "lon": 49.106405};
 
 ///Фильтр

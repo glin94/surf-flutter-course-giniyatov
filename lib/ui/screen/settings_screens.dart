@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/theme.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -15,13 +16,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Настройки"),
+          title: Text(settingsScreenTitle),
         ),
         body: ListView(
           children: [
             ListTile(
               title: Text(
-                "Темная тема",
+                darkModeSwitcherText,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               trailing: CupertinoSwitch(
@@ -33,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             separator(),
             ListTile(
               title: Text(
-                "Смотреть туториал",
+                tutorialViewText,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               trailing: SvgPicture.asset(

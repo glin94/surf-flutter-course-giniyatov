@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/tabs/visited_tab.dart';
 import 'package:places/ui/screen/tabs/want_to_visit_tab.dart';
@@ -28,7 +29,7 @@ class _VisitingScreenState extends State<VisitingScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Избранное",
+          favoriteScreentitle,
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(52),
@@ -62,7 +63,7 @@ class _VisitingScreenState extends State<VisitingScreen>
             child: Container(
               child: Center(
                 child: Text(
-                  "Хочу посетить",
+                  wantToVisitTitle,
                   style: textBody1.copyWith(
                     color: _selectedIndex == 0
                         ? Theme.of(context).backgroundColor
@@ -88,7 +89,7 @@ class _VisitingScreenState extends State<VisitingScreen>
                   : const BoxDecoration(),
               child: Center(
                 child: Text(
-                  "Посетил",
+                  visitedTitle,
                   style: textBody1.copyWith(
                     color: _selectedIndex == 1
                         ? Theme.of(context).backgroundColor
