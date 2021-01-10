@@ -21,7 +21,6 @@ class _VisitingScreenState extends State<VisitingScreen>
     _controller = TabController(length: 2, vsync: this);
     _controller
         .addListener(() => setState(() => _selectedIndex = _controller.index));
-    ;
   }
 
   @override

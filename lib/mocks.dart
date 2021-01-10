@@ -1,4 +1,43 @@
+import 'package:places/ui/res/assets.dart';
+
 import 'domain/sight.dart';
+
+/// Моковое геопозиция
+final location = {"lat": 55.796127, "lon": 49.106405};
+
+///Фильтр
+List<Map<String, dynamic>> categoryValues = [
+  {
+    "name": "Отель",
+    "iconText": icBed,
+    "isTicked": false,
+  },
+  {
+    "name": "Ресторан",
+    "iconText": icEda,
+    "isTicked": false,
+  },
+  {
+    "name": "Особое место",
+    "iconText": icStar,
+    "isTicked": false,
+  },
+  {
+    "name": "Парк",
+    "iconText": icTree,
+    "isTicked": false,
+  },
+  {
+    "name": "Музей",
+    "iconText": icMuseum,
+    "isTicked": false,
+  },
+  {
+    "name": "Кафе",
+    "iconText": icCafes,
+    "isTicked": false,
+  },
+];
 
 final List<Sight> mocks = [
   Sight(
@@ -33,7 +72,7 @@ final List<Sight> mocks = [
     lat: 55.7827008300091,
     lon: 49.11717827567945,
     visitingDate: DateTime(2021, 1, 1),
-    type: "театр",
+    type: "особое место",
   ),
   Sight(
     name: "Мечеть «Кул-Шариф»",
@@ -45,6 +84,6 @@ final List<Sight> mocks = [
     lat: 55.798298,
     lon: 49.105201,
     visitingDate: DateTime(2020, 8, 14),
-    type: "мечеть",
+    type: "особое место",
   )
 ];

@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 
 /// Экран отображения списка интересных мест
