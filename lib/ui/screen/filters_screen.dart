@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/util/const.dart';
 import 'package:places/util/filter.dart';
 
 ///Экран фильтров
@@ -17,20 +17,13 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  ///Фильтрованный список (изначально пустой)
-  List<Sight> _filterSights = List();
-
-  double _min = 100;
-
-  double _max = 10000;
-
-  RangeValues _rangeValues;
-
   @override
   void initState() {
     super.initState();
 
-    _rangeValues = RangeValues(_min, _max);
+    filterModel.addListener(() {
+      setState(() {});
+    });
 
     ///начальные значения фильтров
     categoryValues.forEach((item) {
@@ -39,27 +32,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
     });
 
     ///фильтрация
-    _filterSights = filter(
-      _rangeValues.start / 1000,
-      _rangeValues.end / 1000,
-      categoryValues,
-    );
+    filterModel.filter(categoryValues);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          iconSize: 32,
-          icon: SvgPicture.asset(
-            icArrow,
-            color: Theme.of(context).accentColor,
-          ),
-          onPressed: () {},
-        ),
+        leading: const BackButton(),
         actions: [
-          buildClearFilterButton(),
+          ClearButton(),
         ],
       ),
       body: Padding(
@@ -87,48 +69,41 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    _buildFilterIcons(context),
+                    const Filter(),
                   ],
                 ),
-                SizedBox(
-                  height: 56,
-                ),
-                _buildSlider(context)
+                const SizedBox(height: 56),
+                RadiusSlider(),
               ],
             ),
-            _buildFilterButton()
+            FilterButton(),
           ],
         ),
       ),
     );
   }
+}
 
-  /// Кнопка отмены фильтров
-  CupertinoButton buildClearFilterButton() {
-    return CupertinoButton(
-      child: Text(
-        cancelText,
-        style: textSubtitle1.copyWith(
-          color: colorLightGreen,
-        ),
-      ),
-      onPressed: () => setState(() {
-        ///отмена фильтра
-        categoryValues.forEach(
-          (item) => item["isTicked"] = false,
-        );
+/// Таблица фильтров
+class Filter extends StatefulWidget {
+  const Filter({
+    Key key,
+  }) : super(key: key);
 
-        _filterSights = filter(
-          _rangeValues.start / 1000,
-          _rangeValues.end / 1000,
-          categoryValues,
-        );
-      }),
-    );
+  @override
+  _FilterState createState() => _FilterState();
+}
+
+class _FilterState extends State<Filter> {
+  @override
+  void initState() {
+    super.initState();
+
+    filterModel.addListener(() => setState(() {}));
   }
 
-  /// Таблица фильтров
-  Widget _buildFilterIcons(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Wrap(
       spacing: 44,
       runSpacing: 40,
@@ -137,7 +112,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildFilterItem(context, item),
+                  FilterItem(
+                    category: item,
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     item["name"],
@@ -150,20 +127,28 @@ class _FiltersScreenState extends State<FiltersScreen> {
           .toList(),
     );
   }
+}
 
-  /// Элемент фильтра
-  Widget _buildFilterItem(BuildContext context, Map<String, dynamic> category) {
+/// Элемент фильтра
+class FilterItem extends StatefulWidget {
+  final category;
+
+  const FilterItem({Key key, this.category}) : super(key: key);
+  @override
+  _FilterItemState createState() => _FilterItemState();
+}
+
+class _FilterItemState extends State<FilterItem> {
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(32),
-      onTap: () => setState(() {
-        category["isTicked"] = !category["isTicked"];
-
-        _filterSights = filter(
-          _rangeValues.start / 1000,
-          _rangeValues.end / 1000,
-          categoryValues,
-        );
-      }),
+      onTap: () {
+        setState(() {
+          widget.category["isTicked"] = !widget.category["isTicked"];
+          filterModel.filter(categoryValues);
+        });
+      },
       splashColor: colorLightGreen.withOpacity(.16),
       child: Container(
         decoration: BoxDecoration(
@@ -175,14 +160,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            category["isTicked"]
+            widget.category["isTicked"]
                 ? Align(
                     alignment: Alignment.bottomRight,
-                    child: _buildTickChoice(context),
+                    child: const TickChoice(),
                   )
                 : Container(),
             SvgPicture.asset(
-              category["iconText"],
+              widget.category["iconText"],
               color: colorLightGreen,
             )
           ],
@@ -190,9 +175,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
     );
   }
+}
 
-  /// Иконка выбора
-  Widget _buildTickChoice(BuildContext context) {
+/// Иконка выбора
+class TickChoice extends StatelessWidget {
+  const TickChoice({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 16,
       height: 16,
@@ -206,9 +198,61 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
     );
   }
+}
 
-  ///Слайдер
-  Widget _buildSlider(BuildContext context) {
+/// Кнопка применения фильтров
+class FilterButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 48,
+      width: double.infinity,
+      child: ElevatedButton(
+        child: Text(
+          "$viewButtonText (${filterModel.filterSights.length})",
+        ),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+/// Кнопка отмены фильтров
+class ClearButton extends StatefulWidget {
+  @override
+  _ClearButtonState createState() => _ClearButtonState();
+}
+
+class _ClearButtonState extends State<ClearButton> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      child: Text(
+        cancelText,
+        style: textSubtitle1.copyWith(
+          color: colorLightGreen,
+        ),
+      ),
+      onPressed: () => setState(() {
+        ///отмена фильтра
+        categoryValues.forEach(
+          (item) => item["isTicked"] = false,
+        );
+        filterModel.filter(categoryValues);
+      }),
+    );
+  }
+}
+
+///Слайдер
+class RadiusSlider extends StatefulWidget {
+  @override
+  _RadiusSliderState createState() => _RadiusSliderState();
+}
+
+class _RadiusSliderState extends State<RadiusSlider> {
+  @override
+  Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,7 +262,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
-            "от ${distanceFormat(_rangeValues.start)} до ${distanceFormat(_rangeValues.end)}",
+            "от ${distanceFormat(filterModel.rangeValues.start)} до ${distanceFormat(filterModel.rangeValues.end)}",
             style: Theme.of(context).textTheme.subtitle1,
           ),
         ],
@@ -227,35 +271,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
         height: 24,
       ),
       RangeSlider(
-        values: _rangeValues,
-        min: _min,
-        max: _max,
+        values: filterModel.rangeValues,
+        min: minDistanceM,
+        max: maxDistanceM,
         onChanged: (RangeValues value) {
           setState(() {
-            _rangeValues = value;
-
-            _filterSights = filter(
-              _rangeValues.start / 1000,
-              _rangeValues.end / 1000,
-              categoryValues,
-            );
+            filterModel.rangeValuesChange = value;
+            filterModel.filter(categoryValues);
           });
         },
       ),
     ]);
-  }
-
-  /// Кнопка применения фильтров
-  Widget _buildFilterButton() {
-    return Container(
-      height: 48,
-      width: double.infinity,
-      child: ElevatedButton(
-        child: Text(
-          "$viewButtonText (${_filterSights.length})",
-        ),
-        onPressed: () {},
-      ),
-    );
   }
 }

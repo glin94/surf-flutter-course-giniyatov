@@ -1,17 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/util/const.dart';
 
 import 'location_functions.dart';
 
-///Функция фильтрации по дистанции и категории места
-List filter(
-        double minDistanceKm, double maxDistanceKm, List<Map> filterValues) =>
-    mocks
+class FilterModel extends ChangeNotifier {
+  List<Sight> filterSights = List();
+
+  RangeValues rangeValues = RangeValues(minDistanceM, maxDistanceM);
+
+  ///Функция фильтрации по дистанции и категории места
+  void filter(List<Map> filterValues) {
+    filterSights = mocks
         .where(
           (item) => arePointsNear(
             item,
             location,
-            minDistanceKm,
-            maxDistanceKm,
+            rangeValues.start / 1000,
+            rangeValues.end / 1000,
           ),
         )
         .toList()
@@ -24,3 +31,14 @@ List filter(
               ),
         )
         .toList();
+
+    notifyListeners();
+  }
+
+  set rangeValuesChange(RangeValues values) {
+    rangeValues = values;
+    notifyListeners();
+  }
+}
+
+final filterModel = FilterModel();
