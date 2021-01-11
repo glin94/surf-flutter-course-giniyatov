@@ -8,7 +8,10 @@ import 'location_functions.dart';
 class FilterModel extends ChangeNotifier {
   List<Sight> filterSights = List();
 
-  RangeValues rangeValues = RangeValues(minDistanceM, maxDistanceM);
+  RangeValues rangeValues = RangeValues(
+    minDistanceM,
+    maxDistanceM,
+  );
 
   ///Функция фильтрации по дистанции и категории места
   void filter(List<Map> filterValues) {

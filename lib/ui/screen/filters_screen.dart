@@ -84,6 +84,33 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 }
 
+/// Кнопка отмены фильтров
+class ClearButton extends StatefulWidget {
+  @override
+  _ClearButtonState createState() => _ClearButtonState();
+}
+
+class _ClearButtonState extends State<ClearButton> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      child: Text(
+        cancelText,
+        style: textSubtitle1.copyWith(
+          color: colorLightGreen,
+        ),
+      ),
+      onPressed: () => setState(() {
+        ///отмена фильтра
+        categoryValues.forEach(
+          (item) => item["isTicked"] = false,
+        );
+        filterModel.filter(categoryValues);
+      }),
+    );
+  }
+}
+
 /// Таблица фильтров
 class Filter extends StatefulWidget {
   const Filter({
@@ -200,50 +227,6 @@ class TickChoice extends StatelessWidget {
   }
 }
 
-/// Кнопка применения фильтров
-class FilterButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      width: double.infinity,
-      child: ElevatedButton(
-        child: Text(
-          "$viewButtonText (${filterModel.filterSights.length})",
-        ),
-        onPressed: () {},
-      ),
-    );
-  }
-}
-
-/// Кнопка отмены фильтров
-class ClearButton extends StatefulWidget {
-  @override
-  _ClearButtonState createState() => _ClearButtonState();
-}
-
-class _ClearButtonState extends State<ClearButton> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(
-      child: Text(
-        cancelText,
-        style: textSubtitle1.copyWith(
-          color: colorLightGreen,
-        ),
-      ),
-      onPressed: () => setState(() {
-        ///отмена фильтра
-        categoryValues.forEach(
-          (item) => item["isTicked"] = false,
-        );
-        filterModel.filter(categoryValues);
-      }),
-    );
-  }
-}
-
 ///Слайдер
 class RadiusSlider extends StatefulWidget {
   @override
@@ -282,5 +265,22 @@ class _RadiusSliderState extends State<RadiusSlider> {
         },
       ),
     ]);
+  }
+}
+
+/// Кнопка применения фильтров
+class FilterButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 48,
+      width: double.infinity,
+      child: ElevatedButton(
+        child: Text(
+          "$viewButtonText (${filterModel.filterSights.length})",
+        ),
+        onPressed: () {},
+      ),
+    );
   }
 }
