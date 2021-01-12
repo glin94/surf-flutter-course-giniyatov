@@ -1,4 +1,43 @@
+import 'package:places/ui/res/assets.dart';
+
 import 'domain/sight.dart';
+
+/// Моковая геопозиция
+final location = {"lat": 55.796127, "lon": 49.106405};
+
+///Фильтр
+List<Map<String, dynamic>> categoryValues = [
+  {
+    "name": "Отель",
+    "iconText": icBed,
+    "isTicked": false,
+  },
+  {
+    "name": "Ресторан",
+    "iconText": icEda,
+    "isTicked": false,
+  },
+  {
+    "name": "Особое место",
+    "iconText": icStar,
+    "isTicked": false,
+  },
+  {
+    "name": "Парк",
+    "iconText": icTree,
+    "isTicked": false,
+  },
+  {
+    "name": "Музей",
+    "iconText": icMuseum,
+    "isTicked": false,
+  },
+  {
+    "name": "Кафе",
+    "iconText": icCafes,
+    "isTicked": false,
+  },
+];
 
 final List<Sight> mocks = [
   Sight(
@@ -14,7 +53,8 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: "Apollo cafe",
-    url: "https://pbs.twimg.com/media/D7fW3pDWsAAF9b7.jpg",
+    url:
+        "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL",
     openingHours: [9, 18],
     details:
         "Благодаря нам Вы сможете насладиться сытными завтраками и основными блюдами нашего кафе, не выходя из дома. Вам не придется тратить время на кухне. Мы готовим из свежих и вкусных продуктов, упаковываем каждое блюда так,чтобы заказ был доставлен еще горячим.",
@@ -33,7 +73,7 @@ final List<Sight> mocks = [
     lat: 55.7827008300091,
     lon: 49.11717827567945,
     visitingDate: DateTime(2021, 1, 1),
-    type: "театр",
+    type: "особое место",
   ),
   Sight(
     name: "Мечеть «Кул-Шариф»",
@@ -45,6 +85,6 @@ final List<Sight> mocks = [
     lat: 55.798298,
     lon: 49.105201,
     visitingDate: DateTime(2020, 8, 14),
-    type: "мечеть",
+    type: "особое место",
   )
 ];

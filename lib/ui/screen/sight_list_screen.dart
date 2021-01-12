@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _SightListScreenState extends State<SightListScreen> {
           centerTitle: false,
           toolbarHeight: 100,
           title: Text(
-            "Список\nинтересных мест",
+            sightListScreenTitle,
             maxLines: 2,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.headline4,

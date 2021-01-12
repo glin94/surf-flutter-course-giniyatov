@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -15,18 +16,20 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        children: [
-          GalleryWidget(
-            sight: sight,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          DetailsWidget(
-            sight: sight,
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            GalleryWidget(
+              sight: sight,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            DetailsWidget(
+              sight: sight,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -70,7 +73,7 @@ class GalleryWidget extends StatelessWidget {
               icon: SvgPicture.asset(
                 icArrow,
               ),
-              onPressed: () {},
+              onPressed: () => print("back"),
             ),
           ),
         )
@@ -146,17 +149,15 @@ class DetailsWidget extends StatelessWidget {
 
   Widget _buildRouteButton() {
     return Container(
-      width: double.infinity,
-      height: 48,
-      child: RaisedButton.icon(
-        label: Text(
-          "ПОСТРОИТЬ МАРШРУТ",
-          style: textButton,
-        ),
-        icon: SvgPicture.asset(icGO),
-        onPressed: () {},
-      ),
-    );
+        width: double.infinity,
+        height: 48,
+        child: ElevatedButton.icon(
+          label: Text(
+            goButtonText,
+          ),
+          icon: SvgPicture.asset(icGO),
+          onPressed: () => print("GO!"),
+        ));
   }
 
   Widget _buildPlanningAndFavouriteButtons(BuildContext context) {
@@ -182,9 +183,9 @@ class DetailsWidget extends StatelessWidget {
                     icCalendar,
                     color: colorInnactiveBlack,
                   ),
-                  onPressed: () {},
+                  onPressed: () => print("plan"),
                   label: Text(
-                    "Запланировать",
+                    plannedButtonText,
                     style: textBody2.copyWith(
                       color: colorInnactiveBlack,
                     ),
@@ -195,7 +196,7 @@ class DetailsWidget extends StatelessWidget {
                     icHeart,
                     color: Theme.of(context).iconTheme.color,
                   ),
-                  onPressed: () {},
+                  onPressed: () => print("favorite"),
                   label: Text(
                     "В Избранное",
                     style: textBody2.copyWith(),

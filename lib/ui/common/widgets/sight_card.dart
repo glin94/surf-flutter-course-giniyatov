@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Карточка интересного места на главном экране
@@ -17,9 +17,13 @@ class SightCard extends StatelessWidget {
   final Sight sight;
 
   List<Widget> icons = [
-    SvgPicture.asset(
-      icHeart,
-      color: Colors.white,
+    IconButton(
+      iconSize: 24,
+      onPressed: () => print("favorite"),
+      icon: SvgPicture.asset(
+        icHeart,
+        color: Colors.white,
+      ),
     )
   ];
 
@@ -28,14 +32,20 @@ class SightCard extends StatelessWidget {
   ///  Карточка планируемых для посещения мест
   SightCard.wantToVisit({@required this.sight}) {
     icons = [
-      SvgPicture.asset(
-        icCalendar,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("calendar"),
+        icon: SvgPicture.asset(
+          icCalendar,
+          color: Colors.white,
+        ),
       ),
-      SvgPicture.asset(
-        icClose,
-        color: Colors.white,
-      )
+      IconButton(
+        onPressed: () => print("close"),
+        icon: SvgPicture.asset(
+          icClose,
+          color: Colors.white,
+        ),
+      ),
     ];
     visitingTextContainer = Container(
         height: 30,
@@ -50,13 +60,19 @@ class SightCard extends StatelessWidget {
   ///  Карточка для экрана посещенных мест (наследуется от SightCard)
   SightCard.visited({@required this.sight}) {
     icons = [
-      SvgPicture.asset(
-        icShare,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("share"),
+        icon: SvgPicture.asset(
+          icShare,
+          color: Colors.white,
+        ),
       ),
-      SvgPicture.asset(
-        icClose,
-        color: Colors.white,
+      IconButton(
+        onPressed: () => print("close"),
+        icon: SvgPicture.asset(
+          icClose,
+          color: Colors.white,
+        ),
       ),
     ];
     visitingTextContainer = Container(
@@ -79,15 +95,45 @@ class SightCard extends StatelessWidget {
       width: double.infinity,
       child: AspectRatio(
         aspectRatio: 3 / 2,
-        child: Column(
+        child: Stack(
           children: [
-            SightCardTop(
-              sight: sight,
-              icons: icons,
+            Column(
+              children: [
+                SightCardTop(
+                  sight: sight,
+                  icons: icons,
+                ),
+                SightCardBottom(
+                  sight: sight,
+                  visitingText: visitingTextContainer,
+                ),
+              ],
             ),
-            SightCardBottom(
-              sight: sight,
-              visitingText: visitingTextContainer,
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Text(
+                sight.type,
+                style: textBody1.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                splashColor: Theme.of(context).accentColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {},
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Wrap(
+                children: icons,
+              ),
             ),
           ],
         ),
@@ -109,42 +155,23 @@ class SightCardTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
-          width: double.infinity,
-          constraints: BoxConstraints(
-            maxHeight: 96,
-            minHeight: 96,
-          ),
-          foregroundDecoration: _buildDecoration(),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: const Radius.circular(16.0),
-              topRight: const Radius.circular(16.0),
-            ),
-            child: ImageWidget(
-              url: sight.url,
-            ),
-          )),
-      Positioned(
-        top: 16,
-        left: 16,
-        child: Text(
-          sight.type,
-          style: textBody1.copyWith(
-            color: Colors.white,
-          ),
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxHeight: 96,
+        minHeight: 96,
+      ),
+      foregroundDecoration: _buildDecoration(),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: const Radius.circular(16.0),
+          topRight: const Radius.circular(16.0),
+        ),
+        child: ImageWidget(
+          url: sight.url,
         ),
       ),
-      Positioned(
-        top: 18,
-        right: 19,
-        child: Wrap(
-          spacing: 17,
-          children: icons,
-        ),
-      ),
-    ]);
+    );
   }
 
   BoxDecoration _buildDecoration() {

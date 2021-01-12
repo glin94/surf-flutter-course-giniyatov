@@ -7,7 +7,7 @@ final TextStyle _text = TextStyle(
     ),
     textHeadLine4 = _text.copyWith(fontSize: 32, fontWeight: FontWeight.bold),
     textHeadLine5 = _text.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
-    textHeadLine6 = _text.copyWith(fontSize: 18),
+    textHeadLine6 = _text.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
     textSubtitle1 = _text.copyWith(fontSize: 16),
     textBody1 = _text.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
     textBody2 = _text.copyWith(fontSize: 14),

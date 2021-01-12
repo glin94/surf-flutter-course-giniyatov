@@ -3,6 +3,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 final lightTheme = ThemeData(
+  accentColor: colorLightMain,
   backgroundColor: Colors.white,
   secondaryHeaderColor: colorLightSecondary,
   iconTheme: IconThemeData(
@@ -55,16 +56,27 @@ final lightTheme = ThemeData(
       textStyle: textBody2,
     ),
   ),
-  buttonTheme: ButtonThemeData(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: colorLightGreen,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      textStyle: textButton,
+      onPrimary: Colors.white,
     ),
-    buttonColor: colorLightGreen,
-    textTheme: ButtonTextTheme.primary,
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 0.2,
+    activeTrackColor: colorLightGreen,
+    inactiveTrackColor: colorInnactiveBlack,
+    thumbColor: Colors.white,
+    overlayColor: Colors.transparent,
   ),
 );
 
 final darkTheme = ThemeData(
+  accentColor: Colors.white,
   backgroundColor: colorDarkSecondary,
   secondaryHeaderColor: Colors.white,
   iconTheme: IconThemeData(
@@ -117,6 +129,23 @@ final darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(12),
     ),
     buttonColor: colorDarkGreen,
-    textTheme: ButtonTextTheme.primary,
+    textTheme: ButtonTextTheme.accent,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: colorDarkGreen,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      textStyle: textButton,
+      onPrimary: Colors.white,
+    ),
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 0.2,
+    activeTrackColor: colorDarkGreen,
+    inactiveTrackColor: colorInnactiveBlack,
+    thumbColor: Colors.white,
+    overlayColor: Colors.transparent,
   ),
 );
