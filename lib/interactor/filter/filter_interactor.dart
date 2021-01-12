@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/util/const.dart';
+import 'package:places/util/location_functions.dart';
 
-import 'location_functions.dart';
+final filterInteractor = FilterInteractor();
 
-class FilterModel extends ChangeNotifier {
+///Интерактор для фильтра
+class FilterInteractor extends ChangeNotifier {
   List<Sight> filterSights = List();
 
   RangeValues rangeValues = RangeValues(
@@ -43,5 +45,3 @@ class FilterModel extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-final filterModel = FilterModel();

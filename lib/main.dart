@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/theme.dart';
 import 'package:places/ui/res/assets.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/settings_screens.dart';
@@ -69,7 +70,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icListFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "Cписок интересных мест",
+            label: sightListScreenTitle,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -80,7 +81,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icMapFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "Карта",
+            label: mapScreeenTitle,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -91,7 +92,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icHeartFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "Избранное",
+            label: favoriteScreentitle,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -102,7 +103,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icSettingsFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: "Настройки",
+            label: settingsScreenTitle,
           ),
         ],
         currentIndex: _selectedIndex,

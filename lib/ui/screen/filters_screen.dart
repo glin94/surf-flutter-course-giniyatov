@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/interactor/filter/filter_interactor.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/res/assets.dart';
@@ -8,7 +9,6 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/util/const.dart';
-import 'package:places/util/filter.dart';
 
 ///Экран фильтров
 class FiltersScreen extends StatefulWidget {
@@ -20,19 +20,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     super.initState();
-
-    filterModel.addListener(() {
-      setState(() {});
-    });
-
-    ///начальные значения фильтров
-    categoryValues.forEach((item) {
-      if (mocks.any((sight) => item['name'].toLowerCase() == sight.type))
-        item['isTicked'] = true;
-    });
-
-    ///фильтрация
-    filterModel.filter(categoryValues);
+    filterInteractor.filter(categoryValues);
   }
 
   @override
@@ -41,7 +29,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         leading: const BackButton(),
         actions: [
-          ClearButton(),
+          _ClearButton(),
         ],
       ),
       body: Padding(
@@ -69,14 +57,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const Filter(),
+                    const _FilterTable(),
                   ],
                 ),
                 const SizedBox(height: 56),
-                RadiusSlider(),
+                _RadiusSlider(),
               ],
             ),
-            FilterButton(),
+            _FilterButton(),
           ],
         ),
       ),
@@ -85,49 +73,29 @@ class _FiltersScreenState extends State<FiltersScreen> {
 }
 
 /// Кнопка отмены фильтров
-class ClearButton extends StatefulWidget {
-  @override
-  _ClearButtonState createState() => _ClearButtonState();
-}
-
-class _ClearButtonState extends State<ClearButton> {
+class _ClearButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      child: Text(
-        cancelText,
-        style: textSubtitle1.copyWith(
-          color: colorLightGreen,
+        child: Text(
+          cancelText,
+          style: textSubtitle1.copyWith(
+            color: colorLightGreen,
+          ),
         ),
-      ),
-      onPressed: () => setState(() {
-        ///отмена фильтра
-        categoryValues.forEach(
-          (item) => item["isTicked"] = false,
-        );
-        filterModel.filter(categoryValues);
-      }),
-    );
+        onPressed: () {
+          ///отмена фильтра
+          categoryValues.forEach(
+            (item) => item["isTicked"] = false,
+          );
+          filterInteractor.filter(categoryValues);
+        });
   }
 }
 
 /// Таблица фильтров
-class Filter extends StatefulWidget {
-  const Filter({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _FilterState createState() => _FilterState();
-}
-
-class _FilterState extends State<Filter> {
-  @override
-  void initState() {
-    super.initState();
-
-    filterModel.addListener(() => setState(() {}));
-  }
+class _FilterTable extends StatelessWidget {
+  const _FilterTable({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,78 +103,87 @@ class _FilterState extends State<Filter> {
       spacing: 44,
       runSpacing: 40,
       children: categoryValues
-          .map((item) => Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FilterItem(
-                    category: item,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    item["name"],
-                    style: Theme.of(context).textTheme.caption.copyWith(
-                          color: Theme.of(context).accentColor,
-                        ),
-                  ),
-                ],
-              ))
+          .map(
+            (item) => _FilterItem(
+              category: item,
+            ),
+          )
           .toList(),
     );
   }
 }
 
 /// Элемент фильтра
-class FilterItem extends StatefulWidget {
+class _FilterItem extends StatefulWidget {
   final category;
 
-  const FilterItem({Key key, this.category}) : super(key: key);
+  const _FilterItem({Key key, this.category}) : super(key: key);
   @override
   _FilterItemState createState() => _FilterItemState();
 }
 
-class _FilterItemState extends State<FilterItem> {
+class _FilterItemState extends State<_FilterItem> {
+  @override
+  void initState() {
+    super.initState();
+
+    filterInteractor.addListener(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(32),
-      onTap: () {
-        setState(() {
-          widget.category["isTicked"] = !widget.category["isTicked"];
-          filterModel.filter(categoryValues);
-        });
-      },
-      splashColor: colorLightGreen.withOpacity(.16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorLightGreen.withOpacity(.16),
-          shape: BoxShape.circle,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          borderRadius: BorderRadius.circular(32),
+          onTap: () {
+            setState(() {
+              widget.category["isTicked"] = !widget.category["isTicked"];
+              filterInteractor.filter(categoryValues);
+            });
+          },
+          splashColor: colorLightGreen.withOpacity(.16),
+          child: Container(
+            decoration: BoxDecoration(
+              color: colorLightGreen.withOpacity(.16),
+              shape: BoxShape.circle,
+            ),
+            height: 64,
+            width: 64,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                widget.category["isTicked"]
+                    ? Align(
+                        alignment: Alignment.bottomRight,
+                        child: const _TickChoice(),
+                      )
+                    : Container(),
+                SvgPicture.asset(
+                  widget.category["iconText"],
+                  color: colorLightGreen,
+                )
+              ],
+            ),
+          ),
         ),
-        height: 64,
-        width: 64,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            widget.category["isTicked"]
-                ? Align(
-                    alignment: Alignment.bottomRight,
-                    child: const TickChoice(),
-                  )
-                : Container(),
-            SvgPicture.asset(
-              widget.category["iconText"],
-              color: colorLightGreen,
-            )
-          ],
+        const SizedBox(height: 12),
+        Text(
+          widget.category["name"],
+          style: Theme.of(context).textTheme.caption.copyWith(
+                color: Theme.of(context).accentColor,
+              ),
         ),
-      ),
+      ],
     );
   }
 }
 
 /// Иконка выбора
-class TickChoice extends StatelessWidget {
-  const TickChoice({
+class _TickChoice extends StatelessWidget {
+  const _TickChoice({
     Key key,
   }) : super(key: key);
 
@@ -228,12 +205,12 @@ class TickChoice extends StatelessWidget {
 }
 
 ///Слайдер
-class RadiusSlider extends StatefulWidget {
+class _RadiusSlider extends StatefulWidget {
   @override
   _RadiusSliderState createState() => _RadiusSliderState();
 }
 
-class _RadiusSliderState extends State<RadiusSlider> {
+class _RadiusSliderState extends State<_RadiusSlider> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -245,7 +222,7 @@ class _RadiusSliderState extends State<RadiusSlider> {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
-            "от ${distanceFormat(filterModel.rangeValues.start)} до ${distanceFormat(filterModel.rangeValues.end)}",
+            "от ${distanceFormat(filterInteractor.rangeValues.start)} до ${distanceFormat(filterInteractor.rangeValues.end)}",
             style: Theme.of(context).textTheme.subtitle1,
           ),
         ],
@@ -254,13 +231,13 @@ class _RadiusSliderState extends State<RadiusSlider> {
         height: 24,
       ),
       RangeSlider(
-        values: filterModel.rangeValues,
+        values: filterInteractor.rangeValues,
         min: minDistanceM,
         max: maxDistanceM,
         onChanged: (RangeValues value) {
           setState(() {
-            filterModel.rangeValuesChange = value;
-            filterModel.filter(categoryValues);
+            filterInteractor.rangeValuesChange = value;
+            filterInteractor.filter(categoryValues);
           });
         },
       ),
@@ -269,7 +246,18 @@ class _RadiusSliderState extends State<RadiusSlider> {
 }
 
 /// Кнопка применения фильтров
-class FilterButton extends StatelessWidget {
+class _FilterButton extends StatefulWidget {
+  @override
+  __FilterButtonState createState() => __FilterButtonState();
+}
+
+class __FilterButtonState extends State<_FilterButton> {
+  @override
+  void initState() {
+    super.initState();
+    filterInteractor.addListener(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -277,7 +265,7 @@ class FilterButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         child: Text(
-          "$viewButtonText (${filterModel.filterSights.length})",
+          "$viewButtonText (${filterInteractor.filterSights.length})",
         ),
         onPressed: () {},
       ),

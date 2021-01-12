@@ -18,3 +18,4 @@ const String visitedTitle = "Посетил";
 const String sightListScreenTitle = "Список\nинтересных мест";
 const String favoriteScreentitle = "Избранное";
 const String settingsScreenTitle = "Настройки";
+const String mapScreeenTitle = "Карта";
