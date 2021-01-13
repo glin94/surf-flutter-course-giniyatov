@@ -22,7 +22,7 @@ class _SightListScreenState extends State<SightListScreen> {
           centerTitle: false,
           toolbarHeight: 100,
           title: Text(
-            sightListScreenTitle,
+            sightListScreenTitle.replaceFirst(" ", "\n"),
             maxLines: 2,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.headline4,

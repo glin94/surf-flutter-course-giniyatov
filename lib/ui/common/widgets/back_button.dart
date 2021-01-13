@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/assets.dart';
 
-class BackButton extends StatelessWidget {
-  const BackButton({
+///Кнопка назад
+class CustomBackButton extends StatelessWidget {
+  const CustomBackButton({
     Key key,
   }) : super(key: key);
 

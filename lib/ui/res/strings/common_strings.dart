@@ -15,7 +15,7 @@ const String wantToVisitTitle = "Хочу посетить";
 const String visitedTitle = "Посетил";
 
 ///Заголовки экранов
-const String sightListScreenTitle = "Список\nинтересных мест";
+const String sightListScreenTitle = "Список интересных мест";
 const String favoriteScreentitle = "Избранное";
 const String settingsScreenTitle = "Настройки";
 const String mapScreeenTitle = "Карта";
