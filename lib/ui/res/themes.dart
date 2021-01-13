@@ -84,6 +84,11 @@ final darkTheme = ThemeData(
   ),
   canvasColor: colorDarkMain,
   appBarTheme: AppBarTheme(
+    textTheme: TextTheme(
+      headline6: textHeadLine6.copyWith(
+        color: Colors.white,
+      ),
+    ),
     elevation: 0,
     centerTitle: true,
     color: colorDarkMain,
