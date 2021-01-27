@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:places/interactor/filter/sight_interactor.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 
 /// Экран отображения списка интересных мест
-class SightListScreen extends StatefulWidget {
-  @override
-  _SightListScreenState createState() => _SightListScreenState();
-}
+class SightListScreen extends StatelessWidget {
+  const SightListScreen({
+    Key key,
+  }) : super(key: key);
 
-class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,24 +30,31 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
         ),
       ),
+      floatingActionButton: const AddSightButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
         ),
-        child: Column(
-          children: mocks
-              .map(
-                (item) => Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 24,
-                  ),
-                  child: SightCard(
-                    sight: item,
-                  ),
-                ),
-              )
-              .toList(),
-        ),
+        child: StreamBuilder<List>(
+            initialData: mocks,
+            stream: sightInteractor.sightListStream,
+            builder: (context, snapshot) {
+              return Column(
+                children: snapshot.data
+                    .map(
+                      (item) => Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 24,
+                        ),
+                        child: SightCard(
+                          sight: item,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              );
+            }),
       ),
     );
   }

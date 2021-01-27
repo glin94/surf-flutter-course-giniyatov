@@ -16,6 +16,8 @@ const String icListFilled = '$_baseResPath/ListFilled.svg';
 const String icMapFilled = '$_baseResPath/MapFilled.svg';
 const String icHeartFilled = '$_baseResPath/HeartFilled.svg';
 const String icSettingsFilled = '$_baseResPath/SettingsFilled.svg';
+const String icClear = '$_baseResPath/Clear.svg';
+const String icArrowRight = '$_baseResPath/ArrowRight.svg';
 
 ///Filter icons
 const String icMuseum = '$_baseResPath/Museum.svg';

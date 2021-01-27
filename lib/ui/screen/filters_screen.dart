@@ -5,6 +5,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/interactor/filter/filter_interactor.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
+import 'package:places/ui/common/widgets/text_form_field.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
@@ -56,13 +57,14 @@ class _ClearButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-        child: Text(
-          cancelText,
-          style: textSubtitle1.copyWith(
-            color: colorLightGreen,
-          ),
+      child: Text(
+        cancelText,
+        style: textSubtitle1.copyWith(
+          color: colorLightGreen,
         ),
-        onPressed: filterInteractor.clear);
+      ),
+      onPressed: filterInteractor.clear,
+    );
   }
 }
 
@@ -74,33 +76,28 @@ class _FilterTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              categoriesText,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
-        ),
+        const CaptionText(title: categoriesText),
         const SizedBox(
           height: 24,
         ),
         StreamBuilder<List<Map>>(
-            initialData: filterInteractor.filterValues,
-            stream: filterInteractor.filtersStream,
-            builder: (context, snapshot) {
-              return Wrap(
-                spacing: 44,
-                runSpacing: 40,
-                children: snapshot.data
-                    .map(
-                      (item) => _FilterItem(
-                        category: item,
-                      ),
-                    )
-                    .toList(),
-              );
-            })
+          initialData: filterInteractor.filterValues,
+          stream: filterInteractor.filtersStream,
+          builder: (context, snapshot) {
+            return Wrap(
+              spacing: 44,
+              runSpacing: 40,
+              children: snapshot.data
+                  .map(
+                    (item) => _FilterItem(
+                      key: ValueKey(item["name"]),
+                      category: item,
+                    ),
+                  )
+                  .toList(),
+            );
+          },
+        )
       ],
     );
   }
@@ -185,36 +182,38 @@ class _RadiusSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            distanceText,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            "от ${distanceFormat(filterInteractor.rangeValues.start)} до ${distanceFormat(filterInteractor.rangeValues.end)}",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-        ],
-      ),
-      SizedBox(
-        height: 24,
-      ),
-      StreamBuilder<RangeValues>(
-          initialData: filterInteractor.rangeValues,
-          stream: filterInteractor.rangeValuesStream,
-          builder: (context, snapshot) {
-            return RangeSlider(
-              values: snapshot.data,
-              min: minDistanceM,
-              max: maxDistanceM,
-              onChanged: (RangeValues values) =>
-                  filterInteractor.rangeValuesChange = values,
-            );
-          }),
-    ]);
+    return StreamBuilder<Object>(
+        initialData: filterInteractor.rangeValues,
+        stream: filterInteractor.rangeValuesStream,
+        builder: (context, snapshot) {
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      distanceText,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    Text(
+                      "от ${distanceFormat(filterInteractor.rangeValues.start)} до ${distanceFormat(filterInteractor.rangeValues.end)}",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                RangeSlider(
+                  values: snapshot.data,
+                  min: minDistanceM,
+                  max: maxDistanceM,
+                  onChanged: (RangeValues values) =>
+                      filterInteractor.rangeValuesChange = values,
+                ),
+              ]);
+        });
   }
 }
 
@@ -239,7 +238,7 @@ class _FilterButton extends StatelessWidget {
             child: Text(
               "$viewButtonText (${filterSights.length})",
             ),
-            onPressed: () {},
+            onPressed: filterSights.length != 0 ? () {} : null,
           ),
         );
       },
