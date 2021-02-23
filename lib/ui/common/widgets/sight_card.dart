@@ -91,7 +91,7 @@ class SightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        minHeight: 188,
+        minHeight: 218,
         maxHeight: 218,
       ),
       width: double.infinity,
@@ -213,7 +213,7 @@ class SightCardBottom extends StatelessWidget {
         minHeight: 92,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: const Radius.circular(16),
           bottomRight: const Radius.circular(16),

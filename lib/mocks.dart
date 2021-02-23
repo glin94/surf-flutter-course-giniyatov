@@ -49,7 +49,7 @@ final List<Sight> mocks = [
     lat: 55.783375,
     lon: 49.123695,
     visitingDate: DateTime(2020, 12, 12),
-    type: "парк",
+    type: "Парк",
   ),
   Sight(
     name: "Apollo cafe",
@@ -61,7 +61,7 @@ final List<Sight> mocks = [
     lat: 55.791827,
     lon: 49.136234,
     visitingDate: DateTime(2020, 11, 24),
-    type: "ресторан",
+    type: "Ресторан",
   ),
   Sight(
     name: "Театр имени Г. Камала",
@@ -73,7 +73,7 @@ final List<Sight> mocks = [
     lat: 55.7827008300091,
     lon: 49.11717827567945,
     visitingDate: DateTime(2021, 1, 1),
-    type: "особое место",
+    type: "Особое место",
   ),
   Sight(
     name: "Мечеть «Кул-Шариф»",
@@ -85,6 +85,6 @@ final List<Sight> mocks = [
     lat: 55.798298,
     lon: 49.105201,
     visitingDate: DateTime(2020, 8, 14),
-    type: "особое место",
+    type: "Особое место",
   )
 ];

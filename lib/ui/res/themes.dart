@@ -9,6 +9,7 @@ final lightTheme = ThemeData(
   iconTheme: IconThemeData(
     color: colorLightSecondary,
   ),
+  disabledColor: colorLightSecondary2,
   canvasColor: Colors.white,
   appBarTheme: AppBarTheme(
     textTheme: TextTheme(
@@ -20,6 +21,7 @@ final lightTheme = ThemeData(
     centerTitle: true,
     color: Colors.white,
   ),
+  cardColor: colorLightGrey,
   primaryColor: Colors.white,
   scaffoldBackgroundColor: Colors.white,
   primaryColorDark: colorLightGrey,
@@ -78,11 +80,13 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   accentColor: Colors.white,
+  cardColor: colorDarkBlack,
   backgroundColor: colorDarkSecondary,
   secondaryHeaderColor: Colors.white,
   iconTheme: IconThemeData(
     color: Colors.white,
   ),
+  disabledColor: colorDarkSecondary2,
   canvasColor: colorDarkMain,
   appBarTheme: AppBarTheme(
     textTheme: TextTheme(

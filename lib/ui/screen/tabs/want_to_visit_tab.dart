@@ -37,6 +37,7 @@ class WantToVisitTab extends StatelessWidget {
         : const EmptyPlacesScreen(
             iconsAssetText: icCamera,
             text: wantToVisitPlacesEmptyText,
+            header: "Пусто",
           );
   }
 }

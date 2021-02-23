@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:places/ui/common/widgets/waiting_indicator.dart';
 
 ///  Виджет для отображения картинок
 class ImageWidget extends StatelessWidget {
@@ -21,12 +22,7 @@ class ImageWidget extends StatelessWidget {
             loadingBuilder: (BuildContext context, Widget child,
                 ImageChunkEvent loadingProgress) {
               if (loadingProgress == null) return child;
-              return const Center(
-                child: const CupertinoActivityIndicator(
-                  radius: 16,
-                  animating: true,
-                ),
-              );
+              return WaitingIndicator();
             },
           );
   }

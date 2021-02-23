@@ -32,18 +32,20 @@ class FiltersScreen extends StatelessWidget {
           top: 24,
           bottom: 8,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                const _FilterTable(),
-                const SizedBox(height: 56),
-                _RadiusSlider(),
-              ],
-            ),
-            const _FilterButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const _FilterTable(),
+                  const SizedBox(height: 56),
+                  _RadiusSlider(),
+                ],
+              ),
+              const _FilterButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -85,7 +87,7 @@ class _FilterTable extends StatelessWidget {
           stream: filterInteractor.filtersStream,
           builder: (context, snapshot) {
             return Wrap(
-              spacing: 44,
+              spacing: 40,
               runSpacing: 40,
               children: snapshot.data
                   .map(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/interactor/filter/sight_interactor.dart';
+import 'package:places/interactor/filter/new_sight_interactor.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
@@ -53,7 +53,7 @@ class TextFormFieldWidget extends StatelessWidget {
               color: colorInnactiveBlack,
             ),
             hintText: hintText,
-            suffix: _ClearButton(textController: textController),
+            suffix: ClearButton(textController: textController),
             contentPadding: EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 16,
@@ -93,8 +93,8 @@ class TextFormFieldWidget extends StatelessWidget {
   }
 }
 
-class _ClearButton extends StatelessWidget {
-  const _ClearButton({
+class ClearButton extends StatelessWidget {
+  const ClearButton({
     Key key,
     @required this.textController,
   }) : super(key: key);

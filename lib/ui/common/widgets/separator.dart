@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
 
-///Разделитель
+///  Разделитель
 class Separator extends StatelessWidget {
   const Separator({
     Key key,

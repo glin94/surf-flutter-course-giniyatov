@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/interactor/filter/sight_interactor.dart';
+import 'package:places/interactor/filter/new_sight_interactor.dart';
 import 'package:places/ui/common/widgets/separator.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
 import 'package:places/ui/res/assets.dart';
