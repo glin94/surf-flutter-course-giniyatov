@@ -22,7 +22,7 @@ class ImageWidget extends StatelessWidget {
             loadingBuilder: (BuildContext context, Widget child,
                 ImageChunkEvent loadingProgress) {
               if (loadingProgress == null) return child;
-              return WaitingIndicator();
+              return const WaitingIndicator();
             },
           );
   }

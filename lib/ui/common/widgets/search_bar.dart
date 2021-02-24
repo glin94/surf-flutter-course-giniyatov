@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/common/widgets/text_clear_button.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -8,7 +9,7 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 
-///Поисковая строка
+/// Поисковая строка
 class SearchBar extends StatelessWidget {
   final TextEditingController textEditingController;
   final bool enable;
@@ -41,7 +42,7 @@ class SearchBar extends StatelessWidget {
                 icSearch,
               ),
             ),
-            suffix: ClearButton(textController: textEditingController),
+            suffix: TextClearButton(textController: textEditingController),
             filled: true,
             hintStyle: textSubtitle1.copyWith(
               color: colorInnactiveBlack,
@@ -60,25 +61,23 @@ class SearchBar extends StatelessWidget {
                 bottom: 8,
                 right: 16,
                 top: 8,
-                child: const FilterButton(),
+                child: const _FilterButton(),
               ),
       ],
     );
   }
 
-  OutlineInputBorder _searchBarBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: Colors.transparent,
-      ),
-    );
-  }
+  OutlineInputBorder _searchBarBorder() => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: Colors.transparent,
+        ),
+      );
 }
 
-///Кнопка фильтра
-class FilterButton extends StatelessWidget {
-  const FilterButton({
+/// Кнопка фильтра
+class _FilterButton extends StatelessWidget {
+  const _FilterButton({
     Key key,
   }) : super(key: key);
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
+/// Заглушка для экранов
 class EmptyPlacesScreen extends StatelessWidget {
   final String iconsAssetText;
   final String header;
@@ -32,7 +33,7 @@ class EmptyPlacesScreen extends StatelessWidget {
             header,
             style: textHeadLine6.copyWith(color: colorInnactiveBlack),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Container(
             width: 253.5,
             child: Text(

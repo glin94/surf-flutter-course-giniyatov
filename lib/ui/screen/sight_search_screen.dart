@@ -12,7 +12,7 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_details.dart';
 
-///Экран поиска
+/// Экран поиска
 class SightSearchScreen extends StatefulWidget {
   @override
   _SightSearchScreenState createState() => _SightSearchScreenState();
@@ -95,7 +95,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   }
 }
 
-///Заглушка для пустого списка
+/// Заглушка для пустого списка
 class _EmptyStateWidget extends StatelessWidget {
   const _EmptyStateWidget({
     Key key,
@@ -169,7 +169,7 @@ class _SearchHistory extends StatelessWidget {
   }
 }
 
-///Кнопка очистки истории
+/// Кнопка очистки истории
 class _ClearHistoryButton extends StatelessWidget {
   const _ClearHistoryButton({
     Key key,
@@ -197,7 +197,7 @@ class _ClearHistoryButton extends StatelessWidget {
   }
 }
 
-///Результат поиска
+/// Результат поиска
 class _SearchSightsList extends StatelessWidget {
   final List<Sight> list;
   const _SearchSightsList({Key key, this.list}) : super(key: key);
@@ -215,7 +215,7 @@ class _SearchSightsList extends StatelessWidget {
   }
 }
 
-///Элемент списка поискового результата
+/// Элемент списка поискового результата
 class _SearchListTile extends StatelessWidget {
   final Sight sight;
   const _SearchListTile({

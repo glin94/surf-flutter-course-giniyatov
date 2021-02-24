@@ -27,6 +27,11 @@ class FilterInteractor {
 
   RangeValues get rangeValues => _rangeValues;
 
+  RangeValues _rangeValues = RangeValues(
+    minDistanceM,
+    maxDistanceM,
+  );
+
   ///  Фильтрованный список мест
   List<Sight> get filterSights => mocks
       .where(
@@ -46,11 +51,6 @@ class FilterInteractor {
                 ),
       )
       .toList();
-
-  RangeValues _rangeValues = RangeValues(
-    minDistanceM,
-    maxDistanceM,
-  );
 
   ///Выбор категории
   set choiceFilterItem(Map item) {

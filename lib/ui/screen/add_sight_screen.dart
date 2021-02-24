@@ -11,7 +11,7 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/category_choice_screen.dart';
 
-///Экран добавления нового места
+/// Экран добавления нового места
 class AddSightScreen extends StatefulWidget {
   @override
   _AddSightScreenState createState() => _AddSightScreenState();
@@ -35,69 +35,85 @@ class _AddSightScreenState extends State<AddSightScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 24,
-        ),
-        child: ListView(
-          children: [
-            const SizedBox(height: 40),
-            const _GalleryWidget(),
-            const _CategoryChoiceTile(),
-            const SizedBox(height: 24),
-            TextFormFieldWidget(
-              textController: sightInteractor.nameTextController,
-              label: sightNameText,
-              textInputAction: TextInputAction.next,
-              textInputType: TextInputType.text,
-              maxLines: 1,
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
             ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: TextFormFieldWidget(
-                    textController: sightInteractor.latTextController,
-                    maxLines: 1,
-                    textInputAction: TextInputAction.next,
-                    label: sightLatText,
-                    textInputType: TextInputType.number,
-                  ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const SizedBox(height: 40),
+                const _GalleryWidget(),
+                const _CategoryChoiceTile(),
+                const SizedBox(height: 24),
+                TextFormFieldWidget(
+                  textController: sightInteractor.nameTextController,
+                  label: sightNameText,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  maxLines: 1,
                 ),
-                Expanded(
-                  flex: 1,
-                  child: const SizedBox(width: 16),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: TextFormFieldWidget(
+                        textController: sightInteractor.latTextController,
+                        maxLines: 1,
+                        textInputAction: TextInputAction.next,
+                        label: sightLatText,
+                        textInputType: TextInputType.number,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: const SizedBox(width: 16),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: TextFormFieldWidget(
+                        textController: sightInteractor.lonTextController,
+                        maxLines: 1,
+                        label: sightLonText,
+                        textInputAction: TextInputAction.next,
+                        textInputType: TextInputType.number,
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex: 8,
-                  child: TextFormFieldWidget(
-                    textController: sightInteractor.lonTextController,
-                    maxLines: 1,
-                    label: sightLonText,
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.number,
-                  ),
+                const SizedBox(height: 15),
+                const _GetMapCoordinates(),
+                const SizedBox(height: 37),
+                TextFormFieldWidget(
+                  textController: sightInteractor.descTextController,
+                  textInputAction: TextInputAction.done,
+                  label: sightDescText,
+                  maxLines: 3,
+                  hintText: inputValueHintText,
+                  textInputType: TextInputType.multiline,
                 ),
-              ],
+              ]),
             ),
-            const SizedBox(height: 15),
-            const _GetMapCoordinates(),
-            const SizedBox(height: 37),
-            TextFormFieldWidget(
-              textController: sightInteractor.descTextController,
-              textInputAction: TextInputAction.done,
-              label: sightDescText,
-              maxLines: 3,
-              hintText: inputValueHintText,
-              textInputType: TextInputType.multiline,
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            fillOverscroll: true,
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: const _AddSightButton(),
+                ),
+              ),
             ),
-            const SizedBox(height: 124),
-            const _AddSightButton(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

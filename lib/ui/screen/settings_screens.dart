@@ -7,7 +7,7 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 
-///Экран настроек
+/// Экран настроек
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -17,41 +17,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(settingsScreenTitle),
+      appBar: AppBar(
+        title: Text(settingsScreenTitle),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                darkModeSwitcherText,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              trailing: CupertinoSwitch(
+                value: themeModel.isDark,
+                onChanged: (val) =>
+                    setState(() => themeModel.changeTheme = val),
+              ),
+            ),
+            const Separator(),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                tutorialViewText,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              trailing: SvgPicture.asset(
+                icInfo,
+                color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
+              ),
+              onTap: () {},
+            ),
+            const Separator(),
+          ],
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  darkModeSwitcherText,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                trailing: CupertinoSwitch(
-                  value: themeModel.isDark,
-                  onChanged: (val) =>
-                      setState(() => themeModel.changeTheme = val),
-                ),
-              ),
-              const Separator(),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  tutorialViewText,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                trailing: SvgPicture.asset(
-                  icInfo,
-                  color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
-                ),
-                onTap: () {},
-              ),
-              const Separator(),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }

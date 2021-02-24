@@ -3,6 +3,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 
+/// Кнопка добавления нового места
 class AddSightButton extends StatelessWidget {
   const AddSightButton({
     Key key,
@@ -43,7 +44,7 @@ class AddSightButton extends StatelessWidget {
                   Icons.add,
                   color: Colors.white,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Text(

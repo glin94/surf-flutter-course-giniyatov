@@ -13,7 +13,7 @@ class SearchInteractor {
   Stream<List<Sight>> get sightListStream => _sightListController.stream;
   Stream<List<String>> get wordsListStream => _wordsListController.stream;
 
-  search(String text) async {
+  void search(String text) async {
     if (text.isNotEmpty) {
       final list = await _doSearch(text);
       _sightListController.sink.add(list);
@@ -31,17 +31,17 @@ class SearchInteractor {
               sight.name.toLowerCase().contains(value.toLowerCase().trim()))
           .toList());
 
-  removeHistorySearchItem(String text) {
+  void removeHistorySearchItem(String text) {
     _wordsList.remove(text);
     _wordsListController.add(_wordsList.toList());
   }
 
-  removeAllHistorySearchItem() {
+  void removeAllHistorySearchItem() {
     _wordsList.clear();
     _wordsListController.add(_wordsList.toList());
   }
 
-  saveSearchHistory(String text) {
+  void saveSearchHistory(String text) {
     _wordsList.add(text.trim());
     _wordsListController.sink.add(_wordsList.toList());
   }

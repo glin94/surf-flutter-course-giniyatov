@@ -71,6 +71,7 @@ class GalleryWidget extends StatelessWidget {
   }
 }
 
+/// Кнопка назад
 class _BackButton extends StatelessWidget {
   const _BackButton({
     Key key,
@@ -142,6 +143,7 @@ class SightDetailsWidget extends StatelessWidget {
   }
 }
 
+/// Кнопка добавления места в 'Избранное'
 class _FavouriteButton extends StatelessWidget {
   const _FavouriteButton({
     Key key,
@@ -163,6 +165,7 @@ class _FavouriteButton extends StatelessWidget {
   }
 }
 
+/// Кнопка добавления места в 'Хочу посетить'
 class _PlanningButton extends StatelessWidget {
   const _PlanningButton({
     Key key,
@@ -186,6 +189,7 @@ class _PlanningButton extends StatelessWidget {
   }
 }
 
+/// Конпка построения маршрута
 class _RouteButton extends StatelessWidget {
   const _RouteButton({
     Key key,
@@ -194,18 +198,20 @@ class _RouteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        height: 48,
-        child: ElevatedButton.icon(
-          label: Text(
-            goButtonText,
-          ),
-          icon: SvgPicture.asset(icGO),
-          onPressed: () => print("GO!"),
-        ));
+      width: double.infinity,
+      height: 48,
+      child: ElevatedButton.icon(
+        label: Text(
+          goButtonText,
+        ),
+        icon: SvgPicture.asset(icGO),
+        onPressed: () => print("GO!"),
+      ),
+    );
   }
 }
 
+/// Детальное описание места
 class _SightDescription extends StatelessWidget {
   const _SightDescription({
     Key key,
