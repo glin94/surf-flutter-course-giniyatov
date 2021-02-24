@@ -9,7 +9,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_details.dart';
 
-///Карточка интересного места на главном экране
+/// Карточка интересного места на главном экране
 class SightCard extends StatelessWidget {
   SightCard({
     Key key,
@@ -31,7 +31,7 @@ class SightCard extends StatelessWidget {
 
   Widget visitingTextContainer = Container();
 
-  ///Карточка планируемых для посещения мест
+  /// Карточка планируемых для посещения мест
   SightCard.wantToVisit({@required this.sight}) {
     icons = [
       IconButton(
@@ -59,7 +59,7 @@ class SightCard extends StatelessWidget {
         ));
   }
 
-  ///Карточка для экрана посещенных мест (наследуется от SightCard)
+  /// Карточка для экрана посещенных мест (наследуется от SightCard)
   SightCard.visited({@required this.sight}) {
     icons = [
       IconButton(
@@ -91,7 +91,7 @@ class SightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        minHeight: 188,
+        minHeight: 218,
         maxHeight: 218,
       ),
       width: double.infinity,
@@ -149,7 +149,7 @@ class SightCard extends StatelessWidget {
   }
 }
 
-///Верхняя часть карточки интересного места на главном экране
+/// Верхняя часть карточки интересного места на главном экране
 class SightCardTop extends StatelessWidget {
   const SightCardTop({
     Key key,
@@ -213,7 +213,7 @@ class SightCardBottom extends StatelessWidget {
         minHeight: 92,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: const Radius.circular(16),
           bottomRight: const Radius.circular(16),

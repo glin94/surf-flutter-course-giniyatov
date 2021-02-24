@@ -6,7 +6,7 @@ import 'package:places/mocks.dart';
 import 'package:places/util/const.dart';
 import 'package:places/util/location_functions.dart';
 
-///Фильтр
+///  Фильтр
 class FilterInteractor {
   StreamController<List<Sight>> _sightsController =
       StreamController<List<Sight>>.broadcast();
@@ -27,7 +27,12 @@ class FilterInteractor {
 
   RangeValues get rangeValues => _rangeValues;
 
-  ///Фильтрованный список мест
+  RangeValues _rangeValues = RangeValues(
+    minDistanceM,
+    maxDistanceM,
+  );
+
+  ///  Фильтрованный список мест
   List<Sight> get filterSights => mocks
       .where(
         (item) => arePointsNear(
@@ -41,15 +46,11 @@ class FilterInteractor {
       .where(
         (sight) =>
             filterValues.where((category) => category["isTicked"]).toList().any(
-                  (item) => sight.type == item['name'].toLowerCase(),
+                  (item) =>
+                      sight.type.toLowerCase() == item['name'].toLowerCase(),
                 ),
       )
       .toList();
-
-  RangeValues _rangeValues = RangeValues(
-    minDistanceM,
-    maxDistanceM,
-  );
 
   ///Выбор категории
   set choiceFilterItem(Map item) {

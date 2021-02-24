@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/interactor/filter/sight_interactor.dart';
+import 'package:places/interactor/filter/new_sight_interactor.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 
-///Экран выбора категории
+/// Экран выбора категории
 class CategoryChoiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class CategoryChoiceScreen extends StatelessWidget {
   }
 }
 
-///Кнопка сохранения категории
+/// Кнопка сохранения категории
 class _SaveCategoryButton extends StatelessWidget {
   const _SaveCategoryButton({
     Key key,
@@ -73,7 +73,7 @@ class _SaveCategoryButton extends StatelessWidget {
   }
 }
 
-///Элемент списка категорий
+/// Элемент списка категорий
 class _CategoryTile extends StatelessWidget {
   final String name;
   const _CategoryTile({

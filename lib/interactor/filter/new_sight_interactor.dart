@@ -27,7 +27,7 @@ class SightInteractor {
   TextEditingController latTextController = TextEditingController();
   TextEditingController descTextController = TextEditingController();
 
-  validate() {
+  void validate() {
     _isValidateController.add(
       nameTextController.text.isNotEmpty &&
           lonTextController.text.isNotEmpty &&

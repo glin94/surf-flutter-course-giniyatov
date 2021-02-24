@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
 
-///Разделитель
+///  Разделитель
 class Separator extends StatelessWidget {
   const Separator({
     Key key,
@@ -9,7 +9,7 @@ class Separator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
+    return const Divider(
       height: 0.2,
       color: colorInnactiveBlack,
     );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/interactor/filter/sight_interactor.dart';
+import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/ui/common/widgets/text_clear_button.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
-///Форма для текста
+/// Поле ввода
 class TextFormFieldWidget extends StatelessWidget {
   final int maxLines;
   final TextInputType textInputType;
@@ -53,76 +54,33 @@ class TextFormFieldWidget extends StatelessWidget {
               color: colorInnactiveBlack,
             ),
             hintText: hintText,
-            suffix: _ClearButton(textController: textController),
+            suffix: TextClearButton(textController: textController),
             contentPadding: EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 16,
             ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: colorDarkRed,
-                width: 1.0,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: colorDarkRed,
-                width: 2.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: colorLightGreen,
-                width: 2.0,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: colorLightGreen,
-                width: 1.0,
-              ),
-            ),
+            errorBorder: _border(colorDarkRed, 2.0),
+            focusedErrorBorder: _border(colorDarkRed, 2.0),
+            focusedBorder: _border(colorLightGreen, 2.0),
+            enabledBorder: _border(colorLightGreen, 1.0),
           ),
         )
       ],
     );
   }
-}
 
-class _ClearButton extends StatelessWidget {
-  const _ClearButton({
-    Key key,
-    @required this.textController,
-  }) : super(key: key);
-
-  final TextEditingController textController;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        textController.clear();
-        sightInteractor.validate();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Icon(
-          Icons.clear,
-          size: 20,
-          color: Theme.of(context).primaryColor,
-        ),
+  OutlineInputBorder _border(Color color, double width) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(
+        color: color,
+        width: width,
       ),
     );
   }
 }
 
+/// Заголовок формы
 class CaptionText extends StatelessWidget {
   final String title;
   const CaptionText({

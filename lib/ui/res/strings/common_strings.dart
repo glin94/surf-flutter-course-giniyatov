@@ -19,8 +19,8 @@ const String sightListScreenTitle = "Список интересных мест"
 const String favoriteScreentitle = "Избранное";
 const String settingsScreenTitle = "Настройки";
 const String mapScreeenTitle = "Карта";
-
 const String addSightTitle = "Новое место";
+
 const String cancelButtonText = "Отмена";
 const String sightCategoryText = "Категория";
 const String sightNameText = "Название";
@@ -33,3 +33,9 @@ const String saveText = "Сохранить";
 const String unSelectText = "Не выбрано";
 const String selectMapCoordinatesText = "Указать на карте";
 const String addNewSightButton = "Новое место";
+const String searchBarHintText = "Поиск";
+const String clearSearchHistoryText = "Очистить историю";
+const String emptySearchText = "Ничего не найдено.";
+const String emptySearchText2 = "Попробуйте изменить параметры поиска";
+const String clearHistoryText = "Очистить историю";
+const String seacrhHistoryText = "ВЫ ИСКАЛИ";

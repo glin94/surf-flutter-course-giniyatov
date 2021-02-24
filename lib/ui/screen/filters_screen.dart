@@ -14,7 +14,7 @@ import 'package:places/util/const.dart';
 
 final filterInteractor = FilterInteractor();
 
-///Экран фильтров
+/// Экран фильтров
 class FiltersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,26 +25,38 @@ class FiltersScreen extends StatelessWidget {
           const _ClearButton(),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 24,
-          bottom: 8,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 24,
+              bottom: 8,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
                 const _FilterTable(),
                 const SizedBox(height: 56),
-                _RadiusSlider(),
-              ],
+                const _RadiusSlider(),
+              ]),
             ),
-            const _FilterButton(),
-          ],
-        ),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            fillOverscroll: true,
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: const _FilterButton(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -85,7 +97,7 @@ class _FilterTable extends StatelessWidget {
           stream: filterInteractor.filtersStream,
           builder: (context, snapshot) {
             return Wrap(
-              spacing: 44,
+              spacing: 40,
               runSpacing: 40,
               children: snapshot.data
                   .map(
@@ -176,7 +188,7 @@ class _TickChoice extends StatelessWidget {
   }
 }
 
-///Слайдер
+/// Слайдер
 class _RadiusSlider extends StatelessWidget {
   const _RadiusSlider({Key key}) : super(key: key);
 
@@ -202,7 +214,7 @@ class _RadiusSlider extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 RangeSlider(

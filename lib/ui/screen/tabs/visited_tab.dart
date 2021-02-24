@@ -33,6 +33,7 @@ class VisitedTab extends StatelessWidget {
           )
         : const EmptyPlacesScreen(
             iconsAssetText: icGO,
+            header: "Пусто",
             text: visitedPlacesEmptyText,
           );
   }
