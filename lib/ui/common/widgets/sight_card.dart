@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
@@ -6,8 +7,9 @@ import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/sight_details.dart';
 
-/// Карточка интересного места на главном экране
+///Карточка интересного места на главном экране
 class SightCard extends StatelessWidget {
   SightCard({
     Key key,
@@ -29,7 +31,7 @@ class SightCard extends StatelessWidget {
 
   Widget visitingTextContainer = Container();
 
-  ///  Карточка планируемых для посещения мест
+  ///Карточка планируемых для посещения мест
   SightCard.wantToVisit({@required this.sight}) {
     icons = [
       IconButton(
@@ -57,7 +59,7 @@ class SightCard extends StatelessWidget {
         ));
   }
 
-  ///  Карточка для экрана посещенных мест (наследуется от SightCard)
+  ///Карточка для экрана посещенных мест (наследуется от SightCard)
   SightCard.visited({@required this.sight}) {
     icons = [
       IconButton(
@@ -125,7 +127,12 @@ class SightCard extends StatelessWidget {
                 highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
                 splashColor: Theme.of(context).accentColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(16),
-                onTap: () {},
+                onTap: () => Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (c) => SightDetails(sight: sight),
+                  ),
+                ),
               ),
             ),
             Positioned(
@@ -142,7 +149,7 @@ class SightCard extends StatelessWidget {
   }
 }
 
-/// Верхняя часть карточки интересного места на главном экране
+///Верхняя часть карточки интересного места на главном экране
 class SightCardTop extends StatelessWidget {
   const SightCardTop({
     Key key,
@@ -186,7 +193,7 @@ class SightCardTop extends StatelessWidget {
   }
 }
 
-/// Нижняя часть карточки интересного места на главном экране
+///Нижняя часть карточки интересного места на главном экране
 class SightCardBottom extends StatelessWidget {
   const SightCardBottom({
     Key key,

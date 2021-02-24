@@ -9,12 +9,9 @@ class Separator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Divider(
-        height: 0.2,
-        color: colorInnactiveBlack,
-      ),
+    return Divider(
+      height: 0.2,
+      color: colorInnactiveBlack,
     );
   }
 }

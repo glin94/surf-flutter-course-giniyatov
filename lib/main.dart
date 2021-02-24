@@ -43,7 +43,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
 
   static List<Widget> _screens = <Widget>[
-    SightListScreen(),
+    const SightListScreen(),
     FiltersScreen(),
     VisitingScreen(),
     SettingsScreen()

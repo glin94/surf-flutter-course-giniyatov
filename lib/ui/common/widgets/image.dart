@@ -12,19 +12,22 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent loadingProgress) {
-        if (loadingProgress == null) return child;
-        return const Center(
-          child: const CupertinoActivityIndicator(
-            radius: 16,
-            animating: true,
-          ),
-        );
-      },
-    );
+    return url == null
+        ? Container()
+        : Image.network(
+            url,
+            fit: BoxFit.cover,
+            errorBuilder: (c, o, trace) => Container(),
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return const Center(
+                child: const CupertinoActivityIndicator(
+                  radius: 16,
+                  animating: true,
+                ),
+              );
+            },
+          );
   }
 }

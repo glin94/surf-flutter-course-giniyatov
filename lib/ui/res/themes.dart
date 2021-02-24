@@ -45,6 +45,7 @@ final lightTheme = ThemeData(
     caption: textCaption.copyWith(
       color: colorInnactiveBlack,
     ),
+    button: textBody1,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
@@ -117,6 +118,7 @@ final darkTheme = ThemeData(
     caption: textCaption.copyWith(
       color: colorInnactiveBlack,
     ),
+    button: textBody1,
   ),
   primaryColor: colorDarkSecondary,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(

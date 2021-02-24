@@ -20,33 +20,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(
           title: Text(settingsScreenTitle),
         ),
-        body: ListView(
-          children: [
-            ListTile(
-              title: Text(
-                darkModeSwitcherText,
-                style: Theme.of(context).textTheme.subtitle1,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  darkModeSwitcherText,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                trailing: CupertinoSwitch(
+                  value: themeModel.isDark,
+                  onChanged: (val) =>
+                      setState(() => themeModel.changeTheme = val),
+                ),
               ),
-              trailing: CupertinoSwitch(
-                value: themeModel.isDark,
-                onChanged: (val) =>
-                    setState(() => themeModel.changeTheme = val),
+              const Separator(),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  tutorialViewText,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                trailing: SvgPicture.asset(
+                  icInfo,
+                  color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
+                ),
+                onTap: () {},
               ),
-            ),
-            const Separator(),
-            ListTile(
-              title: Text(
-                tutorialViewText,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              trailing: SvgPicture.asset(
-                icInfo,
-                color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
-              ),
-              onTap: () {},
-            ),
-            const Separator()
-          ],
+              const Separator(),
+            ],
+          ),
         ));
   }
 }

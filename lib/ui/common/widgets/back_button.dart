@@ -11,12 +11,13 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      padding: EdgeInsets.zero,
       iconSize: 32,
       icon: SvgPicture.asset(
         icArrow,
         color: Theme.of(context).accentColor,
       ),
-      onPressed: () {},
+      onPressed: () => Navigator.of(context).pop(),
     );
   }
 }
