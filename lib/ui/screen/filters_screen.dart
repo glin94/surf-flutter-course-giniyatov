@@ -29,11 +29,9 @@ class FiltersScreen extends StatelessWidget {
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: <Widget>[
           SliverPadding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 24,
-              bottom: 8,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
@@ -50,7 +48,10 @@ class FiltersScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 16,
+                  ),
                   child: const _FilterButton(),
                 ),
               ),

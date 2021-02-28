@@ -16,24 +16,41 @@ class CategoryChoiceScreen extends StatelessWidget {
         title: const Text(sightCategoryText),
         leading: const CustomBackButton(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: categoryValues
-                  .map(
-                    (item) => _CategoryTile(name: item["name"]),
-                  )
-                  .toList(),
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
             ),
-            const _SaveCategoryButton()
-          ],
-        ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                categoryValues
+                    .map(
+                      (item) => _CategoryTile(name: item["name"]),
+                    )
+                    .toList(),
+              ),
+            ),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            fillOverscroll: true,
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 16,
+                  ),
+                  child: const _SaveCategoryButton(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -51,22 +68,17 @@ class _SaveCategoryButton extends StatelessWidget {
         initialData: sightInteractor.categoryName,
         stream: sightInteractor.choicedCategoryControllerStream,
         builder: (context, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-            ),
-            child: Container(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton(
-                onPressed: snapshot.data.isNotEmpty
-                    ? () {
-                        sightInteractor.validate();
-                        Navigator.of(context).pop();
-                      }
-                    : null,
-                child: Text(saveText.toUpperCase()),
-              ),
+          return Container(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: snapshot.data.isNotEmpty
+                  ? () {
+                      sightInteractor.validate();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
+              child: Text(saveText.toUpperCase()),
             ),
           );
         });
@@ -88,6 +100,7 @@ class _CategoryTile extends StatelessWidget {
       stream: sightInteractor.choicedCategoryControllerStream,
       builder: (context, snapshot) {
         return ListTile(
+          contentPadding: EdgeInsets.zero,
           onTap: () {
             sightInteractor.category = name;
           },

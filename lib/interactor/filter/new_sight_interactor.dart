@@ -9,8 +9,8 @@ SightInteractor sightInteractor = SightInteractor();
 class SightInteractor {
   String categoryName = "";
 
-  StreamController<List> _sightListController =
-      StreamController<List>.broadcast();
+  StreamController<List<Sight>> _sightListController =
+      StreamController<List<Sight>>.broadcast();
 
   StreamController<bool> _isValidateController =
       StreamController<bool>.broadcast();
@@ -18,7 +18,7 @@ class SightInteractor {
   StreamController<String> _choicedCategoryController =
       StreamController<String>.broadcast();
   Stream<bool> get isValidateStream => _isValidateController.stream;
-  Stream<List> get sightListStream => _sightListController.stream;
+  Stream<List<Sight>> get sightListStream => _sightListController.stream;
   Stream<String> get choicedCategoryControllerStream =>
       _choicedCategoryController.stream;
 

@@ -9,6 +9,7 @@ import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/sight_search_screen.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatelessWidget {
@@ -25,10 +26,9 @@ class SightListScreen extends StatelessWidget {
           sightListScreenTitle,
         ),
       ),
-      // PreferredSize(
+      //     PreferredSize(
       //   preferredSize: Size.fromHeight(100),
-      //   child:
-      //    AppBar(
+      //   child: AppBar(
       //     elevation: 0,
       //     centerTitle: false,
       //     toolbarHeight: 100,
@@ -50,9 +50,15 @@ class SightListScreen extends StatelessWidget {
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
+                  elevation: 0,
                   primary: false,
-                  title: const SearchBar(
-                    enable: false,
+                  title: GestureDetector(
+                    onTap: () => Navigator.of(context).push(CupertinoPageRoute(
+                      builder: (context) => SightSearchScreen(),
+                    )),
+                    child: const SearchBar(
+                      enable: false,
+                    ),
                   ),
                 ),
                 CupertinoSliverRefreshControl(
@@ -63,13 +69,13 @@ class SightListScreen extends StatelessWidget {
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 14,
+                    vertical: 24,
                   ),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: SightCard(sight: sightList[index]),
                         );
                       },

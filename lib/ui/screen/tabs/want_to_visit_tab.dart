@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 
-/// Экран ""Хочу посетить"
-class WantToVisitTab extends StatelessWidget {
-  final List wantToVisitList =
-      mocks.where((element) => !element.isAchieved).toList();
+/// Экран "Хочу посетить"
+class WantToVisitTab extends StatefulWidget {
+  @override
+  _WantToVisitTabState createState() => _WantToVisitTabState();
+}
+
+class _WantToVisitTabState extends State<WantToVisitTab> {
+  List<Sight> wantToVisitList =
+      mocks.where((sight) => !sight.isAchieved).toList();
   @override
   Widget build(BuildContext context) {
     return wantToVisitList.isNotEmpty
-        ? SingleChildScrollView(
+        ? ListView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
-              vertical: 16,
+              vertical: 24,
             ),
-            child: Column(
-              children: mocks
-                  .where((element) => !element.isAchieved)
-                  .toList()
-                  .map<Widget>(
-                    (item) => Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 11,
-                      ),
-                      child: SightCard.wantToVisit(
-                        sight: item,
-                      ),
+            children: wantToVisitList
+                .map<Widget>(
+                  (sight) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: SightCardWanted(
+                      key: ValueKey(sight.name),
+                      sight: sight,
+                      onDelete: () =>
+                          setState(() => wantToVisitList.remove(sight)),
                     ),
-                  )
-                  .toList(),
-            ),
+                  ),
+                )
+                .toList(),
           )
         : const EmptyPlacesScreen(
             iconsAssetText: icCamera,
