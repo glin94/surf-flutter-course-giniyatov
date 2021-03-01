@@ -240,7 +240,7 @@ class _SightDescription extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                openOrCloseText(sight),
+                openOrCloseText(sight.isOpen, sight.openingTime),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                       color: colorInnactiveBlack,
                     ),

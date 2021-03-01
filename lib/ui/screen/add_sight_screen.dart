@@ -45,7 +45,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                const SizedBox(height: 40),
                 const _GalleryWidget(),
                 const _CategoryChoiceTile(),
                 const SizedBox(height: 24),
@@ -107,7 +106,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 16,
+                  ),
                   child: const _AddSightButton(),
                 ),
               ),
@@ -224,6 +226,6 @@ class _GalleryWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(height: 72);
   }
 }
