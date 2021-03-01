@@ -58,7 +58,7 @@ class GalleryWidget extends StatelessWidget {
               color: Colors.transparent.withOpacity(.4),
               gradient: cardGradient),
           child: ImageWidget(
-            url: sight.url,
+            url: sight.imgListUrl.first,
           ),
         ),
         Positioned(

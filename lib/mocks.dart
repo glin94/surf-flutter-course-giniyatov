@@ -42,7 +42,9 @@ List<Map<String, dynamic>> categoryValues = [
 final List<Sight> mocks = [
   Sight(
     name: "Парк Тысячелетия",
-    url: "https://cont.ws/uploads/pic/2016/4/0_80c1a_ee4ab833_orig.jpg",
+    imgListUrl: [
+      "https://cont.ws/uploads/pic/2016/4/0_80c1a_ee4ab833_orig.jpg"
+    ],
     openingHours: [0, 0],
     details:
         "Парк в Вахитовском районе Казани. Встречается также альтернативное название парка - «парк Миллениум».",
@@ -53,8 +55,9 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: "Apollo cafe",
-    url:
-        "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL",
+    imgListUrl: [
+      "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL"
+    ],
     openingHours: [9, 18],
     details:
         "Благодаря нам Вы сможете насладиться сытными завтраками и основными блюдами нашего кафе, не выходя из дома. Вам не придется тратить время на кухне. Мы готовим из свежих и вкусных продуктов, упаковываем каждое блюда так,чтобы заказ был доставлен еще горячим.",
@@ -65,8 +68,9 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: "Театр имени Г. Камала",
-    url:
-        "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg",
+    imgListUrl: [
+      "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg"
+    ],
     openingHours: [10, 20],
     details:
         "Татарский государственный академический театр имени Галиаскара Камала г. Казани, (Татарстан), на улице Татарстан и одноимённой площади.",
@@ -77,8 +81,9 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: "Мечеть «Кул-Шариф»",
-    url:
-        "https://upload.wikimedia.org/wikipedia/commons/d/d1/Kazan_Kremlin_Qolsharif_Mosque_08-2016_img2.jpg?uselang=ru",
+    imgListUrl: [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Kazan_Kremlin_Qolsharif_Mosque_08-2016_img2.jpg?uselang=ru"
+    ],
     openingHours: [9, 20],
     details:
         "Главная соборная джума-мечеть республики Татарстан и города Казани (с 2005 года); расположена на территории Казанского кремля; одна из главных достопримечательностей города.",
