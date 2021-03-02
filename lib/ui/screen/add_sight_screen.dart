@@ -250,11 +250,18 @@ class _PicturesGalleryWidget extends StatelessWidget {
                         .map<Widget>(
                           (item) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SmallSightPictureWidget(
-                              key: ValueKey(item),
-                              onRemove: () => sightInteractor.deleteImage(item),
-                              imageUrl: item,
-                              size: 72,
+                            child: Dismissible(
+                              direction: DismissDirection.up,
+                              onDismissed: (DismissDirection direction) =>
+                                  sightInteractor.deleteImage(item),
+                              key: UniqueKey(),
+                              child: SmallSightPictureWidget(
+                                key: ValueKey(item),
+                                onRemove: () =>
+                                    sightInteractor.deleteImage(item),
+                                imageUrl: item,
+                                size: 72,
+                              ),
                             ),
                           ),
                         )
