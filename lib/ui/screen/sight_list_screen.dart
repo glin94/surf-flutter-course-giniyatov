@@ -7,7 +7,6 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
-import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 
