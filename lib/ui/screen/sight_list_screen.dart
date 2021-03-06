@@ -47,6 +47,7 @@ class SightListScreen extends StatelessWidget {
           builder: (context, snapshot) {
             final sightList = snapshot.data;
             return CustomScrollView(
+              physics: BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverAppBar(
                   elevation: 0,

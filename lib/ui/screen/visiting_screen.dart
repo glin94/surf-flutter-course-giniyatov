@@ -188,7 +188,7 @@ class _TabItemState extends State<_TabItem> {
                         key: ValueKey(sight),
                         sight: sight,
                         onDelete: () => setState(
-                          () => widget.sightList.remove(sight),
+                          () => widget.sightList.removeAt(index),
                         ),
                       ),
                     );

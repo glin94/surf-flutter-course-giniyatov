@@ -6,6 +6,7 @@ import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_details.dart';
 
@@ -97,18 +98,22 @@ class _SightCardTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      constraints: const BoxConstraints(
-        maxHeight: 96,
-        minHeight: 96,
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: const Radius.circular(16.0),
+        topRight: const Radius.circular(16.0),
       ),
-      foregroundDecoration: _buildDecoration(),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: const Radius.circular(16.0),
-          topRight: const Radius.circular(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
         ),
+        width: MediaQuery.of(context).size.width,
+        constraints: const BoxConstraints(
+          maxHeight: 96,
+          minHeight: 96,
+        ),
+        foregroundDecoration: _buildDecoration(),
         child: ImageWidget(
           url: imgUrl,
         ),
@@ -181,7 +186,7 @@ class _SightCardBottom extends StatelessWidget {
 }
 
 /// Карточка интересного места на экранах "Хочу посетить"/"Посетил"
-class FavoriteSightCard extends StatefulWidget {
+class FavoriteSightCard extends StatelessWidget {
   const FavoriteSightCard({
     Key key,
     this.sight,
@@ -193,99 +198,155 @@ class FavoriteSightCard extends StatefulWidget {
   final VoidCallback onDelete;
 
   @override
-  _FavoriteSightCardState createState() => _FavoriteSightCardState();
-}
-
-class _FavoriteSightCardState extends State<FavoriteSightCard> {
-  @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: 168,
-          maxHeight: 218,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: AspectRatio(
-          aspectRatio: 3 / 2,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
-                  _SightCardBottom(
-                    sight: widget.sight,
-                    visitingText: Container(
-                      height: 30,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Dismissible(
+        key: key,
+        background: const _DeleteBackgroundSwipe(),
+        direction: DismissDirection.endToStart,
+        onDismissed: (direction) => onDelete(),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.red),
+          child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            type: MaterialType.transparency,
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: 168,
+                maxHeight: 218,
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: AspectRatio(
+                aspectRatio: 3 / 2,
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        _SightCardTop(imgUrl: sight.imgListUrl.first),
+                        _SightCardBottom(
+                          sight: sight,
+                          visitingText: Container(
+                            height: 30,
+                            child: Text(
+                              sight.plannedOrAchievedText,
+                              style: textBody2.copyWith(
+                                color: sight.isAchieved
+                                    ? colorDarkSecondary2
+                                    : colorLightGreen,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      top: 16,
+                      left: 16,
                       child: Text(
-                        widget.sight.plannedOrAchievedText,
-                        style: textBody2.copyWith(
-                          color: widget.sight.isAchieved
-                              ? colorDarkSecondary2
-                              : colorLightGreen,
+                        sight.type.toLowerCase(),
+                        style: textBody1.copyWith(
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 16,
-                left: 16,
-                child: Text(
-                  widget.sight.type.toLowerCase(),
-                  style: textBody1.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  highlightColor:
-                      Theme.of(context).primaryColor.withOpacity(0.2),
-                  splashColor: Theme.of(context).accentColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () => Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (c) => SightDetails(sight: widget.sight),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        highlightColor:
+                            Theme.of(context).primaryColor.withOpacity(0.2),
+                        splashColor:
+                            Theme.of(context).accentColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (c) => SightDetails(sight: sight),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Wrap(children: [
-                  widget.sight.isAchieved
-                      ? IconButton(
-                          onPressed: () => print("share"),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Wrap(children: [
+                        sight.isAchieved
+                            ? IconButton(
+                                onPressed: () => print("share"),
+                                icon: SvgPicture.asset(
+                                  icShare,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : IconButton(
+                                onPressed: () => print("share"),
+                                icon: SvgPicture.asset(
+                                  icCalendar,
+                                  color: Colors.white,
+                                ),
+                              ),
+                        IconButton(
+                          onPressed: onDelete,
                           icon: SvgPicture.asset(
-                            icShare,
+                            icClose,
                             color: Colors.white,
                           ),
                         )
-                      : IconButton(
-                          onPressed: () => print("share"),
-                          icon: SvgPicture.asset(
-                            icCalendar,
-                            color: Colors.white,
-                          ),
-                        ),
-                  IconButton(
-                    onPressed: widget.onDelete,
-                    icon: SvgPicture.asset(
-                      icClose,
-                      color: Colors.white,
+                      ]),
                     ),
-                  )
-                ]),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _DeleteBackgroundSwipe extends StatelessWidget {
+  const _DeleteBackgroundSwipe({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        color: colorError,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  icBuckets,
+                  color: Colors.white,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  deleteSightText,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Colors.white),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -28,12 +28,14 @@ class SmallSightPictureWidget extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 2,
-          right: 2,
-          child: GestureDetector(
-              onTap: onRemove, child: SvgPicture.asset(icRemove)),
-        )
+        onRemove == null
+            ? SizedBox.shrink()
+            : Positioned(
+                top: 2,
+                right: 2,
+                child: GestureDetector(
+                    onTap: onRemove, child: SvgPicture.asset(icRemove)),
+              )
       ],
     );
   }

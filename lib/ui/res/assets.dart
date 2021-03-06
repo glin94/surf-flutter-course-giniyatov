@@ -31,3 +31,5 @@ const String icInfo = '$_baseResPath/Info.svg';
 const String icFilter = '$_baseResPath/Filter.svg';
 const String icSearch = '$_baseResPath/Search.svg';
 const String icRemove = '$_baseResPath/Remove.svg';
+
+const String icBuckets = '$_baseResPath/Bucket.svg';
