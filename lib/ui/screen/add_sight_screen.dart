@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +40,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
         ),
       ),
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: Platform.isAndroid
+            ? ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics())
+            : BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: <Widget>[
           SliverPadding(
             padding: const EdgeInsets.symmetric(
@@ -244,29 +248,23 @@ class _PicturesGalleryWidget extends StatelessWidget {
                 children: [
                   const _AddPictureButton(),
                   ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: imgList
-                        .map<Widget>(
-                          (item) => Padding(
+                      physics: Platform.isAndroid
+                          ? ClampingScrollPhysics()
+                          : BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        for (var item in imgList)
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Dismissible(
-                              direction: DismissDirection.up,
-                              onDismissed: (DismissDirection direction) =>
-                                  sightInteractor.deleteImage(item),
-                              key: UniqueKey(),
-                              child: SmallSightPictureWidget(
-                                key: ValueKey(item),
-                                onRemove: () =>
-                                    sightInteractor.deleteImage(item),
-                                imageUrl: item,
-                                size: 72,
-                              ),
+                            child: SmallSightPictureWidget(
+                              key: ValueKey(item),
+                              onRemove: () => sightInteractor.deleteImage(item),
+                              imageUrl: item,
+                              size: 72,
                             ),
-                          ),
-                        )
-                        .toList(),
-                  )
+                          )
+                      ])
                 ],
               ),
             );

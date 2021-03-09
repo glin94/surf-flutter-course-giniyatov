@@ -11,8 +11,11 @@ class SmallSightPictureWidget extends StatelessWidget {
   }) : super(key: key);
 
   final String imageUrl;
+
   final double size;
+
   final VoidCallback onRemove;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
