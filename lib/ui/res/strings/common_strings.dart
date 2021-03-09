@@ -39,3 +39,4 @@ const String emptySearchText = "Ничего не найдено.";
 const String emptySearchText2 = "Попробуйте изменить параметры поиска";
 const String clearHistoryText = "Очистить историю";
 const String seacrhHistoryText = "ВЫ ИСКАЛИ";
+const String deleteSightText = "Удалить";
