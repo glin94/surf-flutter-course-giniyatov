@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 class Sight {
   Sight({
     this.name,
-    this.url,
+    this.imgListUrl,
     this.details,
     this.type,
     this.openingHours,
@@ -13,7 +13,9 @@ class Sight {
     this.isFavorite = false,
   });
 
-  final String name, url, details, type;
+  final String name, details, type;
+
+  final List<String> imgListUrl;
 
   /// Часы работы, например [9,18] c 9:00 до 18:00
   final List<int> openingHours;

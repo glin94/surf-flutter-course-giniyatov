@@ -5,6 +5,7 @@ import 'package:places/interactor/filter/search_interactor.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/separator.dart';
+import 'package:places/ui/common/widgets/small_sight_picture.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -243,16 +244,9 @@ class _SearchListTile extends StatelessWidget {
           ),
         ),
       ),
-      leading: Container(
-        height: 56,
-        width: 56,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(sight.url),
-          ),
-        ),
+      leading: SmallSightPictureWidget(
+        imageUrl: sight.imgListUrl.first,
+        size: 56,
       ),
     );
   }

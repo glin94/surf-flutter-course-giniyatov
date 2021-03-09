@@ -11,12 +11,12 @@ import 'package:places/ui/screen/sight_details.dart';
 
 // Карточка интересного места на главном экране
 class SightCard extends StatefulWidget {
-  final Sight sight;
-
   SightCard({
-    ValueKey key,
+    Key key,
     @required this.sight,
   }) : super(key: key);
+
+  final Sight sight;
 
   @override
   _SightCardState createState() => _SightCardState();
@@ -37,9 +37,7 @@ class _SightCardState extends State<SightCard> {
           children: [
             Column(
               children: [
-                _SightCardTop(
-                  url: widget.sight.url,
-                ),
+                _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
                 _SightCardBottom(
                   sight: widget.sight,
                   visitingText: Container(),
@@ -92,10 +90,10 @@ class _SightCardState extends State<SightCard> {
 class _SightCardTop extends StatelessWidget {
   const _SightCardTop({
     Key key,
-    @required this.url,
+    @required this.imgUrl,
   }) : super(key: key);
 
-  final String url;
+  final String imgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +110,7 @@ class _SightCardTop extends StatelessWidget {
           topRight: const Radius.circular(16.0),
         ),
         child: ImageWidget(
-          url: url,
+          url: imgUrl,
         ),
       ),
     );
@@ -120,13 +118,14 @@ class _SightCardTop extends StatelessWidget {
 
   BoxDecoration _buildDecoration() {
     return BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topLeft: const Radius.circular(16),
-          topRight: const Radius.circular(16),
-        ),
-        backgroundBlendMode: BlendMode.multiply,
-        color: Colors.transparent.withOpacity(.4),
-        gradient: cardGradient);
+      borderRadius: const BorderRadius.only(
+        topLeft: const Radius.circular(16),
+        topRight: const Radius.circular(16),
+      ),
+      backgroundBlendMode: BlendMode.multiply,
+      color: Colors.transparent.withOpacity(.4),
+      gradient: cardGradient,
+    );
   }
 }
 
@@ -139,6 +138,7 @@ class _SightCardBottom extends StatelessWidget {
   }) : super(key: key);
 
   final Sight sight;
+
   final Widget visitingText;
 
   @override
@@ -165,9 +165,7 @@ class _SightCardBottom extends StatelessWidget {
             maxLines: 2,
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          const SizedBox(
-            height: 2,
-          ),
+          const SizedBox(height: 2),
           visitingText,
           Text(
             openOrCloseText(sight.isOpen, sight.openingTime),
@@ -184,13 +182,15 @@ class _SightCardBottom extends StatelessWidget {
 
 /// Карточка интересного места на экране "Хочу посетить"
 class SightCardWanted extends StatelessWidget {
-  final Sight sight;
-  final Function onDelete;
   const SightCardWanted({
     Key key,
     this.sight,
     this.onDelete,
   }) : super(key: key);
+
+  final Sight sight;
+
+  final Function onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +206,7 @@ class SightCardWanted extends StatelessWidget {
           children: [
             Column(
               children: [
-                _SightCardTop(url: sight.url),
+                _SightCardTop(imgUrl: sight.imgListUrl.first),
                 _SightCardBottom(
                   sight: sight,
                   visitingText: Container(
@@ -274,10 +274,15 @@ class SightCardWanted extends StatelessWidget {
 
 /// Карточка интересного места на экране "Посетил"
 class SightCardVisited extends StatelessWidget {
+  const SightCardVisited({
+    Key key,
+    this.sight,
+    this.onDelete,
+  }) : super(key: key);
+
   final Sight sight;
+
   final Function onDelete;
-  const SightCardVisited({Key key, this.sight, this.onDelete})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +298,7 @@ class SightCardVisited extends StatelessWidget {
           children: [
             Column(
               children: [
-                _SightCardTop(url: sight.url),
+                _SightCardTop(imgUrl: sight.imgListUrl.first),
                 _SightCardBottom(
                   sight: sight,
                   visitingText: Container(

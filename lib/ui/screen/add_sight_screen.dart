@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/separator.dart';
+import 'package:places/ui/common/widgets/small_sight_picture.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -45,7 +47,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                const _GalleryWidget(),
+                const _PicturesGalleryWidget(),
+                const SizedBox(height: 24),
                 const _CategoryChoiceTile(),
                 const SizedBox(height: 24),
                 TextFormFieldWidget(
@@ -213,19 +216,86 @@ class _CategoryChoiceTile extends StatelessWidget {
             color: Theme.of(context).textTheme.bodyText1.color,
           ),
         ),
-        Separator()
+        const Separator()
       ],
     );
   }
 }
 
 ///Галерея картинок
-class _GalleryWidget extends StatelessWidget {
-  const _GalleryWidget({
+class _PicturesGalleryWidget extends StatelessWidget {
+  const _PicturesGalleryWidget({
     Key key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(height: 72);
+    return Container(
+      height: 72,
+      child: StreamBuilder<List<String>>(
+          initialData: sightInteractor.imageList,
+          stream: sightInteractor.imageListStream,
+          builder: (context, snapshot) {
+            final imgList = snapshot.data;
+            return SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  const _AddPictureButton(),
+                  ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: imgList
+                        .map<Widget>(
+                          (item) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: SmallSightPictureWidget(
+                              key: ValueKey(item),
+                              onRemove: () => sightInteractor.deleteImage(item),
+                              imageUrl: item,
+                              size: 72,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
+  }
+}
+
+class _AddPictureButton extends StatelessWidget {
+  const _AddPictureButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      highlightColor: colorLightGreen.withOpacity(0.05),
+      onTap: () => sightInteractor.addImage(mocks[1].imgListUrl.first),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: 72,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Color.fromRGBO(76, 175, 80, 0.48),
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            size: 40,
+            color: colorLightGreen,
+          ),
+        ),
+      ),
+    );
   }
 }
