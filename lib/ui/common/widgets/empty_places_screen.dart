@@ -4,12 +4,12 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Заглушка для экранов
-class EmptyPlacesScreen extends StatelessWidget {
+class EmptyPlaceScreen extends StatelessWidget {
   final String iconsAssetText;
   final String header;
   final String text;
 
-  const EmptyPlacesScreen({
+  const EmptyPlaceScreen({
     Key key,
     this.iconsAssetText,
     this.header,

@@ -26,11 +26,11 @@ class _SightCardState extends State<SightCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        minHeight: 218,
+      constraints: const BoxConstraints(
+        minHeight: 168,
         maxHeight: 218,
       ),
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       child: AspectRatio(
         aspectRatio: 3 / 2,
         child: Stack(
@@ -40,7 +40,7 @@ class _SightCardState extends State<SightCard> {
                 _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
                 _SightCardBottom(
                   sight: widget.sight,
-                  visitingText: Container(),
+                  visitingText: const SizedBox.shrink(),
                 ),
               ],
             ),
@@ -86,7 +86,7 @@ class _SightCardState extends State<SightCard> {
   }
 }
 
-/// Верхняя часть карточки интересного места на главном экране
+/// Верхняя часть карточки интересного места
 class _SightCardTop extends StatelessWidget {
   const _SightCardTop({
     Key key,
@@ -98,8 +98,8 @@ class _SightCardTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      constraints: BoxConstraints(
+      width: MediaQuery.of(context).size.width,
+      constraints: const BoxConstraints(
         maxHeight: 96,
         minHeight: 96,
       ),
@@ -129,7 +129,7 @@ class _SightCardTop extends StatelessWidget {
   }
 }
 
-///Нижняя часть карточки интересного места на главном экране
+///Нижняя часть карточки интересного места
 class _SightCardBottom extends StatelessWidget {
   const _SightCardBottom({
     Key key,
@@ -144,10 +144,10 @@ class _SightCardBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      constraints: BoxConstraints(
+      width: MediaQuery.of(context).size.width,
+      constraints: const BoxConstraints(
         maxHeight: 122,
-        minHeight: 92,
+        minHeight: 72,
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
@@ -180,9 +180,9 @@ class _SightCardBottom extends StatelessWidget {
   }
 }
 
-/// Карточка интересного места на экране "Хочу посетить"
-class SightCardWanted extends StatelessWidget {
-  const SightCardWanted({
+/// Карточка интересного места на экранах "Хочу посетить"/"Посетил"
+class FavoriteSightCard extends StatefulWidget {
+  const FavoriteSightCard({
     Key key,
     this.sight,
     this.onDelete,
@@ -190,176 +190,131 @@ class SightCardWanted extends StatelessWidget {
 
   final Sight sight;
 
-  final Function onDelete;
+  final VoidCallback onDelete;
 
   @override
+  _FavoriteSightCardState createState() => _FavoriteSightCardState();
+}
+
+class _FavoriteSightCardState extends State<FavoriteSightCard> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: 218,
-        maxHeight: 218,
-      ),
-      width: double.infinity,
-      child: AspectRatio(
-        aspectRatio: 3 / 2,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                _SightCardTop(imgUrl: sight.imgListUrl.first),
-                _SightCardBottom(
-                  sight: sight,
-                  visitingText: Container(
-                    height: 30,
-                    child: Text(
-                      sight.plannedOrAchievedText,
-                      style: textBody2.copyWith(
-                        color: colorLightGreen,
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: 168,
+          maxHeight: 218,
+        ),
+        width: MediaQuery.of(context).size.width,
+        child: AspectRatio(
+          aspectRatio: 3 / 2,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
+                  _SightCardBottom(
+                    sight: widget.sight,
+                    visitingText: Container(
+                      height: 30,
+                      child: Text(
+                        widget.sight.plannedOrAchievedText,
+                        style: textBody2.copyWith(
+                          color: widget.sight.isAchieved
+                              ? colorDarkSecondary2
+                              : colorLightGreen,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 16,
-              left: 16,
-              child: Text(
-                sight.type.toLowerCase(),
-                style: textBody1.copyWith(
-                  color: Colors.white,
-                ),
+                ],
               ),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
-                splashColor: Theme.of(context).accentColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(16),
-                onTap: () => Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (c) => SightDetails(sight: sight),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Wrap(children: [
-                IconButton(
-                  onPressed: () => print("share"),
-                  icon: SvgPicture.asset(
-                    icCalendar,
+              Positioned(
+                top: 16,
+                left: 16,
+                child: Text(
+                  widget.sight.type.toLowerCase(),
+                  style: textBody1.copyWith(
                     color: Colors.white,
                   ),
                 ),
-                IconButton(
-                  onPressed: onDelete,
-                  icon: SvgPicture.asset(
-                    icClose,
-                    color: Colors.white,
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  highlightColor:
+                      Theme.of(context).primaryColor.withOpacity(0.2),
+                  splashColor: Theme.of(context).accentColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (c) => SightDetails(sight: widget.sight),
+                    ),
                   ),
-                )
-              ]),
-            ),
-          ],
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Wrap(children: [
+                  widget.sight.isAchieved
+                      ? IconButton(
+                          onPressed: () => print("share"),
+                          icon: SvgPicture.asset(
+                            icShare,
+                            color: Colors.white,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () => print("share"),
+                          icon: SvgPicture.asset(
+                            icCalendar,
+                            color: Colors.white,
+                          ),
+                        ),
+                  IconButton(
+                    onPressed: widget.onDelete,
+                    icon: SvgPicture.asset(
+                      icClose,
+                      color: Colors.white,
+                    ),
+                  )
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-/// Карточка интересного места на экране "Посетил"
-class SightCardVisited extends StatelessWidget {
-  const SightCardVisited({
+///Обертка для перетаскивания
+class DraggableCard extends StatefulWidget {
+  const DraggableCard({
     Key key,
+    this.child,
     this.sight,
-    this.onDelete,
   }) : super(key: key);
+
+  final Widget child;
 
   final Sight sight;
 
-  final Function onDelete;
+  @override
+  _DraggableCardState createState() => _DraggableCardState();
+}
 
+class _DraggableCardState extends State<DraggableCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: 218,
-        maxHeight: 218,
-      ),
-      width: double.infinity,
-      child: AspectRatio(
-        aspectRatio: 3 / 2,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                _SightCardTop(imgUrl: sight.imgListUrl.first),
-                _SightCardBottom(
-                  sight: sight,
-                  visitingText: Container(
-                    height: 30,
-                    child: Text(
-                      sight.plannedOrAchievedText,
-                      style: textBody2.copyWith(
-                        color: colorDarkSecondary2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 16,
-              left: 16,
-              child: Text(
-                sight.type.toLowerCase(),
-                style: textBody1.copyWith(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
-                splashColor: Theme.of(context).accentColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(16),
-                onTap: () => Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (c) => SightDetails(sight: sight),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Wrap(children: [
-                IconButton(
-                  onPressed: () => print("share"),
-                  icon: SvgPicture.asset(
-                    icShare,
-                    color: Colors.white,
-                  ),
-                ),
-                IconButton(
-                  onPressed: onDelete,
-                  icon: SvgPicture.asset(
-                    icClose,
-                    color: Colors.white,
-                  ),
-                )
-              ]),
-            ),
-          ],
-        ),
-      ),
+    return Draggable<Sight>(
+      data: widget.sight,
+      childWhenDragging: SizedBox.shrink(),
+      feedback: widget.child,
+      child: widget.child,
     );
   }
 }

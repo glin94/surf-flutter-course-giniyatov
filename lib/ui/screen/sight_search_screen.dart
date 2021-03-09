@@ -63,7 +63,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                   stream: _searchInteractor.sightListStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return const EmptyPlacesScreen(
+                      return const EmptyPlaceScreen(
                         header: "Ошибка поиска",
                         iconsAssetText: icSearch,
                       );
@@ -104,7 +104,7 @@ class _EmptyStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const EmptyPlacesScreen(
+    return const EmptyPlaceScreen(
       iconsAssetText: icSearch,
       header: emptySearchText,
       text: emptySearchText2,

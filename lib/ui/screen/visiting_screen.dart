@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/common/widgets/empty_places_screen.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/tabs/visited_tab.dart';
-import 'package:places/ui/screen/tabs/want_to_visit_tab.dart';
+import 'package:places/ui/common/widgets/sight_card.dart';
 
 /// Экран "Хочу посетить/Посещенные места"
 class VisitingScreen extends StatefulWidget {
@@ -29,7 +32,7 @@ class _VisitingScreenState extends State<VisitingScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          favoriteScreentitle,
+          favoriteScreenTitle,
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(52),
@@ -38,25 +41,53 @@ class _VisitingScreenState extends State<VisitingScreen>
               horizontal: 15,
               vertical: 6,
             ),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: _buildTabs(_selectedIndex),
+            child: _TabBarWidget(
+              selectedIndex: _selectedIndex,
             ),
           ),
         ),
       ),
       body: TabBarView(controller: _controller, children: <Widget>[
-        WantToVisitTab(),
-        VisitedTab(),
+        _TabItem(
+          sightList: mocks.where((sight) => !sight.isAchieved).toList(),
+          emptyPlaceScreen: const EmptyPlaceScreen(
+            iconsAssetText: icCamera,
+            text: wantToVisitPlacesEmptyText,
+            header: "Пусто",
+          ),
+        ),
+        _TabItem(
+          sightList: mocks.where((sight) => sight.isAchieved).toList(),
+          emptyPlaceScreen: const EmptyPlaceScreen(
+            iconsAssetText: icGO,
+            header: "Пусто",
+            text: visitedPlacesEmptyText,
+          ),
+        ),
       ]),
     );
   }
+}
 
-  Widget _buildTabs(int selectedIndex) => Row(
+///Заголовок для экранов "Хочу посетить/Посещенные места"
+class _TabBarWidget extends StatelessWidget {
+  const _TabBarWidget({
+    Key key,
+    @required int selectedIndex,
+  })  : _selectedIndex = selectedIndex,
+        super(key: key);
+
+  final int _selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColorDark,
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
@@ -100,5 +131,71 @@ class _VisitingScreenState extends State<VisitingScreen>
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
+}
+
+///Таб для экранов "Хочу посетить/Посещенные места"
+class _TabItem extends StatefulWidget {
+  const _TabItem({
+    Key key,
+    this.sightList,
+    this.emptyPlaceScreen,
+  }) : super(key: key);
+
+  final List<Sight> sightList;
+
+  final EmptyPlaceScreen emptyPlaceScreen;
+
+  @override
+  _TabItemState createState() => _TabItemState();
+}
+
+class _TabItemState extends State<_TabItem> {
+  void _onReorder(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final Sight item = widget.sightList.removeAt(oldIndex);
+      widget.sightList.insert(newIndex, item);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.sightList.isNotEmpty
+        ? ListView.builder(
+            itemCount: widget.sightList.length,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
+            ),
+            itemBuilder: (context, index) {
+              final Sight sight = widget.sightList[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: DragTarget<Sight>(
+                  onWillAccept: (data) => data != sight,
+                  onAccept: (data) =>
+                      _onReorder(widget.sightList.indexOf(data), index),
+                  builder: (BuildContext context, List<dynamic> acceptedData,
+                      List<dynamic> rejectedData) {
+                    return DraggableCard(
+                      sight: sight,
+                      child: FavoriteSightCard(
+                        key: ValueKey(sight),
+                        sight: sight,
+                        onDelete: () => setState(
+                          () => widget.sightList.remove(sight),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            })
+        : widget.emptyPlaceScreen;
+  }
 }

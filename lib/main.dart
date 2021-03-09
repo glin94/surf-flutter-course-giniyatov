@@ -46,7 +46,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     const SightListScreen(),
     FiltersScreen(),
     VisitingScreen(),
-    SettingsScreen()
+    SettingsScreen(),
   ];
 
   void _onItemTapped(int index) => setState(
@@ -92,7 +92,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icHeartFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: favoriteScreentitle,
+            label: favoriteScreenTitle,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
