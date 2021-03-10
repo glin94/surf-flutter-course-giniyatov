@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,7 +28,6 @@ class FiltersScreen extends StatelessWidget {
         ],
       ),
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: <Widget>[
           SliverPadding(
             padding: const EdgeInsets.symmetric(

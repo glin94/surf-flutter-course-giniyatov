@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +40,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
         ),
       ),
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: <Widget>[
           SliverPadding(
             padding: const EdgeInsets.symmetric(
@@ -240,35 +241,25 @@ class _PicturesGalleryWidget extends StatelessWidget {
             return SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  const _AddPictureButton(),
-                  ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: imgList
-                        .map<Widget>(
-                          (item) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Dismissible(
-                              direction: DismissDirection.up,
-                              onDismissed: (DismissDirection direction) =>
-                                  sightInteractor.deleteImage(item),
-                              key: UniqueKey(),
-                              child: SmallSightPictureWidget(
-                                key: ValueKey(item),
-                                onRemove: () =>
-                                    sightInteractor.deleteImage(item),
-                                imageUrl: item,
-                                size: 72,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  )
-                ],
-              ),
+              child: Row(children: [
+                const _AddPictureButton(),
+                ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: imgList.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: SmallSightPictureWidget(
+                      key: ValueKey(imgList[index]),
+                      onRemove: () =>
+                          sightInteractor.deleteImage(imgList[index]),
+                      imageUrl: imgList[index],
+                      size: 72,
+                    ),
+                  ),
+                ),
+              ]),
             );
           }),
     );
