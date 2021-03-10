@@ -28,9 +28,6 @@ class FiltersScreen extends StatelessWidget {
         ],
       ),
       body: CustomScrollView(
-        physics: Platform.isAndroid
-            ? ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics())
-            : BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: <Widget>[
           SliverPadding(
             padding: const EdgeInsets.symmetric(
