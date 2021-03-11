@@ -6,6 +6,7 @@ import 'package:places/ui/common/widgets/separator.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/onboarding_screen.dart';
 
 /// Экран настроек
 class SettingsScreen extends StatefulWidget {
@@ -47,7 +48,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icInfo,
                 color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
               ),
-              onTap: () {},
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnBoardingScreen(),
+                  )),
             ),
             const Separator(),
           ],

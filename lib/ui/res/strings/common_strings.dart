@@ -40,3 +40,5 @@ const String emptySearchText2 = "Попробуйте изменить пара�
 const String clearHistoryText = "Очистить историю";
 const String seacrhHistoryText = "ВЫ ИСКАЛИ";
 const String deleteSightText = "Удалить";
+const String skipText = "Пропустить";
+const String startText = "НА СТАРТ";

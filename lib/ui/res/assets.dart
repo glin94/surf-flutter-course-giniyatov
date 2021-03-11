@@ -33,3 +33,7 @@ const String icSearch = '$_baseResPath/Search.svg';
 const String icRemove = '$_baseResPath/Remove.svg';
 
 const String icBuckets = '$_baseResPath/Bucket.svg';
+
+const String icBag = '$_baseResPath/Bag.svg';
+const String icHand = '$_baseResPath/Hand.svg';
+const String icArrows = '$_baseResPath/Arrows.svg';
