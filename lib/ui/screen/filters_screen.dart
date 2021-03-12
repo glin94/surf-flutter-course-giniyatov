@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,9 +21,7 @@ class FiltersScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        actions: [
-          const _ClearButton(),
-        ],
+        actions: [const _ClearButton()],
       ),
       body: CustomScrollView(
         slivers: <Widget>[

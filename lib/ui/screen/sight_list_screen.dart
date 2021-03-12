@@ -26,6 +26,7 @@ class SightListScreen extends StatelessWidget {
             <Widget>[
           innerBoxIsScrolled
               ? const SliverAppBar(
+                  automaticallyImplyLeading: false,
                   title: Text(sightListScreenTitle),
                   pinned: true,
                   elevation: 0,
@@ -40,6 +41,7 @@ class SightListScreen extends StatelessWidget {
               return CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     elevation: 0,
                     primary: false,
                     title: GestureDetector(
@@ -90,6 +92,7 @@ class _LargeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       elevation: 0,
       centerTitle: false,
       toolbarHeight: 120,
