@@ -69,7 +69,9 @@ final List<Sight> mocks = [
   Sight(
     name: "Театр имени Г. Камала",
     imgListUrl: [
-      "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg"
+      "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg",
+      "http://tur-kazan.ru/web/uploads/5a995e69c3c61.jpg",
+      "http://elitat.ru/one/8068/1378902545.jpg",
     ],
     openingHours: [10, 20],
     details:

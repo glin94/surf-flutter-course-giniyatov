@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
@@ -11,62 +12,69 @@ import 'package:places/ui/res/text_styles.dart';
 
 /// Экран отображения детальной информации об интересном месте
 class SightDetails extends StatelessWidget {
-  final Sight sight;
-
-  const SightDetails({Key key, this.sight}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            GalleryWidget(
-              sight: sight,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            SightDetailsWidget(
-              sight: sight,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-///  Галлерея для детального отображения интересного места
-class GalleryWidget extends StatelessWidget {
-  const GalleryWidget({
+  const SightDetails({
     Key key,
-    @required this.sight,
+    this.sight,
   }) : super(key: key);
 
   final Sight sight;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 360,
+    return Scaffold(
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          floating: true,
+          stretch: true,
+          automaticallyImplyLeading: false,
+          expandedHeight: 360,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [const _BackButton()],
+          ),
+          flexibleSpace: FlexibleSpaceBar(
+            stretchModes: <StretchMode>[StretchMode.blurBackground],
+            background: GalleryWidget(imagesUrlList: sight.imgListUrl),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            const SizedBox(height: 15),
+            SightDetailsWidget(sight: sight),
+          ]),
+        )
+      ],
+    ));
+  }
+}
+
+///  Галлерея картинок для детального отображения интересного места
+class GalleryWidget extends StatelessWidget {
+  const GalleryWidget({
+    Key key,
+    @required this.imagesUrlList,
+  }) : super(key: key);
+
+  final List<String> imagesUrlList;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CustomScrollBar(
+      child: PageView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: imagesUrlList.length,
+        itemBuilder: (context, index) => Container(
           width: double.infinity,
           foregroundDecoration: BoxDecoration(
               backgroundBlendMode: BlendMode.multiply,
               color: Colors.transparent.withOpacity(.4),
               gradient: cardGradient),
-          child: ImageWidget(
-            url: sight.imgListUrl.first,
-          ),
+          child: ImageWidget(url: imagesUrlList[index]),
         ),
-        Positioned(
-          top: 36,
-          left: 16,
-          child: _BackButton(),
-        )
-      ],
+      ),
     );
   }
 }
@@ -80,15 +88,16 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
       height: 32,
       width: 32,
+      decoration: BoxDecoration(
+        color: Theme.of(context).canvasColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: IconButton(
         icon: SvgPicture.asset(
           icArrow,
+          color: Theme.of(context).accentColor,
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),
@@ -189,7 +198,7 @@ class _PlanningButton extends StatelessWidget {
   }
 }
 
-/// Конпка построения маршрута
+/// Кнопка построения маршрута
 class _RouteButton extends StatelessWidget {
   const _RouteButton({
     Key key,
@@ -201,9 +210,7 @@ class _RouteButton extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: ElevatedButton.icon(
-        label: Text(
-          goButtonText,
-        ),
+        label: Text(goButtonText),
         icon: SvgPicture.asset(icGO),
         onPressed: () => print("GO!"),
       ),
@@ -249,15 +256,38 @@ class _SightDescription extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 24,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           child: Text(
             sight.details,
             style: textBody2,
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Кастомный скроллбар
+class _CustomScrollBar extends StatelessWidget {
+  const _CustomScrollBar({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        highlightColor: Theme.of(context).accentColor,
+        platform: TargetPlatform.android,
+      ),
+      child: Scrollbar(
+        radius: Radius.circular(8),
+        thickness: 7,
+        child: child,
+      ),
     );
   }
 }
