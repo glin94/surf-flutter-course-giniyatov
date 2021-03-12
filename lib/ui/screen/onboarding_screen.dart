@@ -29,7 +29,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   /// Таймер перелистывания
   void _initSlider() {
     Timer.periodic(
-        Duration(seconds: 2),
+        Duration(seconds: 3),
         (timer) => {
               if (_pageController.page != 2)
                 _pageController.nextPage(
@@ -59,9 +59,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: PageView.builder(
                   controller: _pageController,
                   onPageChanged: (i) {
-                    i == 2
-                        ? setState(() => _isLast = true)
-                        : setState(() => _isLast = false);
+                    if (i == 2)
+                      setState(() => _isLast = true);
+                    else
+                      setState(() => _isLast = false);
                   },
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -81,7 +82,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ],
           ),
           Positioned(
-            bottom: 32,
+            bottom: 16,
+            left: 16,
+            right: 16,
+            child: _isLast ? const _StartButton() : const SizedBox.shrink(),
+          ),
+          Positioned(
+            bottom: 16,
             left: 16,
             right: 16,
             child: _isLast ? const _StartButton() : const SizedBox.shrink(),
@@ -107,15 +114,10 @@ class _SkipButton extends StatelessWidget {
           color: colorLightGreen,
         ),
       ),
-      onPressed: () {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => MainScreen(),
-          ),
-        );
-      },
+      onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+        ModalRoute.withName('/'),
+      ),
     );
   }
 }
@@ -225,18 +227,14 @@ class _StartButton extends StatelessWidget {
       height: 48,
       width: double.infinity,
       child: ElevatedButton(
-          child: Text(
-            startText,
-          ),
-          onPressed: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => MainScreen(),
-              ),
-            );
-          }),
+        child: Text(
+          startText,
+        ),
+        onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+          ModalRoute.withName('/'),
+        ),
+      ),
     );
   }
 }
