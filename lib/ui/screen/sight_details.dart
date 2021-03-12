@@ -25,8 +25,8 @@ class SightDetails extends StatelessWidget {
         body: CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: true,
-          floating: true,
+          elevation: 0,
+          primary: true,
           stretch: true,
           automaticallyImplyLeading: false,
           expandedHeight: 360,
@@ -36,16 +36,36 @@ class SightDetails extends StatelessWidget {
             children: [const _BackButton()],
           ),
           flexibleSpace: FlexibleSpaceBar(
+            collapseMode: CollapseMode.pin,
             stretchModes: <StretchMode>[StretchMode.blurBackground],
             background: GalleryWidget(imagesUrlList: sight.imgListUrl),
           ),
         ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            const SizedBox(height: 15),
-            SightDetailsWidget(sight: sight),
-          ]),
-        )
+        SliverPadding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 24,
+          ),
+          sliver: SliverFillRemaining(
+            child: Container(
+              child: Column(children: [
+                _SightDescription(sight: sight),
+                const SizedBox(height: 24),
+                const _RouteButton(),
+                const SizedBox(height: 24),
+                const Separator(),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const _PlanningButton(),
+                    const _FavouriteButton(),
+                  ],
+                ),
+              ]),
+            ),
+          ),
+        ),
       ],
     ));
   }
@@ -101,53 +121,6 @@ class _BackButton extends StatelessWidget {
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),
-    );
-  }
-}
-
-class SightDetailsWidget extends StatelessWidget {
-  const SightDetailsWidget({
-    Key key,
-    @required this.sight,
-  }) : super(key: key);
-
-  final Sight sight;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _SightDescription(sight: sight),
-          const _RouteButton(),
-          _buildPlanningAndFavouriteButtons(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPlanningAndFavouriteButtons(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 24,
-        ),
-        const Separator(),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const _PlanningButton(),
-            const _FavouriteButton(),
-          ],
-        ),
-      ],
     );
   }
 }
@@ -244,23 +217,21 @@ class _SightDescription extends StatelessWidget {
                     color: colorDarkSecondary2,
                   ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                openOrCloseText(sight.isOpen, sight.openingTime),
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: colorInnactiveBlack,
-                    ),
-              ),
+            const SizedBox(width: 16),
+            Text(
+              openOrCloseText(sight.isOpen, sight.openingTime),
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: colorInnactiveBlack,
+                  ),
             )
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
-          child: Text(
-            sight.details,
-            style: textBody2,
-          ),
+        const SizedBox(
+          height: 24,
+        ),
+        Text(
+          sight.details,
+          style: textBody2,
         ),
       ],
     );
