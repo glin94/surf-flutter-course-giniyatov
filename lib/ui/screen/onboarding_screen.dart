@@ -115,9 +115,8 @@ class _SkipButton extends StatelessWidget {
         ),
       ),
       onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-        ModalRoute.withName('/'),
-      ),
+          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+          (route) => false),
     );
   }
 }
@@ -231,9 +230,8 @@ class _StartButton extends StatelessWidget {
           startText,
         ),
         onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-          ModalRoute.withName('/'),
-        ),
+            MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+            (route) => false),
       ),
     );
   }

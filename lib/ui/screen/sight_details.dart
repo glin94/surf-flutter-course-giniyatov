@@ -28,6 +28,7 @@ class SightDetails extends StatelessWidget {
           elevation: 0,
           primary: true,
           stretch: true,
+          pinned: true,
           automaticallyImplyLeading: false,
           expandedHeight: 360,
           title: Row(
@@ -37,7 +38,10 @@ class SightDetails extends StatelessWidget {
           ),
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
-            stretchModes: <StretchMode>[StretchMode.blurBackground],
+            stretchModes: <StretchMode>[
+              StretchMode.blurBackground,
+              StretchMode.zoomBackground,
+            ],
             background: GalleryWidget(imagesUrlList: sight.imgListUrl),
           ),
         ),
@@ -47,23 +51,21 @@ class SightDetails extends StatelessWidget {
             vertical: 24,
           ),
           sliver: SliverFillRemaining(
-            child: Container(
-              child: Column(children: [
-                _SightDescription(sight: sight),
-                const SizedBox(height: 24),
-                const _RouteButton(),
-                const SizedBox(height: 24),
-                const Separator(),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const _PlanningButton(),
-                    const _FavouriteButton(),
-                  ],
-                ),
-              ]),
-            ),
+            child: ListView(physics: NeverScrollableScrollPhysics(), children: [
+              _SightDescription(sight: sight),
+              const SizedBox(height: 24),
+              const _RouteButton(),
+              const SizedBox(height: 24),
+              const Separator(),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const _PlanningButton(),
+                  const _FavouriteButton(),
+                ],
+              ),
+            ]),
           ),
         ),
       ],
