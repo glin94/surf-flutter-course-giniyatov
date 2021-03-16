@@ -22,54 +22,58 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          elevation: 0,
-          primary: true,
-          stretch: true,
-          pinned: true,
-          automaticallyImplyLeading: false,
-          expandedHeight: 360,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [const _BackButton()],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            elevation: 0,
+            primary: true,
+            stretch: true,
+            pinned: true,
+            automaticallyImplyLeading: false,
+            expandedHeight: 360,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [const _BackButton()],
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              stretchModes: <StretchMode>[
+                StretchMode.blurBackground,
+                StretchMode.zoomBackground,
+              ],
+              background: GalleryWidget(imagesUrlList: sight.imgListUrl),
+            ),
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            stretchModes: <StretchMode>[
-              StretchMode.blurBackground,
-              StretchMode.zoomBackground,
-            ],
-            background: GalleryWidget(imagesUrlList: sight.imgListUrl),
-          ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 24,
-          ),
-          sliver: SliverFillRemaining(
-            child: ListView(physics: NeverScrollableScrollPhysics(), children: [
-              _SightDescription(sight: sight),
-              const SizedBox(height: 24),
-              const _RouteButton(),
-              const SizedBox(height: 24),
-              const Separator(),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
+            ),
+            sliver: SliverFillRemaining(
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  const _PlanningButton(),
-                  const _FavouriteButton(),
+                  _SightDescription(sight: sight),
+                  const SizedBox(height: 24),
+                  const _RouteButton(),
+                  const SizedBox(height: 24),
+                  const Separator(),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const _PlanningButton(),
+                      const _FavouriteButton(),
+                    ],
+                  ),
                 ],
               ),
-            ]),
+            ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }
 
