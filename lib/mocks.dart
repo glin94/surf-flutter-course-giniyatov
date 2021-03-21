@@ -3,7 +3,10 @@ import 'package:places/ui/res/assets.dart';
 import 'domain/sight.dart';
 
 /// Моковая геопозиция
-final location = {"lat": 55.796127, "lon": 49.106405};
+final location = {
+  "lat": 55.796127,
+  "lon": 49.106405,
+};
 
 ///Фильтр
 List<Map<String, dynamic>> categoryValues = [
@@ -41,6 +44,7 @@ List<Map<String, dynamic>> categoryValues = [
 
 final List<Sight> mocks = [
   Sight(
+    id: "1",
     name: "Парк Тысячелетия",
     imgListUrl: [
       "https://cont.ws/uploads/pic/2016/4/0_80c1a_ee4ab833_orig.jpg"
@@ -54,6 +58,7 @@ final List<Sight> mocks = [
     type: "Парк",
   ),
   Sight(
+    id: "2",
     name: "Apollo cafe",
     imgListUrl: [
       "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL"
@@ -67,6 +72,7 @@ final List<Sight> mocks = [
     type: "Ресторан",
   ),
   Sight(
+    id: "3",
     name: "Театр имени Г. Камала",
     imgListUrl: [
       "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg",
@@ -82,6 +88,7 @@ final List<Sight> mocks = [
     type: "Особое место",
   ),
   Sight(
+    id: "4",
     name: "Мечеть «Кул-Шариф»",
     imgListUrl: [
       "https://upload.wikimedia.org/wikipedia/commons/d/d1/Kazan_Kremlin_Qolsharif_Mosque_08-2016_img2.jpg?uselang=ru"

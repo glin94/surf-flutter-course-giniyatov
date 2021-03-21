@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Sight {
   Sight({
+    @required this.id,
     this.name,
     this.imgListUrl,
     this.details,
@@ -13,7 +15,7 @@ class Sight {
     this.isFavorite = false,
   });
 
-  final String name, details, type;
+  final String id, name, details, type;
 
   final List<String> imgListUrl;
 
