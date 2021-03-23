@@ -37,3 +37,7 @@ const String icBuckets = '$_baseResPath/Bucket.svg';
 const String icBag = '$_baseResPath/Bag.svg';
 const String icHand = '$_baseResPath/Hand.svg';
 const String icArrows = '$_baseResPath/Arrows.svg';
+
+const String icCamera2 = '$_baseResPath/Camera2.svg';
+const String icPhoto = '$_baseResPath/Photo.svg';
+const String icFile = '$_baseResPath/Fail.svg';
