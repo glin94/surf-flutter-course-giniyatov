@@ -228,11 +228,16 @@ class _SearchListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 11),
-      onTap: () => Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (c) => SightDetails(id: sight.id),
+      onTap: () => showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
         ),
+        builder: (context) => SightDetails(id: sight.id),
       ),
       title: Text(sight.name),
       subtitle: Padding(

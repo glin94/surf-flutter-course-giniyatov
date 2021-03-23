@@ -37,57 +37,113 @@ class _SightDetailsState extends State<SightDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            elevation: 0,
-            primary: true,
-            stretch: true,
-            pinned: true,
-            automaticallyImplyLeading: false,
-            expandedHeight: 360,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [const _BackButton()],
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              stretchModes: <StretchMode>[
-                StretchMode.blurBackground,
-                StretchMode.zoomBackground,
-              ],
-              background: GalleryWidget(imagesUrlList: sight.imgListUrl),
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 24,
-            ),
-            sliver: SliverFillRemaining(
-              child: ListView(
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  _SightDescription(sight: sight),
-                  const SizedBox(height: 24),
-                  const _RouteButton(),
-                  const SizedBox(height: 24),
-                  const Separator(),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const _PlanningButton(),
-                      const _FavouriteButton(),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: 700),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        child: Stack(children: [
+          CustomScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                elevation: 0,
+                primary: true,
+                stretch: true,
+                pinned: true,
+                automaticallyImplyLeading: false,
+                expandedHeight: 300,
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.pin,
+                  stretchModes: <StretchMode>[
+                    StretchMode.blurBackground,
+                    StretchMode.zoomBackground,
+                  ],
+                  background: GalleryWidget(imagesUrlList: sight.imgListUrl),
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      _SightDescription(sight: sight),
+                      const SizedBox(height: 24),
+                      const _RouteButton(),
+                      const SizedBox(height: 24),
+                      const Separator(),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const _PlanningButton(),
+                          const _FavouriteButton(),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+          Positioned(
+            top: 12,
+            right: 160,
+            left: 160,
+            child: const _Rectangle(),
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: const _CircleCloseButton(),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _Rectangle extends StatelessWidget {
+  const _Rectangle({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 4,
+      width: 40,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+  }
+}
+
+class _CircleCloseButton extends StatelessWidget {
+  const _CircleCloseButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Theme.of(context).primaryColor,
+      ),
+      child: Center(
+        child: CloseButton(
+          color: Theme.of(context).accentColor,
+        ),
       ),
     );
   }
@@ -139,6 +195,31 @@ class _BackButton extends StatelessWidget {
       child: IconButton(
         icon: SvgPicture.asset(
           icArrow,
+          color: Theme.of(context).accentColor,
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+    );
+  }
+}
+
+class _CloseButton extends StatelessWidget {
+  const _CloseButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        color: Theme.of(context).canvasColor,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        icon: SvgPicture.asset(
+          icClose,
           color: Theme.of(context).accentColor,
         ),
         onPressed: () => Navigator.of(context).pop(),
@@ -231,10 +312,13 @@ class _SightDescription extends StatelessWidget {
           sight.name,
           style: Theme.of(context).textTheme.headline5,
         ),
+        const SizedBox(
+          height: 2,
+        ),
         Row(
           children: [
             Text(
-              sight.type,
+              sight.type.toLowerCase(),
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: colorDarkSecondary2,
                   ),
@@ -253,6 +337,7 @@ class _SightDescription extends StatelessWidget {
         ),
         Text(
           sight.details,
+          maxLines: 4,
           style: textBody2,
         ),
       ],
