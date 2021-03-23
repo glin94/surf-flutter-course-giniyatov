@@ -64,7 +64,7 @@ class _SightCardState extends State<SightCard> {
                 onTap: () => Navigator.push(
                   context,
                   CupertinoPageRoute(
-                    builder: (c) => SightDetails(sight: widget.sight),
+                    builder: (c) => SightDetails(id: widget.sight.id),
                   ),
                 ),
               ),
@@ -261,7 +261,7 @@ class FavoriteSightCard extends StatelessWidget {
                         onTap: () => Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (c) => SightDetails(sight: sight),
+                            builder: (c) => SightDetails(id: sight.id),
                           ),
                         ),
                       ),

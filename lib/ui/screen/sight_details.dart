@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/common/widgets/separator.dart';
@@ -11,13 +12,28 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Экран отображения детальной информации об интересном месте
-class SightDetails extends StatelessWidget {
+class SightDetails extends StatefulWidget {
   const SightDetails({
     Key key,
-    this.sight,
+    this.id,
   }) : super(key: key);
 
-  final Sight sight;
+  final String id;
+
+  @override
+  _SightDetailsState createState() => _SightDetailsState();
+}
+
+class _SightDetailsState extends State<SightDetails> {
+  Sight sight;
+
+  Sight getSight(String id) => mocks.firstWhere((sight) => sight.id == id);
+
+  @override
+  void initState() {
+    super.initState();
+    sight = getSight(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {

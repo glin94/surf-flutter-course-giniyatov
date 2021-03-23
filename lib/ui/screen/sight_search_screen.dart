@@ -231,7 +231,7 @@ class _SearchListTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         CupertinoPageRoute(
-          builder: (c) => SightDetails(sight: sight),
+          builder: (c) => SightDetails(id: sight.id),
         ),
       ),
       title: Text(sight.name),
