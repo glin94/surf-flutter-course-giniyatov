@@ -61,11 +61,16 @@ class _SightCardState extends State<SightCard> {
                 highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
                 splashColor: Theme.of(context).accentColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(16),
-                onTap: () => Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (c) => SightDetails(id: widget.sight.id),
+                onTap: () => showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
                   ),
+                  builder: (context) => SightDetails(id: widget.sight.id),
                 ),
               ),
             ),
