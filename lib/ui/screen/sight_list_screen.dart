@@ -51,10 +51,11 @@ class SightListScreen extends StatelessWidget {
                   ),
                   sliver: SliverToBoxAdapter(
                     child: GestureDetector(
-                      onTap: () =>
-                          Navigator.of(context).push(CupertinoPageRoute(
-                        builder: (context) => SightSearchScreen(),
-                      )),
+                      onTap: () => Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => SightSearchScreen(),
+                        ),
+                      ),
                       child: SearchBar(
                         enable: false,
                       ),

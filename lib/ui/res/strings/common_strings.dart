@@ -42,3 +42,7 @@ const String seacrhHistoryText = "ВЫ ИСКАЛИ";
 const String deleteSightText = "Удалить";
 const String skipText = "Пропустить";
 const String startText = "НА СТАРТ";
+
+const String cameraText = "Камера";
+const String photoText = "Фотография";
+const String fileText = "Файл";

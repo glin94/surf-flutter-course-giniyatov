@@ -112,7 +112,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     vertical: 24,
                     horizontal: 16,
                   ),
-                  child: const _AddSightButton(),
+                  child: const _CreateSightButton(),
                 ),
               ),
             ),
@@ -124,8 +124,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
 }
 
 ///Кнопка добавления нового места
-class _AddSightButton extends StatelessWidget {
-  const _AddSightButton({
+class _CreateSightButton extends StatelessWidget {
+  const _CreateSightButton({
     Key key,
   }) : super(key: key);
 
@@ -273,7 +273,10 @@ class _AddPictureButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       highlightColor: colorLightGreen.withOpacity(0.05),
-      onTap: () => sightInteractor.addImage(mocks[1].imgListUrl.first),
+      onTap: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => _PhotoChoiceDialog(),
+      ),
       borderRadius: BorderRadius.circular(12),
       child: Container(
         width: 72,
@@ -290,6 +293,69 @@ class _AddPictureButton extends StatelessWidget {
             size: 40,
             color: colorLightGreen,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PhotoChoiceDialog extends StatelessWidget {
+  const _PhotoChoiceDialog({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: CupertinoActionSheet(
+        cancelButton: _CancelButton(),
+        actions: [
+          Material(
+            child: ListTile(
+              onTap: () {},
+              leading: SvgPicture.asset(icCamera2),
+              title: Text(cameraText),
+            ),
+          ),
+          Material(
+            child: ListTile(
+              leading: SvgPicture.asset(icPhoto),
+              title: Text(photoText),
+            ),
+          ),
+          Material(
+            child: ListTile(
+              leading: SvgPicture.asset(icFile),
+              title: Text(fileText),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 48,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+        child: Text(
+          cancelButtonText.toUpperCase(),
+          style: Theme.of(context).textTheme.button.copyWith(
+                color: colorLightGreen,
+              ),
         ),
       ),
     );
