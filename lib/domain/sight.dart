@@ -25,7 +25,7 @@ class Sight {
   final double lat, lon;
 
   /// Дата посещения места
-  final DateTime visitingDate;
+  DateTime visitingDate;
 
   bool isFavorite;
 

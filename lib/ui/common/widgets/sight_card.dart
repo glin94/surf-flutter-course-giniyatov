@@ -191,7 +191,7 @@ class _SightCardBottom extends StatelessWidget {
 }
 
 /// Карточка интересного места на экранах "Хочу посетить"/"Посетил"
-class FavoriteSightCard extends StatelessWidget {
+class FavoriteSightCard extends StatefulWidget {
   const FavoriteSightCard({
     Key key,
     this.sight,
@@ -203,14 +203,19 @@ class FavoriteSightCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   @override
+  _FavoriteSightCardState createState() => _FavoriteSightCardState();
+}
+
+class _FavoriteSightCardState extends State<FavoriteSightCard> {
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Dismissible(
-        key: key,
+        key: widget.key,
         background: const _DeleteBackgroundSwipe(),
         direction: DismissDirection.endToStart,
-        onDismissed: (direction) => onDelete(),
+        onDismissed: (direction) => widget.onDelete(),
         child: Container(
           decoration: BoxDecoration(color: Colors.red),
           child: Material(
@@ -228,15 +233,15 @@ class FavoriteSightCard extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        _SightCardTop(imgUrl: sight.imgListUrl.first),
+                        _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
                         _SightCardBottom(
-                          sight: sight,
+                          sight: widget.sight,
                           visitingText: Container(
                             height: 30,
                             child: Text(
-                              sight.plannedOrAchievedText,
+                              widget.sight.plannedOrAchievedText,
                               style: textBody2.copyWith(
-                                color: sight.isAchieved
+                                color: widget.sight.isAchieved
                                     ? colorDarkSecondary2
                                     : colorLightGreen,
                               ),
@@ -249,7 +254,7 @@ class FavoriteSightCard extends StatelessWidget {
                       top: 16,
                       left: 16,
                       child: Text(
-                        sight.type.toLowerCase(),
+                        widget.sight.type.toLowerCase(),
                         style: textBody1.copyWith(
                           color: Colors.white,
                         ),
@@ -263,11 +268,17 @@ class FavoriteSightCard extends StatelessWidget {
                         splashColor:
                             Theme.of(context).accentColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(16),
-                        onTap: () => Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (c) => SightDetails(id: sight.id),
+                        onTap: () => showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                            ),
                           ),
+                          builder: (context) =>
+                              SightDetails(id: widget.sight.id),
                         ),
                       ),
                     ),
@@ -275,7 +286,7 @@ class FavoriteSightCard extends StatelessWidget {
                       top: 8,
                       right: 8,
                       child: Wrap(children: [
-                        sight.isAchieved
+                        widget.sight.isAchieved
                             ? IconButton(
                                 onPressed: () => print("share"),
                                 icon: SvgPicture.asset(
@@ -284,14 +295,30 @@ class FavoriteSightCard extends StatelessWidget {
                                 ),
                               )
                             : IconButton(
-                                onPressed: () => print("share"),
+                                onPressed: () async {
+                                  final result = await showDatePicker(
+                                    context: context,
+                                    locale: Locale('ru', 'RU'),
+                                    firstDate: DateTime.now(),
+                                    initialDate: widget.sight.visitingDate,
+                                    lastDate: DateTime.now().add(
+                                      Duration(days: 90),
+                                    ),
+                                    helpText: "ВЫБЕРИТЕ ДАТУ ПОСЕЩЕНИЯ",
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      widget.sight.visitingDate = result;
+                                    });
+                                  }
+                                },
                                 icon: SvgPicture.asset(
                                   icCalendar,
                                   color: Colors.white,
                                 ),
                               ),
                         IconButton(
-                          onPressed: onDelete,
+                          onPressed: widget.onDelete,
                           icon: SvgPicture.asset(
                             icClose,
                             color: Colors.white,
