@@ -26,60 +26,74 @@ class SightListScreen extends StatelessWidget {
           stream: sightInteractor.sightListStream,
           builder: (context, snapshot) {
             final sightList = snapshot.data;
-            return CustomScrollView(
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              slivers: <Widget>[
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  sliver: SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _AppBarPersistentHeaderDelegate(
-                      130,
-                      MediaQuery.of(context).size.height / kToolbarHeight * 2,
-                    ),
-                  ),
+            return SafeArea(
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 18,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                        CupertinoPageRoute(
-                          builder: (context) => SightSearchScreen(),
+                slivers: <Widget>[
+                  MediaQuery.of(context).orientation == Orientation.portrait
+                      ? SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          sliver: SliverPersistentHeader(
+                            pinned: true,
+                            delegate: _AppBarPersistentHeaderDelegate(
+                              130,
+                              MediaQuery.of(context).size.height /
+                                  kToolbarHeight *
+                                  2,
+                            ),
+                          ),
+                        )
+                      : SliverAppBar(
+                          centerTitle: false,
+                          automaticallyImplyLeading: false,
+                          title: Text(sightListScreenTitle),
+                        ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 18,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                          CupertinoPageRoute(
+                            builder: (context) => SightSearchScreen(),
+                          ),
+                        ),
+                        child: SearchBar(
+                          enable: false,
                         ),
                       ),
-                      child: SearchBar(
-                        enable: false,
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        (c, i) => SightCard(sight: sightList[i]),
+                        childCount: sightList.length,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 24,
+                        childAspectRatio: 1.5,
+                        mainAxisSpacing: 16,
+                        crossAxisCount: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? 1
+                            : 2,
                       ),
                     ),
                   ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 24),
-                          child: SightCard(sight: sightList[index]),
-                        );
-                      },
-                      childCount: sightList.length,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             );
           }),
     );
