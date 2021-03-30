@@ -9,11 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.0
-  flutter_svg: ^0.19.3
-  intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
+  cupertino_icons: ^1.0.0
+  flutter_svg: ^0.19.1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

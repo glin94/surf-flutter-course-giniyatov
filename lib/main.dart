@@ -21,9 +21,13 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
       supportedLocales: [
-        const Locale('ru'),
+        const Locale('ru', "RU"),
+        const Locale('en', "US"),
       ],
       theme: themeModel.isDark ? darkTheme : lightTheme,
       title: "SightApp",
