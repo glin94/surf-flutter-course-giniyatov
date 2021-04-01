@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/interactor/filter/new_sight_interactor.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/separator.dart';
 import 'package:places/ui/common/widgets/small_sight_picture.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
