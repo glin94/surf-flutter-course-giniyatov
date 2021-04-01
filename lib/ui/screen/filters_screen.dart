@@ -94,18 +94,38 @@ class _FilterTable extends StatelessWidget {
           initialData: filterInteractor.filterValues,
           stream: filterInteractor.filtersStream,
           builder: (context, snapshot) {
-            return Wrap(
-              spacing: 40,
-              runSpacing: 40,
-              children: snapshot.data
-                  .map(
-                    (item) => _FilterItem(
-                      key: ValueKey(item["name"]),
-                      category: item,
+            return (MediaQuery.of(context).size.height <= 800 &&
+                    MediaQuery.of(context).size.width <= 480)
+                ? Container(
+                    height: 100,
+                    child: ListView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: snapshot.data
+                          .map(
+                            (item) => Padding(
+                              padding: const EdgeInsets.only(right: 44.0),
+                              child: _FilterItem(
+                                key: ValueKey(item["name"]),
+                                category: item,
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   )
-                  .toList(),
-            );
+                : Wrap(
+                    spacing: 40,
+                    runSpacing: 40,
+                    children: snapshot.data
+                        .map(
+                          (item) => _FilterItem(
+                            key: ValueKey(item["name"]),
+                            category: item,
+                          ),
+                        )
+                        .toList(),
+                  );
           },
         )
       ],
