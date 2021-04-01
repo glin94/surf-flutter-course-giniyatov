@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -207,6 +209,45 @@ class FavoriteSightCard extends StatefulWidget {
 }
 
 class _FavoriteSightCardState extends State<FavoriteSightCard> {
+  showDateTimePicker() async {
+    if (Platform.isAndroid) {
+      final result = await showDatePicker(
+        context: context,
+        locale: Locale('ru', 'RU'),
+        firstDate: DateTime.now(),
+        initialDate: widget.sight.visitingDate,
+        lastDate: DateTime.now().add(
+          Duration(days: 90),
+        ),
+        helpText: "ВЫБЕРИТЕ ДАТУ ПОСЕЩЕНИЯ",
+      );
+      if (result != null) {
+        setState(() {
+          widget.sight.visitingDate = result;
+        });
+      }
+    } else {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (context) => Container(
+          height: MediaQuery.of(context).size.height / 3,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            minimumDate: DateTime.now(),
+            maximumDate: DateTime.now().add(
+              Duration(days: 90),
+            ),
+            backgroundColor: Theme.of(context).cardColor,
+            initialDateTime: DateTime.now(),
+            onDateTimeChanged: (time) => setState(() {
+              widget.sight.visitingDate = time;
+            }),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -295,23 +336,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                                 ),
                               )
                             : IconButton(
-                                onPressed: () async {
-                                  final result = await showDatePicker(
-                                    context: context,
-                                    locale: Locale('ru', 'RU'),
-                                    firstDate: DateTime.now(),
-                                    initialDate: widget.sight.visitingDate,
-                                    lastDate: DateTime.now().add(
-                                      Duration(days: 90),
-                                    ),
-                                    helpText: "ВЫБЕРИТЕ ДАТУ ПОСЕЩЕНИЯ",
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      widget.sight.visitingDate = result;
-                                    });
-                                  }
-                                },
+                                onPressed: showDateTimePicker,
                                 icon: SvgPicture.asset(
                                   icCalendar,
                                   color: Colors.white,

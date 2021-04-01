@@ -41,7 +41,7 @@ class SightListScreen extends StatelessWidget {
                           sliver: SliverPersistentHeader(
                             pinned: true,
                             delegate: _AppBarPersistentHeaderDelegate(
-                              130,
+                              MediaQuery.of(context).size.height / 10,
                               MediaQuery.of(context).size.height /
                                   kToolbarHeight *
                                   2,
