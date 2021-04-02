@@ -12,6 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.0
+  dio: ^3.0.0
   flutter_svg: ^0.19.1
   intl: ^0.16.1
 

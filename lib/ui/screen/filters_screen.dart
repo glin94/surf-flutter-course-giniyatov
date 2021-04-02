@@ -84,6 +84,8 @@ class _FilterTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmalScreen = (MediaQuery.of(context).size.height <= 800 &&
+        MediaQuery.of(context).size.width <= 480);
     return Column(
       children: [
         const CaptionText(title: categoriesText),
@@ -94,8 +96,7 @@ class _FilterTable extends StatelessWidget {
           initialData: filterInteractor.filterValues,
           stream: filterInteractor.filtersStream,
           builder: (context, snapshot) {
-            return (MediaQuery.of(context).size.height <= 800 &&
-                    MediaQuery.of(context).size.width <= 480)
+            return isSmalScreen
                 ? Container(
                     height: 100,
                     child: ListView(
