@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/data/interactor/filter_interactor.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
@@ -255,9 +255,9 @@ class _FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      initialData: List<Sight>(),
+      initialData: List<Place>(),
       stream: filterInteractor.sightsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Sight>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
         var filterSights = List();
         if (snapshot != null && snapshot.hasData) {
           filterSights = snapshot.data;

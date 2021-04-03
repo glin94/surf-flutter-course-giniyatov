@@ -16,7 +16,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    placeRepository.getTestUsers();
+    placeRepository.fetchPlaces();
     themeModel.addListener(() => setState(() {}));
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
@@ -25,9 +25,9 @@ class SightDetails extends StatefulWidget {
 }
 
 class _SightDetailsState extends State<SightDetails> {
-  Sight sight;
+  Place sight;
 
-  Sight getSight(String id) => mocks.firstWhere((sight) => sight.id == id);
+  Place getSight(String id) => mocks.firstWhere((sight) => sight.id == id);
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _SightDetailsState extends State<SightDetails> {
                     StretchMode.blurBackground,
                     StretchMode.zoomBackground,
                   ],
-                  background: GalleryWidget(imagesUrlList: sight.imgListUrl),
+                  background: GalleryWidget(imagesUrlList: sight.urls),
                 ),
               ),
               SliverPadding(
@@ -301,7 +301,7 @@ class _SightDescription extends StatelessWidget {
     @required this.sight,
   }) : super(key: key);
 
-  final Sight sight;
+  final Place sight;
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +336,7 @@ class _SightDescription extends StatelessWidget {
           height: 24,
         ),
         Text(
-          sight.details,
+          sight.description,
           maxLines: 4,
           style: textBody2,
         ),

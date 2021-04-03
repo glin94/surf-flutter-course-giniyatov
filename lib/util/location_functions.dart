@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 
 ///Функция проверки нахождения места в промежутке дистанции
-arePointsNear(Sight checkPoint, Map<String, double> centerPoint,
+arePointsNear(Place checkPoint, Map<String, double> centerPoint,
     double minDistanceKm, double maxDistanceKm) {
   var ky = 40000 / 360;
   var kx = cos(pi * centerPoint['lat'] / 180.0) * ky;

@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 import 'package:places/util/const.dart';
 import 'package:places/util/location_functions.dart';
 
 ///  Фильтр
 class FilterInteractor {
-  StreamController<List<Sight>> _sightsController =
-      StreamController<List<Sight>>.broadcast();
+  StreamController<List<Place>> _sightsController =
+      StreamController<List<Place>>.broadcast();
 
   StreamController<List<Map>> _filtersController =
       StreamController<List<Map>>.broadcast();
@@ -17,7 +17,7 @@ class FilterInteractor {
   StreamController<RangeValues> _rangeValuesController =
       StreamController<RangeValues>.broadcast();
 
-  Stream<List<Sight>> get sightsStream => _sightsController.stream;
+  Stream<List<Place>> get sightsStream => _sightsController.stream;
 
   Stream<List<Map>> get filtersStream => _filtersController.stream;
 
@@ -33,7 +33,7 @@ class FilterInteractor {
   );
 
   ///  Фильтрованный список мест
-  List<Sight> get filterSights => mocks
+  List<Place> get filterSights => mocks
       .where(
         (item) => arePointsNear(
           item,

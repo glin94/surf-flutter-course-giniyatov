@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/res/assets.dart';
@@ -144,7 +144,7 @@ class _TabItem extends StatefulWidget {
     this.emptyPlaceScreen,
   }) : super(key: key);
 
-  final List<Sight> sightList;
+  final List<Place> sightList;
 
   final EmptyPlaceScreen emptyPlaceScreen;
 
@@ -158,7 +158,7 @@ class _TabItemState extends State<_TabItem> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final Sight item = widget.sightList.removeAt(oldIndex);
+      final Place item = widget.sightList.removeAt(oldIndex);
       widget.sightList.insert(newIndex, item);
     });
   }
@@ -173,10 +173,10 @@ class _TabItemState extends State<_TabItem> {
               vertical: 24,
             ),
             itemBuilder: (context, index) {
-              final Sight sight = widget.sightList[index];
+              final Place sight = widget.sightList[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: DragTarget<Sight>(
+                child: DragTarget<Place>(
                   onWillAccept: (data) => data != sight,
                   onAccept: (data) =>
                       _onReorder(widget.sightList.indexOf(data), index),

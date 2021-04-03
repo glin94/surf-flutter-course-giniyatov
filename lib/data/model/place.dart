@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class Sight {
-  Sight({
+class Place {
+  final String id, name, description, type;
+
+  final List<dynamic> urls;
+
+  ///широта и долгота
+  final double lat, lon;
+
+  /// Часы работы, например [9,18] c 9:00 до 18:00
+  List<int> openingHours = const [9, 18];
+
+  /// Дата посещения места
+  DateTime visitingDate;
+
+  bool isFavorite;
+
+  Place({
     @required this.id,
     this.name,
-    this.imgListUrl,
-    this.details,
+    this.urls,
+    this.description,
     this.type,
     this.openingHours,
     this.lat,
@@ -15,19 +30,14 @@ class Sight {
     this.isFavorite = false,
   });
 
-  final String id, name, details, type;
-
-  final List<String> imgListUrl;
-
-  /// Часы работы, например [9,18] c 9:00 до 18:00
-  final List<int> openingHours;
-
-  final double lat, lon;
-
-  /// Дата посещения места
-  DateTime visitingDate;
-
-  bool isFavorite;
+  Place.fromJson(Map<String, dynamic> json)
+      : id = json['id'].toString(),
+        lat = json['lat'],
+        lon = json['lon'],
+        name = json['name'],
+        urls = json['urls'],
+        type = json['placeType'],
+        description = json['description'];
 
   DateTime get openingTime => DateTime(
         DateTime.now().year,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/separator.dart';
@@ -58,7 +58,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 40),
             sliver: SliverFillRemaining(
-              child: StreamBuilder<List<Sight>>(
+              child: StreamBuilder<List<Place>>(
                   initialData: [],
                   stream: _searchInteractor.sightListStream,
                   builder: (context, snapshot) {
@@ -200,7 +200,7 @@ class _ClearHistoryButton extends StatelessWidget {
 
 /// Результат поиска
 class _SearchSightsList extends StatelessWidget {
-  final List<Sight> list;
+  final List<Place> list;
   const _SearchSightsList({Key key, this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -218,7 +218,7 @@ class _SearchSightsList extends StatelessWidget {
 
 /// Элемент списка поискового результата
 class _SearchListTile extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const _SearchListTile({
     Key key,
     this.sight,
@@ -250,7 +250,7 @@ class _SearchListTile extends StatelessWidget {
         ),
       ),
       leading: SmallSightPictureWidget(
-        imageUrl: sight.imgListUrl.first,
+        imageUrl: sight.urls.first,
         size: 56,
       ),
     );
