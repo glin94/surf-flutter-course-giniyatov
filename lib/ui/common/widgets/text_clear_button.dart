@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_sight_interactor.dart';
 
 /// Кнопка очистки формы
 class TextClearButton extends StatelessWidget {

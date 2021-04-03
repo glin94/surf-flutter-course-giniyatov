@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';

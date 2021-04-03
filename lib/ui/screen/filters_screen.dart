@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/interactor/filter/filter_interactor.dart';
+import 'package:places/data/interactor/filter_interactor.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
