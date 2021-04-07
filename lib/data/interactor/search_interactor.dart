@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/filter_repository.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 
 ///  Поиск
@@ -26,7 +28,7 @@ class SearchInteractor {
   ///  Поиск отфильтрованого места с задержкой 4 сек
   Future<List<Place>> _doSearch(String value) async => Future.delayed(
       Duration(seconds: 4),
-      () => filterInteractor.filterSights
+      () => mocks
           .where((sight) =>
               sight.name.toLowerCase().contains(value.toLowerCase().trim()))
           .toList());

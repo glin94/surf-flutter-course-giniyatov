@@ -1,5 +1,4 @@
 import 'package:places/data/model/place.dart';
-import 'package:places/ui/res/assets.dart';
 
 /// Моковая геопозиция
 final location = {
@@ -7,43 +6,9 @@ final location = {
   "lon": 49.106405,
 };
 
-///Фильтр
-List<Map<String, dynamic>> categoryValues = [
-  {
-    "name": "Отель",
-    "iconText": icBed,
-    "isTicked": false,
-  },
-  {
-    "name": "Ресторан",
-    "iconText": icEda,
-    "isTicked": false,
-  },
-  {
-    "name": "Особое место",
-    "iconText": icStar,
-    "isTicked": false,
-  },
-  {
-    "name": "Парк",
-    "iconText": icTree,
-    "isTicked": false,
-  },
-  {
-    "name": "Музей",
-    "iconText": icMuseum,
-    "isTicked": false,
-  },
-  {
-    "name": "Кафе",
-    "iconText": icCafes,
-    "isTicked": false,
-  },
-];
-
 final List<Place> mocks = [
   Place(
-    id: "1",
+    id: 1,
     name: "Парк Тысячелетия",
     urls: ["https://cont.ws/uploads/pic/2016/4/0_80c1a_ee4ab833_orig.jpg"],
     openingHours: [0, 0],
@@ -55,7 +20,7 @@ final List<Place> mocks = [
     type: "Парк",
   ),
   Place(
-    id: "2",
+    id: 2,
     name: "Apollo cafe",
     urls: [
       "https://avatars.mds.yandex.net/get-altay/1651981/2a0000016d6f62501dc7ee2d7390e05bdeb8/XXL"
@@ -69,7 +34,7 @@ final List<Place> mocks = [
     type: "Ресторан",
   ),
   Place(
-    id: "3",
+    id: 2,
     name: "Театр имени Г. Камала",
     urls: [
       "http://www.photokzn.ru/userfiles/pic640x340/img-20150420124517-890.jpg",
@@ -85,7 +50,7 @@ final List<Place> mocks = [
     type: "Особое место",
   ),
   Place(
-    id: "4",
+    id: 2,
     name: "Мечеть «Кул-Шариф»",
     urls: [
       "https://upload.wikimedia.org/wikipedia/commons/d/d1/Kazan_Kremlin_Qolsharif_Mosque_08-2016_img2.jpg?uselang=ru"

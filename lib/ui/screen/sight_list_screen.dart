@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:places/data/repository/place_repository.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
@@ -70,7 +71,29 @@ class SightListScreen extends StatelessWidget {
                 vertical: 16,
               ),
               sliver: SliverToBoxAdapter(
-                child: const _PlacesList(),
+                child: FutureBuilder<List<Place>>(
+                  future: placeInteractor.getPlaces(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final sightList = snapshot.data;
+                      if (sightList.isEmpty) {
+                        return Container();
+                      } else
+                        return _PlacesGrid(
+                          places: sightList.cast<Place>(),
+                        );
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                      );
+                    } else
+                      return const WaitingIndicator();
+                  },
+                ),
               ),
             ),
           ],
@@ -80,42 +103,28 @@ class SightListScreen extends StatelessWidget {
   }
 }
 
-class _PlacesList extends StatelessWidget {
-  const _PlacesList({Key key}) : super(key: key);
+class _PlacesGrid extends StatelessWidget {
+  const _PlacesGrid({
+    Key key,
+    this.places,
+  }) : super(key: key);
+
+  final List<Place> places;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
-      future: placeRepository.fetchPlaces(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final sightList = snapshot.data;
-          return GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (c, i) => SightCard(sight: sightList[i]),
-            itemCount: sightList.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 24,
-              childAspectRatio: 1.5,
-              mainAxisSpacing: 16,
-              crossAxisCount:
-                  MediaQuery.of(context).orientation == Orientation.portrait
-                      ? 1
-                      : 2,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child: Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: 60,
-            ),
-          );
-        } else
-          return const WaitingIndicator();
-      },
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (c, i) => SightCard(sight: places[i]),
+      itemCount: places.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: 24,
+        childAspectRatio: 1.5,
+        mainAxisSpacing: 16,
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 2,
+      ),
     );
   }
 }

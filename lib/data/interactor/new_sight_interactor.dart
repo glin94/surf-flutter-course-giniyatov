@@ -64,7 +64,7 @@ class SightInteractor {
 
   void createSight() {
     mocks.add(Place(
-        id: "5",
+        id: 5,
         name: nameTextController.text,
         description: descTextController.text,
         lat: double.parse(latTextController.text),

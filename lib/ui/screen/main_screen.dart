@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static List<Widget> _screens = <Widget>[
     const SightListScreen(),
-    FiltersScreen(),
+    Container(),
     VisitingScreen(),
     SettingsScreen(),
   ];
