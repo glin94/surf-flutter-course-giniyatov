@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
@@ -79,14 +80,30 @@ class _SightCardState extends State<SightCard> {
             Positioned(
               right: 4,
               top: 4,
-              child: IconButton(
-                onPressed: () => print("favorite"),
-                icon: SvgPicture.asset(
-                  icHeart,
-                  color: Colors.white,
-                ),
+              child: StreamBuilder<List<Place>>(
+                stream: placeInteractor.favoriteListStream,
+                initialData: placeInteractor.favoritesList,
+                builder: (context, snapshot) => !snapshot.data
+                        .map((item) => item.id)
+                        .contains(widget.sight.id)
+                    ? IconButton(
+                        onPressed: () =>
+                            placeInteractor.addToFavorites(widget.sight),
+                        icon: SvgPicture.asset(
+                          icHeart,
+                          color: Colors.white,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () =>
+                            placeInteractor.removeFromFavorites(widget.sight),
+                        icon: SvgPicture.asset(
+                          icHeartFilled,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
-            ),
+            )
           ],
         ),
       ),

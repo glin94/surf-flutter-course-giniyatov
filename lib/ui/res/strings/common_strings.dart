@@ -46,3 +46,6 @@ const String startText = "НА СТАРТ";
 const String cameraText = "Камера";
 const String photoText = "Фотография";
 const String fileText = "Файл";
+
+const String addToFavoriteText = "В Избранное";
+const String removeFromFavoriteText = "Убрать из Избранного";

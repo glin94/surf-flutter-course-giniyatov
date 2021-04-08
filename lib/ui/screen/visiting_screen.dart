@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
@@ -47,24 +48,31 @@ class _VisitingScreenState extends State<VisitingScreen>
           ),
         ),
       ),
-      body: TabBarView(controller: _controller, children: <Widget>[
-        _TabItem(
-          sightList: mocks.where((sight) => !sight.isAchieved).toList(),
-          emptyPlaceScreen: const EmptyPlaceScreen(
-            iconsAssetText: icCamera,
-            text: wantToVisitPlacesEmptyText,
-            header: "Пусто",
+      body: StreamBuilder<List<Place>>(
+        initialData: placeInteractor.favoritesList,
+        stream: placeInteractor.getFavoritesPlaces(),
+        builder: (context, snapshot) =>
+            TabBarView(controller: _controller, children: <Widget>[
+          _TabItem(
+            sightList:
+                snapshot.data.where((sight) => !sight.isAchieved).toList(),
+            emptyPlaceScreen: const EmptyPlaceScreen(
+              iconsAssetText: icCamera,
+              text: wantToVisitPlacesEmptyText,
+              header: "Пусто",
+            ),
           ),
-        ),
-        _TabItem(
-          sightList: mocks.where((sight) => sight.isAchieved).toList(),
-          emptyPlaceScreen: const EmptyPlaceScreen(
-            iconsAssetText: icGO,
-            header: "Пусто",
-            text: visitedPlacesEmptyText,
+          _TabItem(
+            sightList:
+                snapshot.data.where((sight) => sight.isAchieved).toList(),
+            emptyPlaceScreen: const EmptyPlaceScreen(
+              iconsAssetText: icGO,
+              header: "Пусто",
+              text: visitedPlacesEmptyText,
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }
@@ -187,9 +195,8 @@ class _TabItemState extends State<_TabItem> {
                       child: FavoriteSightCard(
                         key: ValueKey(sight),
                         sight: sight,
-                        onDelete: () => setState(
-                          () => widget.sightList.removeAt(index),
-                        ),
+                        onDelete: () =>
+                            placeInteractor.removeFromFavorites(sight),
                       ),
                     );
                   },

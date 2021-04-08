@@ -28,7 +28,7 @@ class Place {
   List<int> openingHours = const [9, 18];
 
   /// Дата посещения места
-  DateTime visitingDate;
+  DateTime visitingDate = DateTime(2021, 04, 13);
 
   bool isFavorite;
 
@@ -62,7 +62,6 @@ class Place {
         'lng': this.lon,
         'name': this.name,
         'placeType': placeTypeToString(this.placeType),
-        'description': this.lat,
       };
 
   static String placeTypeToString(PlaceType type) {
