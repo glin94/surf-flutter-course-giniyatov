@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/model/theme.dart';
+import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/common/widgets/separator.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -32,9 +32,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               trailing: CupertinoSwitch(
-                value: themeModel.isDark,
+                value: settingsInteractor.isDark,
                 onChanged: (val) =>
-                    setState(() => themeModel.changeTheme = val),
+                    setState(() => settingsInteractor.changeTheme = val),
               ),
             ),
             const Separator(),
@@ -46,13 +46,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               trailing: SvgPicture.asset(
                 icInfo,
-                color: themeModel.isDark ? colorDarkGreen : colorLightGreen,
+                color: settingsInteractor.isDark
+                    ? colorDarkGreen
+                    : colorLightGreen,
               ),
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OnBoardingScreen(),
-                  )),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OnBoardingScreen(),
+                ),
+              ),
             ),
             const Separator(),
           ],
