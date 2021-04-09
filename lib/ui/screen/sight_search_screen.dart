@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/interactor/filter/search_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/separator.dart';

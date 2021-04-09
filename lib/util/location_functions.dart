@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/sight.dart';
 
 ///Функция проверки нахождения места в промежутке дистанции
 arePointsNear(Sight checkPoint, Map<String, double> centerPoint,

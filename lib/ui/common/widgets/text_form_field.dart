@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_sight_interactor.dart';
 import 'package:places/ui/common/widgets/text_clear_button.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/text_styles.dart';

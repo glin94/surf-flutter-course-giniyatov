@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_sight_interactor.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';

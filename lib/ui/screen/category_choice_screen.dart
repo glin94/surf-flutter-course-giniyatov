@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/interactor/filter/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_sight_interactor.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/res/assets.dart';

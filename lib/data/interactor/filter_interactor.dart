@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/util/const.dart';
 import 'package:places/util/location_functions.dart';

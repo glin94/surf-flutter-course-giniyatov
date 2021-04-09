@@ -1,6 +1,5 @@
+import 'package:places/data/model/sight.dart';
 import 'package:places/ui/res/assets.dart';
-
-import 'domain/sight.dart';
 
 /// Моковая геопозиция
 final location = {

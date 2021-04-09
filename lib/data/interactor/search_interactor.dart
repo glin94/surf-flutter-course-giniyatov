@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/sight.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 
 ///  Поиск
