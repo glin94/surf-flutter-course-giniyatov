@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/filter_repository.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 
 ///  Поиск
@@ -7,10 +9,10 @@ class SearchInteractor {
   ///  Set для того, чтобы значения не повторялись
   final _wordsList = Set<String>();
 
-  final _sightListController = StreamController<List<Sight>>.broadcast();
+  final _sightListController = StreamController<List<Place>>.broadcast();
   final _wordsListController = StreamController<List<String>>.broadcast();
 
-  Stream<List<Sight>> get sightListStream => _sightListController.stream;
+  Stream<List<Place>> get sightListStream => _sightListController.stream;
   Stream<List<String>> get wordsListStream => _wordsListController.stream;
 
   void search(String text) async {
@@ -24,9 +26,9 @@ class SearchInteractor {
   }
 
   ///  Поиск отфильтрованого места с задержкой 4 сек
-  Future<List<Sight>> _doSearch(String value) async => Future.delayed(
+  Future<List<Place>> _doSearch(String value) async => Future.delayed(
       Duration(seconds: 4),
-      () => filterInteractor.filterSights
+      () => mocks
           .where((sight) =>
               sight.name.toLowerCase().contains(value.toLowerCase().trim()))
           .toList());

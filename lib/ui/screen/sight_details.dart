@@ -1,39 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/model/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/common/widgets/separator.dart';
+import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 /// Экран отображения детальной информации об интересном месте
-class SightDetails extends StatefulWidget {
+class SightDetails extends StatelessWidget {
   const SightDetails({
     Key key,
     this.id,
   }) : super(key: key);
 
-  final String id;
-
-  @override
-  _SightDetailsState createState() => _SightDetailsState();
-}
-
-class _SightDetailsState extends State<SightDetails> {
-  Sight sight;
-
-  Sight getSight(String id) => mocks.firstWhere((sight) => sight.id == id);
-
-  @override
-  void initState() {
-    super.initState();
-    sight = getSight(widget.id);
-  }
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -44,65 +30,74 @@ class _SightDetailsState extends State<SightDetails> {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        child: Stack(children: [
-          CustomScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                elevation: 0,
-                primary: true,
-                stretch: true,
-                pinned: true,
-                automaticallyImplyLeading: false,
-                expandedHeight: 300,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  stretchModes: <StretchMode>[
-                    StretchMode.blurBackground,
-                    StretchMode.zoomBackground,
-                  ],
-                  background: GalleryWidget(imagesUrlList: sight.imgListUrl),
-                ),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      _SightDescription(sight: sight),
-                      const SizedBox(height: 24),
-                      const _RouteButton(),
-                      const SizedBox(height: 24),
-                      const Separator(),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const _PlanningButton(),
-                          const _FavouriteButton(),
-                        ],
+        child: FutureBuilder<Place>(
+            future: placeInteractor.getPlace(id.toString()),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final sight = snapshot.data;
+                return Stack(children: [
+                  CustomScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    slivers: [
+                      SliverAppBar(
+                        elevation: 0,
+                        primary: true,
+                        stretch: true,
+                        pinned: true,
+                        automaticallyImplyLeading: false,
+                        expandedHeight: 300,
+                        flexibleSpace: FlexibleSpaceBar(
+                          collapseMode: CollapseMode.pin,
+                          stretchModes: <StretchMode>[
+                            StretchMode.blurBackground,
+                            StretchMode.zoomBackground,
+                          ],
+                          background: GalleryWidget(imagesUrlList: sight.urls),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 24,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              _SightDescription(sight: sight),
+                              const SizedBox(height: 24),
+                              const _RouteButton(),
+                              const SizedBox(height: 24),
+                              const Separator(),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const _PlanningButton(),
+                                  const _FavouriteButton(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 12,
-            right: 160,
-            left: 160,
-            child: const _Rectangle(),
-          ),
-          Positioned(
-            top: 16,
-            right: 16,
-            child: const _CircleCloseButton(),
-          ),
-        ]),
+                  Positioned(
+                    top: 12,
+                    right: 160,
+                    left: 160,
+                    child: const _Rectangle(),
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: const _CircleCloseButton(),
+                  ),
+                ]);
+              } else
+                return WaitingIndicator();
+            }),
       ),
     );
   }
@@ -156,7 +151,7 @@ class GalleryWidget extends StatelessWidget {
     @required this.imagesUrlList,
   }) : super(key: key);
 
-  final List<String> imagesUrlList;
+  final List<dynamic> imagesUrlList;
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +296,7 @@ class _SightDescription extends StatelessWidget {
     @required this.sight,
   }) : super(key: key);
 
-  final Sight sight;
+  final Place sight;
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +331,7 @@ class _SightDescription extends StatelessWidget {
           height: 24,
         ),
         Text(
-          sight.details,
+          sight.description,
           maxLines: 4,
           style: textBody2,
         ),

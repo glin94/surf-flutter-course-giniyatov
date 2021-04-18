@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:places/data/interactor/new_sight_interactor.dart';
-import 'package:places/data/model/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
+import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 
@@ -21,81 +22,109 @@ class SightListScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: const AddSightButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: StreamBuilder<List<Sight>>(
-          initialData: mocks,
-          stream: sightInteractor.sightListStream,
-          builder: (context, snapshot) {
-            final sightList = snapshot.data;
-            return SafeArea(
-              child: CustomScrollView(
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                slivers: <Widget>[
-                  MediaQuery.of(context).orientation == Orientation.portrait
-                      ? SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          sliver: SliverPersistentHeader(
-                            pinned: true,
-                            delegate: _AppBarPersistentHeaderDelegate(
-                              MediaQuery.of(context).size.height / 8.5,
-                              MediaQuery.of(context).size.height /
-                                  kToolbarHeight *
-                                  2,
-                            ),
-                          ),
-                        )
-                      : SliverAppBar(
-                          centerTitle: false,
-                          automaticallyImplyLeading: false,
-                          title: Text(sightListScreenTitle),
-                        ),
-                  SliverPadding(
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          slivers: <Widget>[
+            MediaQuery.of(context).orientation == Orientation.portrait
+                ? SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 18,
+                      vertical: 12,
                     ),
-                    sliver: SliverToBoxAdapter(
-                      child: GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          CupertinoPageRoute(
-                            builder: (context) => SightSearchScreen(),
-                          ),
-                        ),
-                        child: SearchBar(
-                          enable: false,
-                        ),
+                    sliver: SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _AppBarPersistentHeaderDelegate(
+                        MediaQuery.of(context).size.height / 8.5,
+                        MediaQuery.of(context).size.height / kToolbarHeight * 2,
                       ),
                     ),
+                  )
+                : SliverAppBar(
+                    centerTitle: false,
+                    automaticallyImplyLeading: false,
+                    title: Text(sightListScreenTitle),
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 16,
-                    ),
-                    sliver: SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (c, i) => SightCard(sight: sightList[i]),
-                        childCount: sightList.length,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 24,
-                        childAspectRatio: 1.5,
-                        mainAxisSpacing: 16,
-                        crossAxisCount: MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 1
-                            : 2,
-                      ),
-                    ),
-                  ),
-                ],
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 18,
               ),
-            );
-          }),
+              sliver: SliverToBoxAdapter(
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => SightSearchScreen(),
+                    ),
+                  ),
+                  child: SearchBar(
+                    enable: false,
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: FutureBuilder<List<Place>>(
+                  future: placeInteractor.getPlaces(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final sightList = snapshot.data;
+                      if (sightList.isEmpty) {
+                        return Container();
+                      } else
+                        return _PlacesGrid(
+                          places: sightList.cast<Place>(),
+                        );
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                      );
+                    } else
+                      return const WaitingIndicator();
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlacesGrid extends StatelessWidget {
+  const _PlacesGrid({
+    Key key,
+    this.places,
+  }) : super(key: key);
+
+  final List<Place> places;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (c, i) => SightCard(sight: places[i]),
+      itemCount: places.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: 24,
+        childAspectRatio: 1.5,
+        mainAxisSpacing: 16,
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 2,
+      ),
     );
   }
 }

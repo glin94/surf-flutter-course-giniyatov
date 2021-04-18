@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/image.dart';
 import 'package:places/ui/res/assets.dart';
@@ -19,7 +19,7 @@ class SightCard extends StatefulWidget {
     @required this.sight,
   }) : super(key: key);
 
-  final Sight sight;
+  final Place sight;
 
   @override
   _SightCardState createState() => _SightCardState();
@@ -40,7 +40,7 @@ class _SightCardState extends State<SightCard> {
           children: [
             Column(
               children: [
-                _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
+                _SightCardTop(imgUrl: widget.sight.urls.first),
                 _SightCardBottom(
                   sight: widget.sight,
                   visitingText: const SizedBox.shrink(),
@@ -149,7 +149,7 @@ class _SightCardBottom extends StatelessWidget {
     this.visitingText,
   }) : super(key: key);
 
-  final Sight sight;
+  final Place sight;
 
   final Widget visitingText;
 
@@ -200,7 +200,7 @@ class FavoriteSightCard extends StatefulWidget {
     this.onDelete,
   }) : super(key: key);
 
-  final Sight sight;
+  final Place sight;
 
   final VoidCallback onDelete;
 
@@ -274,7 +274,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                   children: [
                     Column(
                       children: [
-                        _SightCardTop(imgUrl: widget.sight.imgListUrl.first),
+                        _SightCardTop(imgUrl: widget.sight.urls.first),
                         _SightCardBottom(
                           sight: widget.sight,
                           visitingText: Container(
@@ -419,7 +419,7 @@ class DraggableCard extends StatefulWidget {
 
   final Widget child;
 
-  final Sight sight;
+  final Place sight;
 
   @override
   _DraggableCardState createState() => _DraggableCardState();
@@ -428,7 +428,7 @@ class DraggableCard extends StatefulWidget {
 class _DraggableCardState extends State<DraggableCard> {
   @override
   Widget build(BuildContext context) {
-    return Draggable<Sight>(
+    return Draggable<Place>(
       data: widget.sight,
       childWhenDragging: SizedBox.shrink(),
       feedback: widget.child,

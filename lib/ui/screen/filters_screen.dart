@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/filter_interactor.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
@@ -11,8 +12,6 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/util/const.dart';
-
-final filterInteractor = FilterInteractor();
 
 /// Экран фильтров
 class FiltersScreen extends StatelessWidget {
@@ -73,7 +72,7 @@ class _ClearButton extends StatelessWidget {
           color: colorLightGreen,
         ),
       ),
-      onPressed: filterInteractor.clear,
+      onPressed: filterRepository.clear,
     );
   }
 }
@@ -93,8 +92,8 @@ class _FilterTable extends StatelessWidget {
           height: 24,
         ),
         StreamBuilder<List<Map>>(
-          initialData: filterInteractor.filterValues,
-          stream: filterInteractor.filtersStream,
+          initialData: filterRepository.filterValues,
+          stream: filterRepository.filtersStream,
           builder: (context, snapshot) {
             return isSmalScreen
                 ? Container(
@@ -147,7 +146,7 @@ class _FilterItem extends StatelessWidget {
       children: [
         InkWell(
           borderRadius: BorderRadius.circular(32),
-          onTap: () => filterInteractor.choiceFilterItem = category,
+          onTap: () async => filterRepository.choiceFilterItem(category),
           splashColor: colorLightGreen.withOpacity(.16),
           child: Container(
               decoration: BoxDecoration(
@@ -213,9 +212,9 @@ class _RadiusSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-        initialData: filterInteractor.rangeValues,
-        stream: filterInteractor.rangeValuesStream,
+    return StreamBuilder<RangeValues>(
+        initialData: filterRepository.rangeValues,
+        stream: filterRepository.rangeValuesStream,
         builder: (context, snapshot) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -228,7 +227,7 @@ class _RadiusSlider extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                     Text(
-                      "от ${distanceFormat(filterInteractor.rangeValues.start)} до ${distanceFormat(filterInteractor.rangeValues.end)}",
+                      "от ${distanceFormat(filterRepository.rangeValues.start)} до ${distanceFormat(filterRepository.rangeValues.end)}",
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
@@ -240,8 +239,8 @@ class _RadiusSlider extends StatelessWidget {
                   values: snapshot.data,
                   min: minDistanceM,
                   max: maxDistanceM,
-                  onChanged: (RangeValues values) =>
-                      filterInteractor.rangeValuesChange = values,
+                  onChanged: (RangeValues values) async =>
+                      filterRepository.rangeValuesChange(values),
                 ),
               ]);
         });
@@ -254,10 +253,9 @@ class _FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      initialData: List<Sight>(),
-      stream: filterInteractor.sightsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Sight>> snapshot) {
+    return StreamBuilder<List<Place>>(
+      stream: filterRepository.placesStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
         var filterSights = List();
         if (snapshot != null && snapshot.hasData) {
           filterSights = snapshot.data;
@@ -269,7 +267,9 @@ class _FilterButton extends StatelessWidget {
             child: Text(
               "$viewButtonText (${filterSights.length})",
             ),
-            onPressed: filterSights.length != 0 ? () {} : null,
+            onPressed: filterSights.length != 0
+                ? () => Navigator.of(context).pop(filterSights)
+                : null,
           ),
         );
       },

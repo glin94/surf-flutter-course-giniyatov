@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:places/data/model/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 
 SightInteractor sightInteractor = SightInteractor();
@@ -9,10 +9,10 @@ SightInteractor sightInteractor = SightInteractor();
 class SightInteractor {
   String categoryName = "";
 
-  List<String> get imageList => mocks.first.imgListUrl;
+  List<String> get imageList => mocks.first.urls;
 
-  StreamController<List<Sight>> _sightListController =
-      StreamController<List<Sight>>.broadcast();
+  StreamController<List<Place>> _sightListController =
+      StreamController<List<Place>>.broadcast();
 
   StreamController<bool> _isValidateController =
       StreamController<bool>.broadcast();
@@ -27,7 +27,7 @@ class SightInteractor {
 
   Stream<bool> get isValidateStream => _isValidateController.stream;
 
-  Stream<List<Sight>> get sightListStream => _sightListController.stream;
+  Stream<List<Place>> get sightListStream => _sightListController.stream;
 
   Stream<String> get choicedCategoryControllerStream =>
       _choicedCategoryController.stream;
@@ -63,13 +63,13 @@ class SightInteractor {
   }
 
   void createSight() {
-    mocks.add(Sight(
-        id: "5",
+    mocks.add(Place(
+        id: 5,
         name: nameTextController.text,
-        details: descTextController.text,
+        description: descTextController.text,
         lat: double.parse(latTextController.text),
         lon: double.parse(lonTextController.text),
-        imgListUrl: imageList,
+        urls: imageList,
         openingHours: [0, 0],
         type: categoryName));
     _sightListController.add(mocks);
