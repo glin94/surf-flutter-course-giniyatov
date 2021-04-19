@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/ui/common/formatters/formatter.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
@@ -72,7 +71,7 @@ class _ClearButton extends StatelessWidget {
           color: colorLightGreen,
         ),
       ),
-      onPressed: filterRepository.clear,
+      onPressed: searchInteractor.clear,
     );
   }
 }
@@ -92,8 +91,8 @@ class _FilterTable extends StatelessWidget {
           height: 24,
         ),
         StreamBuilder<List<Map>>(
-          initialData: filterRepository.filterValues,
-          stream: filterRepository.filtersStream,
+          initialData: searchInteractor.filterValues,
+          stream: searchInteractor.filtersStream,
           builder: (context, snapshot) {
             return isSmalScreen
                 ? Container(
@@ -146,7 +145,7 @@ class _FilterItem extends StatelessWidget {
       children: [
         InkWell(
           borderRadius: BorderRadius.circular(32),
-          onTap: () async => filterRepository.choiceFilterItem(category),
+          onTap: () async => searchInteractor.choiceFilterItem(category),
           splashColor: colorLightGreen.withOpacity(.16),
           child: Container(
               decoration: BoxDecoration(
@@ -213,8 +212,8 @@ class _RadiusSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<RangeValues>(
-        initialData: filterRepository.rangeValues,
-        stream: filterRepository.rangeValuesStream,
+        initialData: searchInteractor.rangeValues,
+        stream: searchInteractor.rangeValuesStream,
         builder: (context, snapshot) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -227,7 +226,7 @@ class _RadiusSlider extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                     Text(
-                      "от ${distanceFormat(filterRepository.rangeValues.start)} до ${distanceFormat(filterRepository.rangeValues.end)}",
+                      "от ${distanceFormat(searchInteractor.rangeValues.start)} до ${distanceFormat(searchInteractor.rangeValues.end)}",
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
@@ -240,7 +239,7 @@ class _RadiusSlider extends StatelessWidget {
                   min: minDistanceM,
                   max: maxDistanceM,
                   onChanged: (RangeValues values) async =>
-                      filterRepository.rangeValuesChange(values),
+                      searchInteractor.rangeValuesChange(values),
                 ),
               ]);
         });
@@ -254,7 +253,7 @@ class _FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Place>>(
-      stream: filterRepository.placesStream,
+      stream: searchInteractor.placesStream,
       builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
         var filterSights = List();
         if (snapshot != null && snapshot.hasData) {

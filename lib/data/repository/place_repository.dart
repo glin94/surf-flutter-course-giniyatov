@@ -1,20 +1,28 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/mocks.dart';
 
-class PlaceRepository {
-  Dio dio = Dio(
-    BaseOptions(
-      baseUrl: "https://test-backend-flutter.surfstudio.ru",
-      connectTimeout: 5000,
-      receiveTimeout: 5000,
-      sendTimeout: 5000,
-      responseType: ResponseType.json,
+Dio dio = Dio(
+  BaseOptions(
+    baseUrl: "https://test-backend-flutter.surfstudio.ru",
+    connectTimeout: 5000,
+    receiveTimeout: 5000,
+    sendTimeout: 5000,
+    responseType: ResponseType.json,
+  ),
+);
+
+void initInterceptor() {
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onError: (e) => print("Error: $e"),
+      onRequest: (options) => print("Запрос отправляется"),
+      onResponse: (options) => print("Ответ получен"),
     ),
   );
+}
 
+class PlaceRepository {
   Future<List<dynamic>> fetchPlaces() async {
     initInterceptor();
     final response = await dio.get("/place");
@@ -55,33 +63,5 @@ class PlaceRepository {
       return place;
     } else
       throw Exception("Request error. Error code: ${response.statusCode}");
-  }
-
-  Future<List<dynamic>> fetchPlacesByRadiusAndCategory(
-      double radius, List<PlaceType> types,
-      {String textValue = ""}) async {
-    initInterceptor();
-    final response = await dio.post("/filtered_places", data: {
-      "lat": location["lat"],
-      "lng": location["lon"],
-      "radius": radius,
-      "typeFilter": types.map((item) => Place.placeTypeToString(item)).toList(),
-      "nameFilter": textValue,
-    });
-    if (response.statusCode == 200) {
-      final places = await response.data;
-      return places.map((json) => Place.fromJson(json)).toList();
-    } else
-      throw Exception("Request error. Error code: ${response.statusCode}");
-  }
-
-  void initInterceptor() {
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onError: (e) => print("Error: $e"),
-        onRequest: (options) => print("Запрос отправляется"),
-        onResponse: (options) => print("Ответ получен"),
-      ),
-    );
   }
 }

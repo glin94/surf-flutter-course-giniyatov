@@ -26,7 +26,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   @override
   void initState() {
     _textController.addListener(() async {
-      _searchInteractor.search(_textController.text);
+      _searchInteractor.searchPlaces(_textController.text);
     });
     super.initState();
   }
@@ -60,7 +60,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
             sliver: SliverFillRemaining(
               child: StreamBuilder<List<Place>>(
                   initialData: [],
-                  stream: _searchInteractor.sightListStream,
+                  stream: _searchInteractor.placesStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const EmptyPlaceScreen(

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/ui/common/widgets/add_sight_button.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
+import 'package:places/util/const.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatelessWidget {
@@ -71,7 +71,7 @@ class SightListScreen extends StatelessWidget {
                 vertical: 16,
               ),
               sliver: SliverToBoxAdapter(
-                child: FutureBuilder<List<Place>>(
+                child: FutureBuilder<List<dynamic>>(
                   future: placeInteractor.getPlaces(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
