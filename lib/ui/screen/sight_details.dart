@@ -31,7 +31,7 @@ class SightDetails extends StatelessWidget {
           topRight: Radius.circular(16),
         ),
         child: FutureBuilder<Place>(
-            future: placeInteractor.getPlace(id.toString()),
+            future: placeInteractor.getPlaceDetails(id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final sight = snapshot.data;
@@ -74,7 +74,7 @@ class SightDetails extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   const _PlanningButton(),
-                                  const _FavouriteButton(),
+                                  _FavouriteButton(place: sight),
                                 ],
                               ),
                             ],
@@ -227,20 +227,39 @@ class _CloseButton extends StatelessWidget {
 class _FavouriteButton extends StatelessWidget {
   const _FavouriteButton({
     Key key,
+    this.place,
   }) : super(key: key);
 
+  final Place place;
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      icon: SvgPicture.asset(
-        icHeart,
-        color: Theme.of(context).iconTheme.color,
-      ),
-      onPressed: () => print("favorite"),
-      label: Text(
-        "В Избранное",
-        style: textBody2.copyWith(),
-      ),
+    return StreamBuilder<List<Place>>(
+      initialData: placeInteractor.favoritesList,
+      stream: placeInteractor.favoriteListStream,
+      builder: (context, snapshot) =>
+          snapshot.data.map((item) => item.id).contains(place.id)
+              ? TextButton.icon(
+                  icon: SvgPicture.asset(
+                    icHeartFilled,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  onPressed: () => placeInteractor.removeFromFavorites(place),
+                  label: Text(
+                    removeFromFavoriteText,
+                    style: textBody2.copyWith(),
+                  ),
+                )
+              : TextButton.icon(
+                  icon: SvgPicture.asset(
+                    icHeart,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  onPressed: () => placeInteractor.addToFavorites(place),
+                  label: Text(
+                    addToFavoriteText,
+                    style: textBody2.copyWith(),
+                  ),
+                ),
     );
   }
 }
