@@ -7,7 +7,7 @@ import 'package:places/util/const.dart';
 
 final SearchInteractor searchInteractor = SearchInteractor();
 
-///  Поиск
+/// Поиск и фильтр
 class SearchInteractor {
   final List<Map<String, dynamic>> categoryValues = [
     {

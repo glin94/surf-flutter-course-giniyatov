@@ -291,7 +291,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                   children: [
                     Column(
                       children: [
-                        _SightCardTop(imgUrl: widget.sight.urls.first),
+                        _SightCardTop(imgUrl: widget.sight.urls.first ?? []),
                         _SightCardBottom(
                           sight: widget.sight,
                           visitingText: Container(

@@ -17,7 +17,7 @@ degreesToRadians(degrees) {
   return degrees * pi / 180;
 }
 
-distanceInKmBetweenEarthCoordinates(
+double distanceInKmBetweenEarthCoordinates(
     double lat1, double lon1, double lat2, double lon2) {
   var earthRadiusKm = 6371;
 

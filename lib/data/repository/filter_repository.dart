@@ -1,27 +1,25 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:places/data/interactor/api_client.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/data/repository/place_repository.dart';
 import 'package:places/mocks.dart';
+import 'package:places/util/const.dart';
 
 ///Фильтр
 class FilterRepository {
+  ApiClient _apiClient = ApiClient();
+
   Future<List<dynamic>> filteredPlaces(
     double radius,
     List<PlaceType> types,
     String textValue,
   ) async {
-    initInterceptor();
-    final response = await dio.post("/filtered_places", data: {
+    final places = await _apiClient.post(filterePlaceEndpoint, {
       "lat": location["lat"],
       "lng": location["lon"],
       "radius": radius,
       "typeFilter": types.map((item) => Place.placeTypeToString(item)).toList(),
     });
-    if (response.statusCode == 200) {
-      final places = await response.data;
-      print("$textValue: ${places.toString()}");
-      return places.map((json) => Place.fromJson(json)).toList();
-    } else
-      throw Exception("Request error. Error code: ${response.statusCode}");
+    return places.map((json) => Place.fromJson(json)).toList();
   }
 }
