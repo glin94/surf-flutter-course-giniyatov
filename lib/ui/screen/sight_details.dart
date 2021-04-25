@@ -37,13 +37,11 @@ class SightDetails extends StatelessWidget {
                 final sight = snapshot.data;
                 return Stack(children: [
                   CustomScrollView(
-                    physics: NeverScrollableScrollPhysics(),
                     slivers: [
                       SliverAppBar(
                         elevation: 0,
                         primary: true,
                         stretch: true,
-                        pinned: true,
                         automaticallyImplyLeading: false,
                         expandedHeight: 300,
                         flexibleSpace: FlexibleSpaceBar(
@@ -83,13 +81,13 @@ class SightDetails extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 12,
                     right: 160,
                     left: 160,
                     child: const _Rectangle(),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 16,
                     right: 16,
                     child: const _CircleCloseButton(),
@@ -332,7 +330,7 @@ class _SightDescription extends StatelessWidget {
         Row(
           children: [
             Text(
-              sight.type.toLowerCase(),
+              placeTypeText(sight.placeType).toLowerCase(),
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: colorDarkSecondary2,
                   ),
@@ -351,7 +349,7 @@ class _SightDescription extends StatelessWidget {
         ),
         Text(
           sight.description,
-          maxLines: 4,
+          // maxLines: 4,
           style: textBody2,
         ),
       ],

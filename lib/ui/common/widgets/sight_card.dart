@@ -41,7 +41,7 @@ class _SightCardState extends State<SightCard> {
           children: [
             Column(
               children: [
-                _SightCardTop(imgUrl: widget.sight.urls.first),
+                _SightCardTop(imgUrls: widget.sight.urls),
                 _SightCardBottom(
                   sight: widget.sight,
                   visitingText: const SizedBox.shrink(),
@@ -52,7 +52,7 @@ class _SightCardState extends State<SightCard> {
               top: 16,
               left: 16,
               child: Text(
-                widget.sight.type.toLowerCase(),
+                placeTypeText(widget.sight.placeType).toLowerCase(),
                 style: textBody1.copyWith(
                   color: Colors.white,
                 ),
@@ -115,10 +115,10 @@ class _SightCardState extends State<SightCard> {
 class _SightCardTop extends StatelessWidget {
   const _SightCardTop({
     Key key,
-    @required this.imgUrl,
+    @required this.imgUrls,
   }) : super(key: key);
 
-  final String imgUrl;
+  final List<String> imgUrls;
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +138,11 @@ class _SightCardTop extends StatelessWidget {
           minHeight: 96,
         ),
         foregroundDecoration: _buildDecoration(),
-        child: ImageWidget(
-          url: imgUrl,
-        ),
+        child: imgUrls.isNotEmpty
+            ? ImageWidget(
+                url: imgUrls.first,
+              )
+            : Container(),
       ),
     );
   }
@@ -291,7 +293,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                   children: [
                     Column(
                       children: [
-                        _SightCardTop(imgUrl: widget.sight.urls.first ?? []),
+                        _SightCardTop(imgUrls: widget.sight.urls),
                         _SightCardBottom(
                           sight: widget.sight,
                           visitingText: Container(

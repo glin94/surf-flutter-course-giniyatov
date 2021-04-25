@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:places/data/interactor/api_client.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';

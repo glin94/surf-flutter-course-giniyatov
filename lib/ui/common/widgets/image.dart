@@ -13,17 +13,15 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return url == null
-        ? Container()
-        : Image.network(
-            url,
-            fit: BoxFit.cover,
-            errorBuilder: (c, o, trace) => Container(),
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const WaitingIndicator();
-            },
-          );
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (c, o, trace) => Container(),
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        return const WaitingIndicator();
+      },
+    );
   }
 }

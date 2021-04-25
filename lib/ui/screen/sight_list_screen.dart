@@ -9,7 +9,6 @@ import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
-import 'package:places/util/const.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatelessWidget {
@@ -75,12 +74,12 @@ class SightListScreen extends StatelessWidget {
                   future: placeInteractor.getPlaces(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final sightList = snapshot.data;
+                      final sightList = snapshot.data.cast<Place>();
                       if (sightList.isEmpty) {
                         return Container();
                       } else
                         return _PlacesGrid(
-                          places: sightList.cast<Place>(),
+                          places: sightList,
                         );
                     } else if (snapshot.hasError) {
                       return const Center(
