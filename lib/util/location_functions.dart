@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:places/data/model/place.dart';
 
 ///Функция проверки нахождения места в промежутке дистанции
-bool arePointsNear(Place checkPoint, Map<String, double> centerPoint,
-    double minDistanceKm, double maxDistanceKm) {
+bool arePointsNear(
+  Place checkPoint,
+  Map<String, double> centerPoint,
+  double minDistanceKm,
+  double maxDistanceKm,
+) {
   var ky = 40000 / 360;
   var kx = cos(pi * centerPoint['lat'] / 180.0) * ky;
   var dx = ((centerPoint['lon'] - checkPoint.lon) * kx).abs();
@@ -13,12 +17,16 @@ bool arePointsNear(Place checkPoint, Map<String, double> centerPoint,
       sqrt(dx * dx + dy * dy) <= maxDistanceKm;
 }
 
-degreesToRadians(degrees) {
+double degreesToRadians(degrees) {
   return degrees * pi / 180;
 }
 
 double distanceInKmBetweenEarthCoordinates(
-    double lat1, double lon1, double lat2, double lon2) {
+  double lat1,
+  double lon1,
+  double lat2,
+  double lon2,
+) {
   var earthRadiusKm = 6371;
 
   var dLat = degreesToRadians(lat2 - lat1);

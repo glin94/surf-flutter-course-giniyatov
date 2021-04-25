@@ -11,8 +11,7 @@ class PlaceRepository {
   }
 
   Future<dynamic> fetchPlaceById(String id) async {
-    print(Uri.parse(placeEndpoint + id).path);
-    final place = await _apiClient.get(Uri.parse(placeEndpoint + id).path);
+    final place = await _apiClient.get("$placeEndpoint/$id");
     return Place.fromJson(place);
   }
 

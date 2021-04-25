@@ -19,7 +19,7 @@ class Place {
 
   double distance;
 
-  final List<dynamic> urls;
+  final List<String> urls;
 
   ///широта и долгота
   final double lat, lon;
@@ -51,7 +51,7 @@ class Place {
         lat = json['lat'],
         lon = json['lng'],
         name = json['name'],
-        urls = json['urls'],
+        urls = json['urls'].cast<String>(),
         type = json['placeType'],
         distance = json['distance'] ?? 0.0,
         description = json['description'];

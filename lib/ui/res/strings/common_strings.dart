@@ -48,4 +48,4 @@ const String photoText = "Фотография";
 const String fileText = "Файл";
 
 const String addToFavoriteText = "В Избранное";
-const String removeFromFavoriteText = "Убрать из Избранного";
+const String removeFromFavoriteText = "Убрать";

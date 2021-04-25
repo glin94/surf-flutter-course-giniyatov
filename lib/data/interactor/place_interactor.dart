@@ -7,10 +7,10 @@ PlaceInteractor placeInteractor = PlaceInteractor();
 class PlaceInteractor {
   List<Place> favoritesList = List<Place>();
 
-  StreamController<List<Place>> favoritesListController =
+  StreamController<List<Place>> _favoritesListController =
       StreamController.broadcast();
 
-  Stream<List<Place>> get favoriteListStream => favoritesListController.stream;
+  Stream<List<Place>> get favoriteListStream => _favoritesListController.stream;
 
   PlaceRepository _placeRepository = PlaceRepository();
 
@@ -25,18 +25,18 @@ class PlaceInteractor {
 
   Stream<List<Place>> getFavoritesPlaces() {
     favoritesList.sort((a, b) => a.distance.compareTo(b.distance));
-    favoritesListController.add(favoritesList);
+    _favoritesListController.add(favoritesList);
     return favoriteListStream;
   }
 
   void addToFavorites(Place place) {
     favoritesList.add(place);
-    favoritesListController.add(favoritesList);
+    _favoritesListController.add(favoritesList);
   }
 
   void removeFromFavorites(Place place) {
     favoritesList.removeWhere((item) => place.id == item.id);
-    favoritesListController.add(favoritesList);
+    _favoritesListController.add(favoritesList);
   }
 
   List<Place> getVisitPlaces() {
