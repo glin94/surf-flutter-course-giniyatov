@@ -5,10 +5,17 @@ import 'package:places/data/repository/place_repository.dart';
 PlaceInteractor placeInteractor = PlaceInteractor();
 
 class PlaceInteractor {
+  PlaceInteractor() {
+    getPlaces().then((list) => placesController.add(list));
+  }
   List<Place> favoritesList = List<Place>();
 
   StreamController<List<Place>> _favoritesListController =
       StreamController.broadcast();
+
+  StreamController<List<Place>> placesController = StreamController.broadcast();
+
+  Stream<List<Place>> get placeStream => placesController.stream;
 
   Stream<List<Place>> get favoriteListStream => _favoritesListController.stream;
 
@@ -29,12 +36,12 @@ class PlaceInteractor {
     return favoriteListStream;
   }
 
-  void addToFavorites(Place place) {
+  void addToFavoritesList(Place place) {
     favoritesList.add(place);
     _favoritesListController.add(favoritesList);
   }
 
-  void removeFromFavorites(Place place) {
+  void removeFromFavoritesList(Place place) {
     favoritesList.removeWhere((item) => place.id == item.id);
     _favoritesListController.add(favoritesList);
   }

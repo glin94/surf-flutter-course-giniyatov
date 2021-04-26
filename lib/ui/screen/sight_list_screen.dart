@@ -8,13 +8,12 @@ import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatelessWidget {
-  const SightListScreen({
-    Key key,
-  }) : super(key: key);
+  const SightListScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +59,15 @@ class SightListScreen extends StatelessWidget {
                   ),
                   child: SearchBar(
                     enable: false,
+                    onFilterTap: () async {
+                      final filterPlaces =
+                          await Navigator.of(context).push<List<Place>>(
+                        CupertinoPageRoute(
+                          builder: (context) => FiltersScreen(),
+                        ),
+                      );
+                      placeInteractor.placesController.add(filterPlaces);
+                    },
                   ),
                 ),
               ),
@@ -70,17 +78,15 @@ class SightListScreen extends StatelessWidget {
                 vertical: 16,
               ),
               sliver: SliverToBoxAdapter(
-                child: FutureBuilder<List<dynamic>>(
-                  future: placeInteractor.getPlaces(),
+                child: StreamBuilder<List<dynamic>>(
+                  stream: placeInteractor.placeStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final sightList = snapshot.data.cast<Place>();
                       if (sightList.isEmpty) {
                         return Container();
                       } else
-                        return _PlacesGrid(
-                          places: sightList,
-                        );
+                        return _PlacesGrid(places: sightList);
                     } else if (snapshot.hasError) {
                       return const Center(
                         child: Icon(

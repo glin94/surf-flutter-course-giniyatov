@@ -234,30 +234,31 @@ class _FavouriteButton extends StatelessWidget {
     return StreamBuilder<List<Place>>(
       initialData: placeInteractor.favoritesList,
       stream: placeInteractor.favoriteListStream,
-      builder: (context, snapshot) =>
-          snapshot.data.map((item) => item.id).contains(place.id)
-              ? TextButton.icon(
-                  icon: SvgPicture.asset(
-                    icHeartFilled,
-                    color: Theme.of(context).iconTheme.color,
-                  ),
-                  onPressed: () => placeInteractor.removeFromFavorites(place),
-                  label: Text(
-                    removeFromFavoriteText,
-                    style: textBody2.copyWith(),
-                  ),
-                )
-              : TextButton.icon(
-                  icon: SvgPicture.asset(
-                    icHeart,
-                    color: Theme.of(context).iconTheme.color,
-                  ),
-                  onPressed: () => placeInteractor.addToFavorites(place),
-                  label: Text(
-                    addToFavoriteText,
-                    style: textBody2.copyWith(),
-                  ),
-                ),
+      builder: (context, snapshot) => snapshot.data
+              .map((item) => item.id)
+              .contains(place.id)
+          ? TextButton.icon(
+              icon: SvgPicture.asset(
+                icHeartFilled,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              onPressed: () => placeInteractor.removeFromFavoritesList(place),
+              label: Text(
+                removeFromFavoriteText,
+                style: textBody2.copyWith(),
+              ),
+            )
+          : TextButton.icon(
+              icon: SvgPicture.asset(
+                icHeart,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              onPressed: () => placeInteractor.addToFavoritesList(place),
+              label: Text(
+                addToFavoriteText,
+                style: textBody2.copyWith(),
+              ),
+            ),
     );
   }
 }

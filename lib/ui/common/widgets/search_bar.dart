@@ -10,15 +10,22 @@ import 'package:places/ui/screen/filters_screen.dart';
 
 /// Поисковая строка
 class SearchBar extends StatelessWidget {
-  final TextEditingController textEditingController;
-  final bool enable;
-  final Function onChanged;
   const SearchBar({
     Key key,
     this.enable,
     this.textEditingController,
     this.onChanged,
+    this.onFilterTap,
   }) : super(key: key);
+
+  final TextEditingController textEditingController;
+
+  final bool enable;
+
+  final Function onChanged;
+
+  final Function onFilterTap;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -56,11 +63,11 @@ class SearchBar extends StatelessWidget {
         ),
         enable
             ? Container()
-            : const Positioned(
+            : Positioned(
                 bottom: 8,
                 right: 16,
                 top: 8,
-                child: const _FilterButton(),
+                child: _FilterButton(onTap: onFilterTap),
               ),
       ],
     );
@@ -78,16 +85,15 @@ class SearchBar extends StatelessWidget {
 class _FilterButton extends StatelessWidget {
   const _FilterButton({
     Key key,
+    this.onTap,
   }) : super(key: key);
+
+  final Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (c) => FiltersScreen(),
-        ),
-      ),
+      onTap: onTap,
       child: SvgPicture.asset(
         icFilter,
       ),

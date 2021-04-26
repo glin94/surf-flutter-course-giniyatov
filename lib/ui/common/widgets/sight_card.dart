@@ -88,15 +88,15 @@ class _SightCardState extends State<SightCard> {
                         .contains(widget.sight.id)
                     ? IconButton(
                         onPressed: () =>
-                            placeInteractor.addToFavorites(widget.sight),
+                            placeInteractor.addToFavoritesList(widget.sight),
                         icon: SvgPicture.asset(
                           icHeart,
                           color: Colors.white,
                         ),
                       )
                     : IconButton(
-                        onPressed: () =>
-                            placeInteractor.removeFromFavorites(widget.sight),
+                        onPressed: () => placeInteractor
+                            .removeFromFavoritesList(widget.sight),
                         icon: SvgPicture.asset(
                           icHeartFilled,
                           color: Colors.white,

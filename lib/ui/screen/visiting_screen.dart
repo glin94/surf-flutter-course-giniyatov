@@ -195,7 +195,7 @@ class _TabItemState extends State<_TabItem> {
                         key: ValueKey(sight),
                         sight: sight,
                         onDelete: () =>
-                            placeInteractor.removeFromFavorites(sight),
+                            placeInteractor.removeFromFavoritesList(sight),
                       ),
                     );
                   },
