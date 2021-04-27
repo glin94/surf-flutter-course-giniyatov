@@ -18,16 +18,14 @@ class ApiClient {
     );
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onError: (e) => print("Error: $e"),
+        onError: (e) => throw NetworkException(exceptionName: e.message),
         onRequest: (options) => print("Запрос отправляется"),
         onResponse: (options) => print("Ответ получен"),
       ),
     );
   }
   Future<dynamic> get(String endpoint) async {
-    final response = await _dio.get(
-      endpoint,
-    );
+    final response = await _dio.get(endpoint);
     return (_checkStatus(response, endpoint).data);
   }
 
@@ -53,13 +51,13 @@ class ApiClient {
   }
 
   Response _checkStatus(Response response, String endpoint) {
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.data != null) {
       return response;
     } else {
       throw NetworkException(
-        endpoint,
-        response.statusCode,
-        response.statusMessage,
+        exceptionName: response.statusMessage,
+        codeStatus: response.statusCode,
+        responseName: endpoint,
       );
     }
   }
