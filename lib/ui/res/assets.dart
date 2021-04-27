@@ -41,3 +41,5 @@ const String icArrows = '$_baseResPath/Arrows.svg';
 const String icCamera2 = '$_baseResPath/Camera2.svg';
 const String icPhoto = '$_baseResPath/Photo.svg';
 const String icFile = '$_baseResPath/Fail.svg';
+
+const String icError = '$_baseResPath/Error.svg';

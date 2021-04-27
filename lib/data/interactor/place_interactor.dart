@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:places/data/interactor/common/exceptions.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
 
@@ -6,8 +7,13 @@ PlaceInteractor placeInteractor = PlaceInteractor();
 
 class PlaceInteractor {
   PlaceInteractor() {
-    getPlaces().then((list) => placesController.add(list));
+    getPlaces().then((list) => placesController.sink.add(list), onError: (e) {
+      if (e is NetworkException) {
+        placesController.sink.addError(e);
+      }
+    });
   }
+
   List<Place> favoritesList = List<Place>();
 
   StreamController<List<Place>> _favoritesListController =
@@ -53,4 +59,9 @@ class PlaceInteractor {
   void addToVisitingPlaces(Place place) {}
 
   void addNew(Place place) => _placeRepository.putPlace(place);
+
+  void dispose() {
+    placesController.close();
+    _favoritesListController.close();
+  }
 }

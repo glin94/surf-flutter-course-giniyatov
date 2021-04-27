@@ -49,3 +49,6 @@ const String fileText = "Файл";
 
 const String addToFavoriteText = "В Избранное";
 const String removeFromFavoriteText = "Убрать";
+
+const String errorText = "Ошибка";
+const String errorDescText = "Что то пошло не так\nПопробуйте позже.";

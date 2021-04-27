@@ -1,9 +1,9 @@
 class NetworkException implements Exception {
-  NetworkException(
+  NetworkException({
     this.responseName,
     this.codeStatus,
     this.exceptionName,
-  );
+  });
 
   final String responseName;
   final int codeStatus;

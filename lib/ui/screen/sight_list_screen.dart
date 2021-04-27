@@ -8,6 +8,7 @@ import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/error_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 
@@ -88,13 +89,7 @@ class SightListScreen extends StatelessWidget {
                       } else
                         return _PlacesGrid(places: sightList);
                     } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                          size: 60,
-                        ),
-                      );
+                      return const ErrorScreen();
                     } else
                       return const WaitingIndicator();
                   },
