@@ -6,7 +6,6 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/filters_screen.dart';
 
 /// Поисковая строка
 class SearchBar extends StatelessWidget {
