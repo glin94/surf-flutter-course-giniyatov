@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:places/data/interactor/common/exceptions.dart';
 import 'package:places/util/const.dart';
 
 class ApiClient {
@@ -24,13 +25,15 @@ class ApiClient {
     );
   }
   Future<dynamic> get(String endpoint) async {
-    final response = await _dio.get(endpoint);
-    return (_checkStatus(response)).data;
+    final response = await _dio.get(
+      endpoint,
+    );
+    return (_checkStatus(response, endpoint).data);
   }
 
   void delete(String endpoint) async {
     final response = await _dio.delete(endpoint);
-    print(_checkStatus(response).data);
+    print(_checkStatus(response, endpoint).data);
   }
 
   void put(String endpoint, Map<String, dynamic> data) async {
@@ -38,7 +41,7 @@ class ApiClient {
       endpoint,
       data: data,
     );
-    print(_checkStatus(response).data);
+    print(_checkStatus(response, endpoint).data);
   }
 
   Future<dynamic> post(String endpoint, Map<String, dynamic> data) async {
@@ -46,14 +49,18 @@ class ApiClient {
       endpoint,
       data: data,
     );
-    return (_checkStatus(response).data);
+    return (_checkStatus(response, endpoint).data);
   }
 
-  Response _checkStatus(Response response) {
+  Response _checkStatus(Response response, String endpoint) {
     if (response.statusCode == 200) {
       return response;
     } else {
-      throw Exception("Request error. Error code: ${response.statusCode}");
+      throw NetworkException(
+        endpoint,
+        response.statusCode,
+        response.statusMessage,
+      );
     }
   }
 }
