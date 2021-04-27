@@ -253,6 +253,7 @@ class _FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Place>>(
+      initialData: searchInteractor.filterPlacesList,
       stream: searchInteractor.placesStream,
       builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
         var filterSights = List();
@@ -267,7 +268,7 @@ class _FilterButton extends StatelessWidget {
               "$viewButtonText (${filterSights.length})",
             ),
             onPressed: filterSights.length != 0
-                ? () => Navigator.of(context).pop(filterSights)
+                ? () => Navigator.of(context).pop<List<Place>>(filterSights)
                 : null,
           ),
         );

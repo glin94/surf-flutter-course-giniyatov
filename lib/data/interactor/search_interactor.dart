@@ -47,7 +47,7 @@ class SearchInteractor {
       "isTicked": false,
     },
   ];
-
+  List<Place> filterPlacesList = List<Place>();
   FilterRepository _filterRepository = FilterRepository();
 
   StreamController<List<Place>> _placesController =
@@ -89,9 +89,10 @@ class SearchInteractor {
 
   ///Фильтрованный список мест
   Future<List<Place>> get filterPlaces async {
-    final list = await _filterRepository.filteredPlaces(
-        _rangeValues.end, selectedTypes, "");
-    return list.cast<Place>();
+    filterPlacesList = (await _filterRepository.filteredPlaces(
+            _rangeValues.end, selectedTypes, ""))
+        .cast<Place>();
+    return filterPlacesList;
   }
 
   ///Выбор категории
