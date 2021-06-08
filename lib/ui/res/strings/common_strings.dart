@@ -1,3 +1,5 @@
+const String appName = "Интересные места";
+
 const String wantToVisitPlacesEmptyText =
     "Отмечайте понравившиеся\n места и они появятся здесь.";
 const String visitedPlacesEmptyText =

@@ -12,6 +12,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:provider/provider.dart';
 
 /// Экран поиска
 class SightSearchScreen extends StatefulWidget {
@@ -20,13 +21,12 @@ class SightSearchScreen extends StatefulWidget {
 }
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
-  SearchInteractor _searchInteractor = SearchInteractor();
   final _textController = TextEditingController();
 
   @override
   void initState() {
     _textController.addListener(() async {
-      _searchInteractor.searchPlaces(_textController.text);
+      context.read<SearchInteractor>().searchPlaces(_textController.text);
     });
     super.initState();
   }
@@ -58,36 +58,40 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 40),
             sliver: SliverFillRemaining(
-              child: StreamBuilder<List<Place>>(
-                  initialData: [],
-                  stream: _searchInteractor.placesStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const EmptyPlaceScreen(
-                        header: "Ошибка поиска",
-                        iconsAssetText: icSearch,
-                      );
-                    } else
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                          return const _EmptyStateWidget();
-                          break;
-                        case ConnectionState.waiting:
-                          return const WaitingIndicator();
-                          break;
-                        case ConnectionState.active:
-                          return _textController.text.isEmpty
-                              ? _SearchHistory(
-                                  searchInteractor: _searchInteractor)
-                              : snapshot.data.isEmpty
-                                  ? const _EmptyStateWidget()
-                                  : _SearchSightsList(list: snapshot.data);
-                          break;
-                        default:
-                          return _SearchHistory(
-                              searchInteractor: _searchInteractor);
-                      }
-                  }),
+              child: Consumer(
+                builder: (context, searchInteractor, child) =>
+                    StreamBuilder<List<Place>>(
+                        initialData: [],
+                        stream: searchInteractor.placesStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const EmptyPlaceScreen(
+                              header: "Ошибка поиска",
+                              iconsAssetText: icSearch,
+                            );
+                          } else
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                                return const _EmptyStateWidget();
+                                break;
+                              case ConnectionState.waiting:
+                                return const WaitingIndicator();
+                                break;
+                              case ConnectionState.active:
+                                return _textController.text.isEmpty
+                                    ? _SearchHistory(
+                                        searchInteractor: searchInteractor)
+                                    : snapshot.data.isEmpty
+                                        ? const _EmptyStateWidget()
+                                        : _SearchSightsList(
+                                            list: snapshot.data);
+                                break;
+                              default:
+                                return _SearchHistory(
+                                    searchInteractor: searchInteractor);
+                            }
+                        }),
+              ),
             ),
           )
         ],

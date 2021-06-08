@@ -3,16 +3,16 @@ import 'package:places/data/interactor/common/exceptions.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
 
-PlaceInteractor placeInteractor = PlaceInteractor();
-
+/// Интерактор взаимодействия с инересными местами
 class PlaceInteractor {
-  PlaceInteractor() {
+  PlaceInteractor(this._placeRepository) {
     getPlaces().then((list) => placesController.sink.add(list), onError: (e) {
       if (e is NetworkException) {
         placesController.sink.addError(e);
       }
     });
   }
+  PlaceRepository _placeRepository;
 
   List<Place> favoritesList = List<Place>();
 
@@ -24,8 +24,6 @@ class PlaceInteractor {
   Stream<List<Place>> get placeStream => placesController.stream;
 
   Stream<List<Place>> get favoriteListStream => _favoritesListController.stream;
-
-  PlaceRepository _placeRepository = PlaceRepository();
 
   Future<List<Place>> getPlaces() async {
     final list = await _placeRepository.fetchPlaces();
@@ -42,7 +40,7 @@ class PlaceInteractor {
     return favoriteListStream;
   }
 
-  void addToFavoritesList(Place place) {
+  void addToFavoriteList(Place place) {
     favoritesList.add(place);
     _favoritesListController.add(favoritesList);
   }

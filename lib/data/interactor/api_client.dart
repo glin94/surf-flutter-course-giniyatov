@@ -6,6 +6,7 @@ class ApiClient {
   final _timeOut = Duration(milliseconds: 5000);
 
   Dio _dio;
+
   ApiClient() {
     _dio = Dio(
       BaseOptions(

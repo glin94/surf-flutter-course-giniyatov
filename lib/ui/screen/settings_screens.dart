@@ -7,6 +7,7 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 
 /// Экран настроек
 class SettingsScreen extends StatefulWidget {
@@ -23,42 +24,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                darkModeSwitcherText,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              trailing: CupertinoSwitch(
-                value: settingsInteractor.isDark,
-                onChanged: (val) =>
-                    setState(() => settingsInteractor.changeTheme = val),
-              ),
-            ),
-            const Separator(),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                tutorialViewText,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              trailing: SvgPicture.asset(
-                icInfo,
-                color: settingsInteractor.isDark
-                    ? colorDarkGreen
-                    : colorLightGreen,
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OnBoardingScreen(),
+        child: Consumer<SettingsInteractor>(
+          builder: (context, settingsInteractor, child) => Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  darkModeSwitcherText,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                trailing: CupertinoSwitch(
+                  value: settingsInteractor.isDark,
+                  onChanged: (val) =>
+                      setState(() => settingsInteractor.changeTheme = val),
                 ),
               ),
-            ),
-            const Separator(),
-          ],
+              const Separator(),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  tutorialViewText,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                trailing: SvgPicture.asset(
+                  icInfo,
+                  color: settingsInteractor.isDark
+                      ? colorDarkGreen
+                      : colorLightGreen,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnBoardingScreen(),
+                  ),
+                ),
+              ),
+              const Separator(),
+            ],
+          ),
         ),
       ),
     );

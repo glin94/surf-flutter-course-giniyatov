@@ -2,53 +2,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/filter_repository.dart';
-import 'package:places/ui/res/assets.dart';
+import 'package:places/mocks.dart';
 import 'package:places/util/const.dart';
-
-final SearchInteractor searchInteractor = SearchInteractor();
 
 /// Поиск и фильтр
 class SearchInteractor {
-  final List<Map<String, dynamic>> categoryValues = [
-    {
-      "name": "Отель",
-      "type": PlaceType.hotel,
-      "iconText": icBed,
-      "isTicked": false,
-    },
-    {
-      "name": "Ресторан",
-      "type": PlaceType.restaurant,
-      "iconText": icEda,
-      "isTicked": false,
-    },
-    {
-      "name": "Особое место",
-      "type": PlaceType.other,
-      "iconText": icStar,
-      "isTicked": false,
-    },
-    {
-      "name": "Парк",
-      "type": PlaceType.park,
-      "iconText": icTree,
-      "isTicked": false,
-    },
-    {
-      "name": "Музей",
-      "type": PlaceType.museum,
-      "iconText": icMuseum,
-      "isTicked": false,
-    },
-    {
-      "name": "Кафе",
-      "type": PlaceType.cafe,
-      "iconText": icCafes,
-      "isTicked": false,
-    },
-  ];
+  SearchInteractor(this._filterRepository);
+
+  final FilterRepository _filterRepository;
+
   List<Place> filterPlacesList = List<Place>();
-  FilterRepository _filterRepository = FilterRepository();
 
   StreamController<List<Place>> _placesController =
       StreamController<List<Place>>.broadcast();

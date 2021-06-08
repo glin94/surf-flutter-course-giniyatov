@@ -11,6 +11,7 @@ import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/error_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
+import 'package:provider/provider.dart';
 
 /// Экран отображения списка интересных мест
 class SightListScreen extends StatelessWidget {
@@ -67,7 +68,10 @@ class SightListScreen extends StatelessWidget {
                           builder: (context) => FiltersScreen(),
                         ),
                       );
-                      placeInteractor.placesController.add(filterPlaces);
+                      context
+                          .read<PlaceInteractor>()
+                          .placesController
+                          .add(filterPlaces);
                     },
                   ),
                 ),
@@ -80,7 +84,7 @@ class SightListScreen extends StatelessWidget {
               ),
               sliver: SliverToBoxAdapter(
                 child: StreamBuilder<List<dynamic>>(
-                  stream: placeInteractor.placeStream,
+                  stream: context.read<PlaceInteractor>().placeStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final sightList = snapshot.data.cast<Place>();
@@ -103,6 +107,7 @@ class SightListScreen extends StatelessWidget {
   }
 }
 
+/// Сетка для интресных мест
 class _PlacesGrid extends StatelessWidget {
   const _PlacesGrid({
     Key key,
@@ -129,7 +134,7 @@ class _PlacesGrid extends StatelessWidget {
   }
 }
 
-///Делегат для AppBar
+/// Делегат для AppBar
 class _AppBarPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   _AppBarPersistentHeaderDelegate(
     this.expandedHeight,

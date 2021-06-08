@@ -3,7 +3,9 @@ import 'package:places/data/model/place.dart';
 import 'package:places/util/const.dart';
 
 class PlaceRepository {
-  ApiClient _apiClient = ApiClient();
+  PlaceRepository(this._apiClient);
+
+  final ApiClient _apiClient;
 
   Future<List<dynamic>> fetchPlaces() async {
     final places = await _apiClient.get(placeEndpoint);

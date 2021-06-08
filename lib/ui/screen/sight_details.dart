@@ -11,6 +11,7 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:provider/provider.dart';
 
 /// Экран отображения детальной информации об интересном месте
 class SightDetails extends StatelessWidget {
@@ -31,7 +32,7 @@ class SightDetails extends StatelessWidget {
           topRight: Radius.circular(16),
         ),
         child: FutureBuilder<Place>(
-            future: placeInteractor.getPlaceDetails(id),
+            future: context.read<PlaceInteractor>().getPlaceDetails(id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final sight = snapshot.data;
@@ -231,34 +232,36 @@ class _FavouriteButton extends StatelessWidget {
   final Place place;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Place>>(
-      initialData: placeInteractor.favoritesList,
-      stream: placeInteractor.favoriteListStream,
-      builder: (context, snapshot) => snapshot.data
-              .map((item) => item.id)
-              .contains(place.id)
-          ? TextButton.icon(
-              icon: SvgPicture.asset(
-                icHeartFilled,
-                color: Theme.of(context).iconTheme.color,
+    return Consumer<PlaceInteractor>(
+      builder: (context, placeInteractor, child) => StreamBuilder<List<Place>>(
+        initialData: placeInteractor.favoritesList,
+        stream: placeInteractor.favoriteListStream,
+        builder: (context, snapshot) => snapshot.data
+                .map((item) => item.id)
+                .contains(place.id)
+            ? TextButton.icon(
+                icon: SvgPicture.asset(
+                  icHeartFilled,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                onPressed: () => placeInteractor.removeFromFavoritesList(place),
+                label: Text(
+                  removeFromFavoriteText,
+                  style: textBody2.copyWith(),
+                ),
+              )
+            : TextButton.icon(
+                icon: SvgPicture.asset(
+                  icHeart,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                onPressed: () => placeInteractor.addToFavoriteList(place),
+                label: Text(
+                  addToFavoriteText,
+                  style: textBody2.copyWith(),
+                ),
               ),
-              onPressed: () => placeInteractor.removeFromFavoritesList(place),
-              label: Text(
-                removeFromFavoriteText,
-                style: textBody2.copyWith(),
-              ),
-            )
-          : TextButton.icon(
-              icon: SvgPicture.asset(
-                icHeart,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              onPressed: () => placeInteractor.addToFavoritesList(place),
-              label: Text(
-                addToFavoriteText,
-                style: textBody2.copyWith(),
-              ),
-            ),
+      ),
     );
   }
 }

@@ -16,7 +16,7 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  PageController _pageController = PageController();
+  PageController _pageController = PageController(initialPage: 1);
 
   bool _isLast = false;
 
