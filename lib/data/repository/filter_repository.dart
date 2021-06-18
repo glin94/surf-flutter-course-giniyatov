@@ -6,7 +6,9 @@ import 'package:places/util/const.dart';
 
 ///Фильтр
 class FilterRepository {
-  ApiClient _apiClient = ApiClient();
+  const FilterRepository(this._apiClient);
+
+  final ApiClient _apiClient;
 
   Future<List<dynamic>> filteredPlaces(
     double radius,

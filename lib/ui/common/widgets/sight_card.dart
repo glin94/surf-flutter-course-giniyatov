@@ -12,6 +12,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:provider/provider.dart';
 
 // Карточка интересного места на главном экране
 class SightCard extends StatefulWidget {
@@ -80,28 +81,31 @@ class _SightCardState extends State<SightCard> {
             Positioned(
               right: 4,
               top: 4,
-              child: StreamBuilder<List<Place>>(
-                stream: placeInteractor.favoriteListStream,
-                initialData: placeInteractor.favoritesList,
-                builder: (context, snapshot) => !snapshot.data
-                        .map((item) => item.id)
-                        .contains(widget.sight.id)
-                    ? IconButton(
-                        onPressed: () =>
-                            placeInteractor.addToFavoritesList(widget.sight),
-                        icon: SvgPicture.asset(
-                          icHeart,
-                          color: Colors.white,
+              child: Consumer<PlaceInteractor>(
+                builder: (context, placeInteractor, child) =>
+                    StreamBuilder<List<Place>>(
+                  stream: placeInteractor.favoriteListStream,
+                  initialData: placeInteractor.favoritesList,
+                  builder: (context, snapshot) => !snapshot.data
+                          .map((item) => item.id)
+                          .contains(widget.sight.id)
+                      ? IconButton(
+                          onPressed: () =>
+                              placeInteractor.addToFavoriteList(widget.sight),
+                          icon: SvgPicture.asset(
+                            icHeart,
+                            color: Colors.white,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () => placeInteractor
+                              .removeFromFavoritesList(widget.sight),
+                          icon: SvgPicture.asset(
+                            icHeartFilled,
+                            color: Colors.white,
+                          ),
                         ),
-                      )
-                    : IconButton(
-                        onPressed: () => placeInteractor
-                            .removeFromFavoritesList(widget.sight),
-                        icon: SvgPicture.asset(
-                          icHeartFilled,
-                          color: Colors.white,
-                        ),
-                      ),
+                ),
               ),
             )
           ],

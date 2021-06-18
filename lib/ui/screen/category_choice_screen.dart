@@ -6,6 +6,7 @@ import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:provider/provider.dart';
 
 /// Экран выбора категории
 class CategoryChoiceScreen extends StatelessWidget {
@@ -26,7 +27,9 @@ class CategoryChoiceScreen extends StatelessWidget {
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate(
-                searchInteractor.categoryValues
+                context
+                    .watch<SearchInteractor>()
+                    .filterValues
                     .map(
                       (item) => _CategoryTile(name: item["name"]),
                     )

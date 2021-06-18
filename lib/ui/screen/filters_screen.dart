@@ -11,6 +11,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/util/const.dart';
+import 'package:provider/provider.dart';
 
 /// Экран фильтров
 class FiltersScreen extends StatelessWidget {
@@ -71,7 +72,7 @@ class _ClearButton extends StatelessWidget {
           color: colorLightGreen,
         ),
       ),
-      onPressed: searchInteractor.clear,
+      onPressed: context.read<SearchInteractor>().clear,
     );
   }
 }
@@ -90,42 +91,45 @@ class _FilterTable extends StatelessWidget {
         const SizedBox(
           height: 24,
         ),
-        StreamBuilder<List<Map>>(
-          initialData: searchInteractor.filterValues,
-          stream: searchInteractor.filtersStream,
-          builder: (context, snapshot) {
-            return isSmalScreen
-                ? Container(
-                    height: 100,
-                    child: ListView(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
+        Consumer<SearchInteractor>(
+          builder: (context, searchInteractor, child) =>
+              StreamBuilder<List<Map>>(
+            initialData: searchInteractor.filterValues,
+            stream: searchInteractor.filtersStream,
+            builder: (context, snapshot) {
+              return isSmalScreen
+                  ? Container(
+                      height: 100,
+                      child: ListView(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot.data
+                            .map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.only(right: 44.0),
+                                child: _FilterItem(
+                                  key: ValueKey(item["name"]),
+                                  category: item,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : Wrap(
+                      spacing: 40,
+                      runSpacing: 40,
                       children: snapshot.data
                           .map(
-                            (item) => Padding(
-                              padding: const EdgeInsets.only(right: 44.0),
-                              child: _FilterItem(
-                                key: ValueKey(item["name"]),
-                                category: item,
-                              ),
+                            (item) => _FilterItem(
+                              key: ValueKey(item["name"]),
+                              category: item,
                             ),
                           )
                           .toList(),
-                    ),
-                  )
-                : Wrap(
-                    spacing: 40,
-                    runSpacing: 40,
-                    children: snapshot.data
-                        .map(
-                          (item) => _FilterItem(
-                            key: ValueKey(item["name"]),
-                            category: item,
-                          ),
-                        )
-                        .toList(),
-                  );
-          },
+                    );
+            },
+          ),
         )
       ],
     );
@@ -145,7 +149,8 @@ class _FilterItem extends StatelessWidget {
       children: [
         InkWell(
           borderRadius: BorderRadius.circular(32),
-          onTap: () async => searchInteractor.choiceFilterItem(category),
+          onTap: () async =>
+              context.read<SearchInteractor>().choiceFilterItem(category),
           splashColor: colorLightGreen.withOpacity(.16),
           child: Container(
               decoration: BoxDecoration(
@@ -211,38 +216,40 @@ class _RadiusSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<RangeValues>(
-        initialData: searchInteractor.rangeValues,
-        stream: searchInteractor.rangeValuesStream,
-        builder: (context, snapshot) {
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      distanceText,
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    Text(
-                      "от ${distanceFormat(searchInteractor.rangeValues.start)} до ${distanceFormat(searchInteractor.rangeValues.end)}",
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                RangeSlider(
-                  values: snapshot.data,
-                  min: minDistanceM,
-                  max: maxDistanceM,
-                  onChanged: (RangeValues values) async =>
-                      searchInteractor.rangeValuesChange(values),
-                ),
-              ]);
-        });
+    return Consumer<SearchInteractor>(
+      builder: (context, searchInteractor, child) => StreamBuilder<RangeValues>(
+          initialData: context.read<SearchInteractor>().rangeValues,
+          stream: searchInteractor.rangeValuesStream,
+          builder: (context, snapshot) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        distanceText,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      Text(
+                        "от ${distanceFormat(searchInteractor.rangeValues.start)} до ${distanceFormat(searchInteractor.rangeValues.end)}",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  RangeSlider(
+                    values: snapshot.data,
+                    min: minDistanceM,
+                    max: maxDistanceM,
+                    onChanged: (RangeValues values) async =>
+                        searchInteractor.rangeValuesChange(values),
+                  ),
+                ]);
+          }),
+    );
   }
 }
 
@@ -252,27 +259,29 @@ class _FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Place>>(
-      initialData: searchInteractor.filterPlacesList,
-      stream: searchInteractor.placesStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
-        var filterSights = List();
-        if (snapshot != null && snapshot.hasData) {
-          filterSights = snapshot.data;
-        }
-        return Container(
-          height: 48,
-          width: double.infinity,
-          child: ElevatedButton(
-            child: Text(
-              "$viewButtonText (${filterSights.length})",
+    return Consumer<SearchInteractor>(
+      builder: (context, searchInteractor, child) => StreamBuilder<List<Place>>(
+        initialData: searchInteractor.filterPlacesList,
+        stream: searchInteractor.placesStream,
+        builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
+          var filterSights = List();
+          if (snapshot != null && snapshot.hasData) {
+            filterSights = snapshot.data;
+          }
+          return Container(
+            height: 48,
+            width: double.infinity,
+            child: ElevatedButton(
+              child: Text(
+                "$viewButtonText (${filterSights.length})",
+              ),
+              onPressed: filterSights.length != 0
+                  ? () => Navigator.of(context).pop<List<Place>>(filterSights)
+                  : null,
             ),
-            onPressed: filterSights.length != 0
-                ? () => Navigator.of(context).pop<List<Place>>(filterSights)
-                : null,
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

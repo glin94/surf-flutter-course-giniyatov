@@ -7,6 +7,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/common/widgets/sight_card.dart';
+import 'package:provider/provider.dart';
 
 /// Экран "Хочу посетить/Посещенные места"
 class VisitingScreen extends StatefulWidget {
@@ -47,30 +48,33 @@ class _VisitingScreenState extends State<VisitingScreen>
           ),
         ),
       ),
-      body: StreamBuilder<List<Place>>(
-        initialData: placeInteractor.favoritesList,
-        stream: placeInteractor.getFavoritesPlaces(),
-        builder: (context, snapshot) =>
-            TabBarView(controller: _controller, children: <Widget>[
-          _TabItem(
-            sightList:
-                snapshot.data.where((sight) => !sight.isAchieved).toList(),
-            emptyPlaceScreen: const EmptyPlaceScreen(
-              iconsAssetText: icCamera,
-              text: wantToVisitPlacesEmptyText,
-              header: "Пусто",
+      body: Consumer<PlaceInteractor>(
+        builder: (context, placeInteractor, child) =>
+            StreamBuilder<List<Place>>(
+          initialData: placeInteractor.favoritesList,
+          stream: placeInteractor.getFavoritesPlaces(),
+          builder: (context, snapshot) =>
+              TabBarView(controller: _controller, children: <Widget>[
+            _TabItem(
+              sightList:
+                  snapshot.data.where((sight) => !sight.isAchieved).toList(),
+              emptyPlaceScreen: const EmptyPlaceScreen(
+                iconsAssetText: icCamera,
+                text: wantToVisitPlacesEmptyText,
+                header: "Пусто",
+              ),
             ),
-          ),
-          _TabItem(
-            sightList:
-                snapshot.data.where((sight) => sight.isAchieved).toList(),
-            emptyPlaceScreen: const EmptyPlaceScreen(
-              iconsAssetText: icGO,
-              header: "Пусто",
-              text: visitedPlacesEmptyText,
+            _TabItem(
+              sightList:
+                  snapshot.data.where((sight) => sight.isAchieved).toList(),
+              emptyPlaceScreen: const EmptyPlaceScreen(
+                iconsAssetText: icGO,
+                header: "Пусто",
+                text: visitedPlacesEmptyText,
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }
@@ -194,8 +198,9 @@ class _TabItemState extends State<_TabItem> {
                       child: FavoriteSightCard(
                         key: ValueKey(sight),
                         sight: sight,
-                        onDelete: () =>
-                            placeInteractor.removeFromFavoritesList(sight),
+                        onDelete: () => context
+                            .read<PlaceInteractor>()
+                            .removeFromFavoritesList(sight),
                       ),
                     );
                   },
