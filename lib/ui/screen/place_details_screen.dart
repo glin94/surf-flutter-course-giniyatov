@@ -14,8 +14,8 @@ import 'package:places/ui/res/text_styles.dart';
 import 'package:provider/provider.dart';
 
 /// Экран отображения детальной информации об интересном месте
-class SightDetails extends StatelessWidget {
-  const SightDetails({
+class PlaceDetailsScreen extends StatelessWidget {
+  const PlaceDetailsScreen({
     Key key,
     this.id,
   }) : super(key: key);
@@ -35,7 +35,7 @@ class SightDetails extends StatelessWidget {
             future: context.read<PlaceInteractor>().getPlaceDetails(id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final sight = snapshot.data;
+                final place = snapshot.data;
                 return Stack(children: [
                   CustomScrollView(
                     slivers: [
@@ -51,7 +51,7 @@ class SightDetails extends StatelessWidget {
                             StretchMode.blurBackground,
                             StretchMode.zoomBackground,
                           ],
-                          background: GalleryWidget(imagesUrlList: sight.urls),
+                          background: GalleryWidget(imagesUrlList: place.urls),
                         ),
                       ),
                       SliverPadding(
@@ -62,7 +62,7 @@ class SightDetails extends StatelessWidget {
                         sliver: SliverList(
                           delegate: SliverChildListDelegate(
                             [
-                              _SightDescription(sight: sight),
+                              _PlaceDescription(place: place),
                               const SizedBox(height: 24),
                               const _RouteButton(),
                               const SizedBox(height: 24),
@@ -73,7 +73,7 @@ class SightDetails extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   const _PlanningButton(),
-                                  _FavouriteButton(place: sight),
+                                  _FavouriteButton(place: place),
                                 ],
                               ),
                             ],
@@ -311,13 +311,13 @@ class _RouteButton extends StatelessWidget {
 }
 
 /// Детальное описание места
-class _SightDescription extends StatelessWidget {
-  const _SightDescription({
+class _PlaceDescription extends StatelessWidget {
+  const _PlaceDescription({
     Key key,
-    @required this.sight,
+    @required this.place,
   }) : super(key: key);
 
-  final Place sight;
+  final Place place;
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +325,7 @@ class _SightDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          sight.name,
+          place.name,
           style: Theme.of(context).textTheme.headline5,
         ),
         const SizedBox(
@@ -334,14 +334,14 @@ class _SightDescription extends StatelessWidget {
         Row(
           children: [
             Text(
-              placeTypeText(sight.placeType).toLowerCase(),
+              placeTypeText(place.placeType).toLowerCase(),
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: colorDarkSecondary2,
                   ),
             ),
             const SizedBox(width: 16),
             Text(
-              openOrCloseText(sight.isOpen, sight.openingTime),
+              openOrCloseText(place.isOpen, place.openingTime),
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: colorInnactiveBlack,
                   ),
@@ -352,7 +352,7 @@ class _SightDescription extends StatelessWidget {
           height: 24,
         ),
         Text(
-          sight.description,
+          place.description,
           // maxLines: 4,
           style: textBody2,
         ),

@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/ui/common/widgets/add_sight_button.dart';
+import 'package:places/ui/common/widgets/add_new_place_button.dart';
+import 'package:places/ui/common/widgets/place_card.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
-import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/error_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
-import 'package:places/ui/screen/sight_search_screen.dart';
+import 'package:places/ui/screen/search_place__screen.dart';
 import 'package:provider/provider.dart';
 
 /// Экран отображения списка интересных мест
-class SightListScreen extends StatelessWidget {
-  const SightListScreen({Key key}) : super(key: key);
+class PlaceListScreen extends StatelessWidget {
+  const PlaceListScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const AddSightButton(),
+      floatingActionButton: const AddNewPlaceButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: CustomScrollView(
@@ -45,7 +45,7 @@ class SightListScreen extends StatelessWidget {
                 : SliverAppBar(
                     centerTitle: false,
                     automaticallyImplyLeading: false,
-                    title: Text(sightListScreenTitle),
+                    title: Text(placeListScreenTitleText),
                   ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
@@ -56,7 +56,7 @@ class SightListScreen extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => SightSearchScreen(),
+                      builder: (context) => SearchPlacesScreen(),
                     ),
                   ),
                   child: SearchBar(
@@ -87,11 +87,11 @@ class SightListScreen extends StatelessWidget {
                   stream: context.read<PlaceInteractor>().placeStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final sightList = snapshot.data.cast<Place>();
-                      if (sightList.isEmpty) {
+                      final placeList = snapshot.data.cast<Place>();
+                      if (placeList.isEmpty) {
                         return Container();
                       } else
-                        return _PlacesGrid(places: sightList);
+                        return _PlacesGrid(places: placeList);
                     } else if (snapshot.hasError) {
                       return const ErrorScreen();
                     } else
@@ -121,7 +121,7 @@ class _PlacesGrid extends StatelessWidget {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemBuilder: (c, i) => SightCard(sight: places[i]),
+      itemBuilder: (c, i) => PlaceCard(place: places[i]),
       itemCount: places.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisSpacing: 24,
@@ -157,10 +157,10 @@ class _AppBarPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
       centerTitle: !(expandedHeight - minExtent > shrinkOffset),
       title: expandedHeight - minExtent > shrinkOffset
           ? Text(
-              sightListScreenTitle.replaceFirst(" ", "\n"),
+              placeListScreenTitleText.replaceFirst(" ", "\n"),
               style: Theme.of(context).textTheme.headline4,
             )
-          : Text(sightListScreenTitle),
+          : Text(placeListScreenTitleText),
     );
   }
 

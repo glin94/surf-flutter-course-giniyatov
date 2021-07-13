@@ -11,23 +11,23 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/screen/place_details_screen.dart';
 import 'package:provider/provider.dart';
 
 // Карточка интересного места на главном экране
-class SightCard extends StatefulWidget {
-  SightCard({
+class PlaceCard extends StatefulWidget {
+  PlaceCard({
     Key key,
-    @required this.sight,
+    @required this.place,
   }) : super(key: key);
 
-  final Place sight;
+  final Place place;
 
   @override
-  _SightCardState createState() => _SightCardState();
+  _PlaceCardState createState() => _PlaceCardState();
 }
 
-class _SightCardState extends State<SightCard> {
+class _PlaceCardState extends State<PlaceCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,9 +42,9 @@ class _SightCardState extends State<SightCard> {
           children: [
             Column(
               children: [
-                _SightCardTop(imgUrls: widget.sight.urls),
-                _SightCardBottom(
-                  sight: widget.sight,
+                _PlaceCardTop(imgUrls: widget.place.urls),
+                _PlaceCardBottom(
+                  place: widget.place,
                   visitingText: const SizedBox.shrink(),
                 ),
               ],
@@ -53,7 +53,7 @@ class _SightCardState extends State<SightCard> {
               top: 16,
               left: 16,
               child: Text(
-                placeTypeText(widget.sight.placeType).toLowerCase(),
+                placeTypeText(widget.place.placeType).toLowerCase(),
                 style: textBody1.copyWith(
                   color: Colors.white,
                 ),
@@ -74,7 +74,7 @@ class _SightCardState extends State<SightCard> {
                       topRight: Radius.circular(16),
                     ),
                   ),
-                  builder: (context) => SightDetails(id: widget.sight.id),
+                  builder: (context) => PlaceDetailsScreen(id: widget.place.id),
                 ),
               ),
             ),
@@ -88,10 +88,10 @@ class _SightCardState extends State<SightCard> {
                   initialData: placeInteractor.favoritesList,
                   builder: (context, snapshot) => !snapshot.data
                           .map((item) => item.id)
-                          .contains(widget.sight.id)
+                          .contains(widget.place.id)
                       ? IconButton(
                           onPressed: () =>
-                              placeInteractor.addToFavoriteList(widget.sight),
+                              placeInteractor.addToFavoriteList(widget.place),
                           icon: SvgPicture.asset(
                             icHeart,
                             color: Colors.white,
@@ -99,7 +99,7 @@ class _SightCardState extends State<SightCard> {
                         )
                       : IconButton(
                           onPressed: () => placeInteractor
-                              .removeFromFavoritesList(widget.sight),
+                              .removeFromFavoritesList(widget.place),
                           icon: SvgPicture.asset(
                             icHeartFilled,
                             color: Colors.white,
@@ -116,8 +116,8 @@ class _SightCardState extends State<SightCard> {
 }
 
 /// Верхняя часть карточки интересного места
-class _SightCardTop extends StatelessWidget {
-  const _SightCardTop({
+class _PlaceCardTop extends StatelessWidget {
+  const _PlaceCardTop({
     Key key,
     @required this.imgUrls,
   }) : super(key: key);
@@ -165,14 +165,14 @@ class _SightCardTop extends StatelessWidget {
 }
 
 ///Нижняя часть карточки интересного места
-class _SightCardBottom extends StatelessWidget {
-  const _SightCardBottom({
+class _PlaceCardBottom extends StatelessWidget {
+  const _PlaceCardBottom({
     Key key,
-    @required this.sight,
+    @required this.place,
     this.visitingText,
   }) : super(key: key);
 
-  final Place sight;
+  final Place place;
 
   final Widget visitingText;
 
@@ -196,14 +196,14 @@ class _SightCardBottom extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            sight.name,
+            place.name,
             maxLines: 2,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(height: 2),
           visitingText,
           Text(
-            openOrCloseText(sight.isOpen, sight.openingTime),
+            openOrCloseText(place.isOpen, place.openingTime),
             maxLines: 1,
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: colorDarkSecondary2,
@@ -216,29 +216,29 @@ class _SightCardBottom extends StatelessWidget {
 }
 
 /// Карточка интересного места на экранах "Хочу посетить"/"Посетил"
-class FavoriteSightCard extends StatefulWidget {
-  const FavoriteSightCard({
+class FavoritePlaceCard extends StatefulWidget {
+  const FavoritePlaceCard({
     Key key,
-    this.sight,
+    this.place,
     this.onDelete,
   }) : super(key: key);
 
-  final Place sight;
+  final Place place;
 
   final VoidCallback onDelete;
 
   @override
-  _FavoriteSightCardState createState() => _FavoriteSightCardState();
+  _FavoritePlaceCardState createState() => _FavoritePlaceCardState();
 }
 
-class _FavoriteSightCardState extends State<FavoriteSightCard> {
+class _FavoritePlaceCardState extends State<FavoritePlaceCard> {
   showDateTimePicker() async {
     if (Platform.isAndroid) {
       final result = await showDatePicker(
         context: context,
         locale: Locale('ru', 'RU'),
         firstDate: DateTime.now(),
-        initialDate: widget.sight.visitingDate,
+        initialDate: widget.place.visitingDate,
         lastDate: DateTime.now().add(
           Duration(days: 90),
         ),
@@ -246,7 +246,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
       );
       if (result != null) {
         setState(() {
-          widget.sight.visitingDate = result;
+          widget.place.visitingDate = result;
         });
       }
     } else {
@@ -263,7 +263,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
             backgroundColor: Theme.of(context).cardColor,
             initialDateTime: DateTime.now(),
             onDateTimeChanged: (time) => setState(() {
-              widget.sight.visitingDate = time;
+              widget.place.visitingDate = time;
             }),
           ),
         ),
@@ -297,15 +297,15 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                   children: [
                     Column(
                       children: [
-                        _SightCardTop(imgUrls: widget.sight.urls),
-                        _SightCardBottom(
-                          sight: widget.sight,
+                        _PlaceCardTop(imgUrls: widget.place.urls),
+                        _PlaceCardBottom(
+                          place: widget.place,
                           visitingText: Container(
                             height: 30,
                             child: Text(
-                              widget.sight.plannedOrAchievedText,
+                              widget.place.plannedOrAchievedText,
                               style: textBody2.copyWith(
-                                color: widget.sight.isAchieved
+                                color: widget.place.isAchieved
                                     ? colorDarkSecondary2
                                     : colorLightGreen,
                               ),
@@ -318,7 +318,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                       top: 16,
                       left: 16,
                       child: Text(
-                        widget.sight.type.toLowerCase(),
+                        widget.place.type.toLowerCase(),
                         style: textBody1.copyWith(
                           color: Colors.white,
                         ),
@@ -342,7 +342,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                             ),
                           ),
                           builder: (context) =>
-                              SightDetails(id: widget.sight.id),
+                              PlaceDetailsScreen(id: widget.place.id),
                         ),
                       ),
                     ),
@@ -350,7 +350,7 @@ class _FavoriteSightCardState extends State<FavoriteSightCard> {
                       top: 8,
                       right: 8,
                       child: Wrap(children: [
-                        widget.sight.isAchieved
+                        widget.place.isAchieved
                             ? IconButton(
                                 onPressed: () => print("share"),
                                 icon: SvgPicture.asset(
@@ -417,7 +417,7 @@ class _DeleteBackgroundSwipe extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  deleteSightText,
+                  removePlaceText,
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -437,12 +437,12 @@ class DraggableCard extends StatefulWidget {
   const DraggableCard({
     Key key,
     this.child,
-    this.sight,
+    this.place,
   }) : super(key: key);
 
   final Widget child;
 
-  final Place sight;
+  final Place place;
 
   @override
   _DraggableCardState createState() => _DraggableCardState();
@@ -452,7 +452,7 @@ class _DraggableCardState extends State<DraggableCard> {
   @override
   Widget build(BuildContext context) {
     return Draggable<Place>(
-      data: widget.sight,
+      data: widget.place,
       childWhenDragging: SizedBox.shrink(),
       feedback: widget.child,
       child: widget.child,

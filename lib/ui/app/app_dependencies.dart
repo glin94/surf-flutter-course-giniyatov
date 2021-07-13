@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/app.dart';
-import 'package:places/data/interactor/api_client.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/data/repository/api_client.dart';
 import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/data/repository/place_repository.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +31,7 @@ class AppDependecies extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: _settingsInteractor),
         Provider.value(value: _placeInteractor),
+        Provider.value(value: _searchInteractor),
         Provider.value(value: _searchInteractor),
       ],
       child: app,

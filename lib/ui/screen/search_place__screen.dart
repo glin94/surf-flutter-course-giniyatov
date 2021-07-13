@@ -5,22 +5,22 @@ import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/separator.dart';
-import 'package:places/ui/common/widgets/small_sight_picture.dart';
+import 'package:places/ui/common/widgets/small_picture_place.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/screen/place_details_screen.dart';
 import 'package:provider/provider.dart';
 
 /// Экран поиска
-class SightSearchScreen extends StatefulWidget {
+class SearchPlacesScreen extends StatefulWidget {
   @override
-  _SightSearchScreenState createState() => _SightSearchScreenState();
+  _SearchPlacesScreenState createState() => _SearchPlacesScreenState();
 }
 
-class _SightSearchScreenState extends State<SightSearchScreen> {
+class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
   final _textController = TextEditingController();
 
   @override
@@ -42,7 +42,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(sightListScreenTitle),
+        title: Text(placeListScreenTitleText),
       ),
       body: CustomScrollView(
         slivers: [
@@ -83,8 +83,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                         searchInteractor: searchInteractor)
                                     : snapshot.data.isEmpty
                                         ? const _EmptyStateWidget()
-                                        : _SearchSightsList(
-                                            list: snapshot.data);
+                                        : _SearchPlaceList(list: snapshot.data);
                                 break;
                               default:
                                 return _SearchHistory(
@@ -203,9 +202,9 @@ class _ClearHistoryButton extends StatelessWidget {
 }
 
 /// Результат поиска
-class _SearchSightsList extends StatelessWidget {
+class _SearchPlaceList extends StatelessWidget {
   final List<Place> list;
-  const _SearchSightsList({Key key, this.list}) : super(key: key);
+  const _SearchPlaceList({Key key, this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -215,17 +214,18 @@ class _SearchSightsList extends StatelessWidget {
         child: const Separator(),
       ),
       itemBuilder: (BuildContext context, int index) =>
-          _SearchListTile(sight: list[index]),
+          _SearchListTile(place: list[index]),
     );
   }
 }
 
 /// Элемент списка поискового результата
 class _SearchListTile extends StatelessWidget {
-  final Place sight;
+  final Place place;
+
   const _SearchListTile({
     Key key,
-    this.sight,
+    this.place,
   }) : super(key: key);
 
   @override
@@ -241,20 +241,20 @@ class _SearchListTile extends StatelessWidget {
             topRight: Radius.circular(16),
           ),
         ),
-        builder: (context) => SightDetails(id: sight.id),
+        builder: (context) => PlaceDetailsScreen(id: place.id),
       ),
-      title: Text(sight.name),
+      title: Text(place.name),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: Text(
-          sight.type,
+          place.type,
           style: textCaption.copyWith(
             color: colorLightSecondary2,
           ),
         ),
       ),
-      leading: SmallSightPictureWidget(
-        imageUrl: sight.urls.first,
+      leading: SmallPictureOfPlaceWidget(
+        imageUrl: place.urls.first,
         size: 56,
       ),
     );

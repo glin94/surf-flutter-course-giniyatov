@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 
-SightInteractor sightInteractor = SightInteractor();
-
-class SightInteractor {
+class PlaceInteractor {
   String categoryName = "";
 
   List<String> get imageList => mocks.first.urls;
 
-  StreamController<List<Place>> _sightListController =
+  StreamController<List<Place>> _placeListController =
       StreamController<List<Place>>.broadcast();
 
   StreamController<bool> _isValidateController =
@@ -27,7 +25,7 @@ class SightInteractor {
 
   Stream<bool> get isValidateStream => _isValidateController.stream;
 
-  Stream<List<Place>> get sightListStream => _sightListController.stream;
+  Stream<List<Place>> get placeListStream => _placeListController.stream;
 
   Stream<String> get choicedCategoryControllerStream =>
       _choicedCategoryController.stream;
@@ -62,7 +60,7 @@ class SightInteractor {
     _imageListController.add(imageList);
   }
 
-  void createSight() {
+  void createNewPlace() {
     mocks.add(Place(
         id: 5,
         name: nameTextController.text,
@@ -72,6 +70,6 @@ class SightInteractor {
         urls: imageList,
         openingHours: [0, 0],
         type: categoryName));
-    _sightListController.add(mocks);
+    _placeListController.add(mocks);
   }
 }

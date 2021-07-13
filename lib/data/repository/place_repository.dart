@@ -1,5 +1,5 @@
-import 'package:places/data/interactor/api_client.dart';
 import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/api_client.dart';
 import 'package:places/util/const.dart';
 
 class PlaceRepository {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/place_list_screen.dart';
 import 'package:places/ui/screen/settings_screens.dart';
-import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 
 /// Главный экран
@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static List<Widget> _screens = <Widget>[
-    const SightListScreen(),
+    const PlaceListScreen(),
     Container(),
     VisitingScreen(),
     SettingsScreen(),
@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
               icListFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: sightListScreenTitle,
+            label: placeListScreenTitleText,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -52,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
               icMapFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: mapScreeenTitle,
+            label: mapScreeenTitleText,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
               icHeartFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: favoriteScreenTitle,
+            label: favoriteScreenTitleText,
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
               icSettingsFilled,
               color: Theme.of(context).iconTheme.color,
             ),
-            label: settingsScreenTitle,
+            label: settingsScreenTitleText,
           ),
         ],
         currentIndex: _selectedIndex,

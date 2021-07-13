@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/common/widgets/back_button.dart';
 import 'package:places/ui/res/assets.dart';
@@ -14,7 +14,7 @@ class CategoryChoiceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(sightCategoryText),
+        title: const Text(placeCategoryText),
         leading: const CustomBackButton(),
       ),
       body: CustomScrollView(
@@ -67,9 +67,10 @@ class _SaveCategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
     return StreamBuilder<String>(
-        initialData: sightInteractor.categoryName,
-        stream: sightInteractor.choicedCategoryControllerStream,
+        initialData: placeModel.categoryName,
+        stream: placeModel.choicedCategoryControllerStream,
         builder: (context, snapshot) {
           return Container(
             width: double.infinity,
@@ -77,7 +78,7 @@ class _SaveCategoryButton extends StatelessWidget {
             child: ElevatedButton(
               onPressed: snapshot.data.isNotEmpty
                   ? () {
-                      sightInteractor.validate();
+                      placeModel.validate();
                       Navigator.of(context).pop();
                     }
                   : null,
@@ -98,14 +99,16 @@ class _CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
+
     return StreamBuilder<String>(
-      initialData: sightInteractor.categoryName,
-      stream: sightInteractor.choicedCategoryControllerStream,
+      initialData: placeModel.categoryName,
+      stream: placeModel.choicedCategoryControllerStream,
       builder: (context, snapshot) {
         return ListTile(
           contentPadding: EdgeInsets.zero,
           onTap: () {
-            sightInteractor.category = name;
+            placeModel.category = name;
           },
           trailing: name == snapshot.data
               ? SvgPicture.asset(

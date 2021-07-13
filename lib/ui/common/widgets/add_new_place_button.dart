@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
+import 'package:places/ui/screen/add_new_place_screen.dart';
 
 /// Кнопка добавления нового места
-class AddSightButton extends StatelessWidget {
-  const AddSightButton({
+class AddNewPlaceButton extends StatelessWidget {
+  const AddNewPlaceButton({
     Key key,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class AddSightButton extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (c) => AddSightScreen(),
+            builder: (c) => AddPlaceScreen(),
           ),
         ),
         shape:
@@ -48,7 +48,7 @@ class AddSightButton extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  addNewSightButton.toUpperCase(),
+                  addNewPlaceButtonText.toUpperCase(),
                   style: TextStyle(color: Colors.white),
                 ),
               ],
