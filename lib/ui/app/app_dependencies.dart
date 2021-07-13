@@ -7,6 +7,7 @@ import 'package:places/data/repository/api_client.dart';
 import 'package:places/data/repository/filter_repository.dart';
 import 'package:places/data/repository/place_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:places/store/places_store/places_store.dart';
 
 class AppDependecies extends StatelessWidget {
   const AppDependecies({
@@ -27,12 +28,14 @@ class AppDependecies extends StatelessWidget {
     final _searchInteractor = SearchInteractor(_filterRepository);
     final _settingsInteractor = SettingsInteractor();
 
+    final _placesStore = PlacesStore(_placeRepository);
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: _settingsInteractor),
         Provider.value(value: _placeInteractor),
         Provider.value(value: _searchInteractor),
-        Provider.value(value: _searchInteractor),
+        Provider.value(value: _placesStore),
       ],
       child: app,
     );
