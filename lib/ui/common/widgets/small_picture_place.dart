@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/assets.dart';
+import 'package:places/util/const.dart';
 
 class SmallPictureOfPlaceWidget extends StatelessWidget {
   const SmallPictureOfPlaceWidget({
@@ -20,14 +23,23 @@ class SmallPictureOfPlaceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        CachedNetworkImage(
+          key: ValueKey(imageUrl),
+          imageUrl: imageUrl,
           height: size,
           width: size,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(imageUrl),
+          placeholder: (w, s) => const WaitingIndicator(),
+          errorWidget: (c, t, _) => Image.asset(
+            imgPlaceHolder,
+            fit: BoxFit.cover,
+          ),
+          imageBuilder: (c, image) => Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: image,
+              ),
             ),
           ),
         ),

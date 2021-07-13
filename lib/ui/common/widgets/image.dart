@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
+import 'package:places/ui/res/assets.dart';
 
 ///  Виджет для отображения картинок
 class ImageWidget extends StatelessWidget {
@@ -13,15 +15,15 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      url,
+    return CachedNetworkImage(
+      key: ValueKey(url),
+      placeholder: (c, s) => const WaitingIndicator(),
+      imageUrl: url,
       fit: BoxFit.cover,
-      errorBuilder: (c, o, trace) => Container(),
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent loadingProgress) {
-        if (loadingProgress == null) return child;
-        return const WaitingIndicator();
-      },
+      errorWidget: (c, o, trace) => Image.asset(
+        imgPlaceHolder,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

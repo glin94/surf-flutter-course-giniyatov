@@ -18,7 +18,7 @@ class AddNewPlaceButton extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (c) => AddPlaceScreen(),
+            builder: (c) => const AddNewPlaceScreen(),
           ),
         ),
         shape:

@@ -43,3 +43,5 @@ const String icPhoto = '$_baseResPath/Photo.svg';
 const String icFile = '$_baseResPath/Fail.svg';
 
 const String icError = '$_baseResPath/Error.svg';
+
+const String imgPlaceHolder = "$_baseResPath/placeholder_image.png";

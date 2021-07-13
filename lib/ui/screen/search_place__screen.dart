@@ -58,7 +58,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 40),
             sliver: SliverFillRemaining(
-              child: Consumer(
+              child: Consumer<SearchInteractor>(
                 builder: (context, searchInteractor, child) =>
                     StreamBuilder<List<Place>>(
                         initialData: [],
