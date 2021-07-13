@@ -2,29 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_place_interactor.dart';
 import 'package:places/ui/common/widgets/separator.dart';
-import 'package:places/ui/common/widgets/small_sight_picture.dart';
+import 'package:places/ui/common/widgets/small_picture_place.dart';
 import 'package:places/ui/common/widgets/text_form_field.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/category_choice_screen.dart';
+import 'package:provider/provider.dart';
 
 /// Экран добавления нового места
-class AddSightScreen extends StatefulWidget {
-  @override
-  _AddSightScreenState createState() => _AddSightScreenState();
-}
-
-class _AddSightScreenState extends State<AddSightScreen> {
+class AddPlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 90,
-        title: const Text(addSightTitle),
+        title: const Text(addNewPlaceTitleText),
         leading: CupertinoButton(
           child: Text(
             cancelButtonText,
@@ -50,8 +47,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 const _CategoryChoiceTile(),
                 const SizedBox(height: 24),
                 TextFormFieldWidget(
-                  textController: sightInteractor.nameTextController,
-                  label: sightNameText,
+                  textController: placeModel.nameTextController,
+                  label: placeNameText,
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
                   maxLines: 1,
@@ -63,10 +60,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     Expanded(
                       flex: 8,
                       child: TextFormFieldWidget(
-                        textController: sightInteractor.latTextController,
+                        textController: placeModel.latTextController,
                         maxLines: 1,
                         textInputAction: TextInputAction.next,
-                        label: sightLatText,
+                        label: placeLatText,
                         textInputType: TextInputType.number,
                       ),
                     ),
@@ -77,9 +74,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     Expanded(
                       flex: 8,
                       child: TextFormFieldWidget(
-                        textController: sightInteractor.lonTextController,
+                        textController: placeModel.lonTextController,
                         maxLines: 1,
-                        label: sightLonText,
+                        label: placeLonText,
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
                       ),
@@ -90,9 +87,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 const _GetMapCoordinates(),
                 const SizedBox(height: 37),
                 TextFormFieldWidget(
-                  textController: sightInteractor.descTextController,
+                  textController: placeModel.descTextController,
                   textInputAction: TextInputAction.done,
-                  label: sightDescText,
+                  label: placeDescText,
                   maxLines: 3,
                   hintText: inputValueHintText,
                   textInputType: TextInputType.multiline,
@@ -111,7 +108,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     vertical: 24,
                     horizontal: 16,
                   ),
-                  child: const _CreateSightButton(),
+                  child: const _CreateNewPlaceButton(),
                 ),
               ),
             ),
@@ -123,16 +120,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
 }
 
 ///Кнопка добавления нового места
-class _CreateSightButton extends StatelessWidget {
-  const _CreateSightButton({
+class _CreateNewPlaceButton extends StatelessWidget {
+  const _CreateNewPlaceButton({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
+
     return StreamBuilder<bool>(
         initialData: false,
-        stream: sightInteractor.isValidateStream,
+        stream: placeModel.isValidateStream,
         builder: (context, snapshot) {
           return Container(
             width: double.infinity,
@@ -140,7 +139,7 @@ class _CreateSightButton extends StatelessWidget {
             child: ElevatedButton(
               onPressed: snapshot.data
                   ? () {
-                      sightInteractor.createSight();
+                      placeModel.createNewPlace();
                       Navigator.of(context).pop();
                     }
                   : null,
@@ -186,9 +185,11 @@ class _CategoryChoiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
+
     return Column(
       children: [
-        const CaptionText(title: sightCategoryText),
+        const CaptionText(title: placeCategoryText),
         ListTile(
           onTap: () => Navigator.push(
             context,
@@ -199,8 +200,8 @@ class _CategoryChoiceTile extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           focusColor: colorLightGreen,
           title: StreamBuilder<String>(
-              initialData: sightInteractor.categoryName,
-              stream: sightInteractor.choicedCategoryControllerStream,
+              initialData: placeModel.categoryName,
+              stream: placeModel.choicedCategoryControllerStream,
               builder: (context, snapshot) {
                 return Text(
                   snapshot.data.isEmpty ? unSelectText : snapshot.data,
@@ -228,11 +229,13 @@ class _PicturesGalleryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final placeModel = context.watch<PlaceInteractor>();
+
     return Container(
       height: 72,
       child: StreamBuilder<List<String>>(
-          initialData: sightInteractor.imageList,
-          stream: sightInteractor.imageListStream,
+          initialData: placeModel.imageList,
+          stream: placeModel.imageListStream,
           builder: (context, snapshot) {
             final imgList = snapshot.data;
             return SingleChildScrollView(
@@ -247,10 +250,9 @@ class _PicturesGalleryWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: SmallSightPictureWidget(
+                    child: SmallPictureOfPlaceWidget(
                       key: ValueKey(imgList[index]),
-                      onRemove: () =>
-                          sightInteractor.deleteImage(imgList[index]),
+                      onRemove: () => placeModel.deleteImage(imgList[index]),
                       imageUrl: imgList[index],
                       size: 72,
                     ),

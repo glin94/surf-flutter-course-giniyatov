@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 
-class SmallSightPictureWidget extends StatelessWidget {
-  const SmallSightPictureWidget({
+class SmallPictureOfPlaceWidget extends StatelessWidget {
+  const SmallPictureOfPlaceWidget({
     Key key,
     @required this.imageUrl,
     this.size,

@@ -264,19 +264,19 @@ class _FilterButton extends StatelessWidget {
         initialData: searchInteractor.filterPlacesList,
         stream: searchInteractor.placesStream,
         builder: (BuildContext context, AsyncSnapshot<List<Place>> snapshot) {
-          var filterSights = List();
+          var filterPlaces = List();
           if (snapshot != null && snapshot.hasData) {
-            filterSights = snapshot.data;
+            filterPlaces = snapshot.data;
           }
           return Container(
             height: 48,
             width: double.infinity,
             child: ElevatedButton(
               child: Text(
-                "$viewButtonText (${filterSights.length})",
+                "$viewButtonText (${filterPlaces.length})",
               ),
-              onPressed: filterSights.length != 0
-                  ? () => Navigator.of(context).pop<List<Place>>(filterSights)
+              onPressed: filterPlaces.length != 0
+                  ? () => Navigator.of(context).pop<List<Place>>(filterPlaces)
                   : null,
             ),
           );

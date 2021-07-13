@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/new_sight_interactor.dart';
+import 'package:places/data/interactor/new_place_interactor.dart';
+import 'package:provider/provider.dart';
 
 /// Кнопка очистки формы
 class TextClearButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class TextClearButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         textController.clear();
-        sightInteractor.validate();
+        context.read<PlaceInteractor>().validate();
       },
       child: Container(
         decoration: BoxDecoration(

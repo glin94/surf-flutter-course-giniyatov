@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/widgets/empty_places_screen.dart';
+import 'package:places/ui/common/widgets/place_card.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/common/widgets/sight_card.dart';
 import 'package:provider/provider.dart';
 
 /// Экран "Хочу посетить/Посещенные места"
@@ -33,7 +33,7 @@ class _VisitingScreenState extends State<VisitingScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          favoriteScreenTitle,
+          favoriteScreenTitleText,
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(52),
@@ -56,8 +56,8 @@ class _VisitingScreenState extends State<VisitingScreen>
           builder: (context, snapshot) =>
               TabBarView(controller: _controller, children: <Widget>[
             _TabItem(
-              sightList:
-                  snapshot.data.where((sight) => !sight.isAchieved).toList(),
+              placeList:
+                  snapshot.data.where((place) => !place.isAchieved).toList(),
               emptyPlaceScreen: const EmptyPlaceScreen(
                 iconsAssetText: icCamera,
                 text: wantToVisitPlacesEmptyText,
@@ -65,8 +65,8 @@ class _VisitingScreenState extends State<VisitingScreen>
               ),
             ),
             _TabItem(
-              sightList:
-                  snapshot.data.where((sight) => sight.isAchieved).toList(),
+              placeList:
+                  snapshot.data.where((place) => place.isAchieved).toList(),
               emptyPlaceScreen: const EmptyPlaceScreen(
                 iconsAssetText: icGO,
                 header: "Пусто",
@@ -151,11 +151,11 @@ class _TabBarWidget extends StatelessWidget {
 class _TabItem extends StatefulWidget {
   const _TabItem({
     Key key,
-    this.sightList,
+    this.placeList,
     this.emptyPlaceScreen,
   }) : super(key: key);
 
-  final List<Place> sightList;
+  final List<Place> placeList;
 
   final EmptyPlaceScreen emptyPlaceScreen;
 
@@ -169,38 +169,38 @@ class _TabItemState extends State<_TabItem> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final Place item = widget.sightList.removeAt(oldIndex);
-      widget.sightList.insert(newIndex, item);
+      final Place item = widget.placeList.removeAt(oldIndex);
+      widget.placeList.insert(newIndex, item);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.sightList.isNotEmpty
+    return widget.placeList.isNotEmpty
         ? ListView.builder(
-            itemCount: widget.sightList.length,
+            itemCount: widget.placeList.length,
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 24,
             ),
             itemBuilder: (context, index) {
-              final Place sight = widget.sightList[index];
+              final Place place = widget.placeList[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: DragTarget<Place>(
-                  onWillAccept: (data) => data != sight,
+                  onWillAccept: (data) => data != place,
                   onAccept: (data) =>
-                      _onReorder(widget.sightList.indexOf(data), index),
+                      _onReorder(widget.placeList.indexOf(data), index),
                   builder: (BuildContext context, List<dynamic> acceptedData,
                       List<dynamic> rejectedData) {
                     return DraggableCard(
-                      sight: sight,
-                      child: FavoriteSightCard(
-                        key: ValueKey(sight),
-                        sight: sight,
+                      place: place,
+                      child: FavoritePlaceCard(
+                        key: ValueKey(place),
+                        place: place,
                         onDelete: () => context
                             .read<PlaceInteractor>()
-                            .removeFromFavoritesList(sight),
+                            .removeFromFavoritesList(place),
                       ),
                     );
                   },

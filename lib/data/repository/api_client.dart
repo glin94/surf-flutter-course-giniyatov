@@ -3,7 +3,7 @@ import 'package:places/data/interactor/common/exceptions.dart';
 import 'package:places/util/const.dart';
 
 class ApiClient {
-  final _timeOut = Duration(milliseconds: 5000);
+  final _timeOut = Duration(milliseconds: 60000);
 
   Dio _dio;
 

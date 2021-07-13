@@ -20,7 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(settingsScreenTitle),
+        title: Text(settingsScreenTitleText),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
