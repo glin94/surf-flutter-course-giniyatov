@@ -16,7 +16,7 @@ class TextClearButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         textController.clear();
-        context.read<PlaceInteractor>().validate();
+        context.read<NewPlaceInteractor>().validate();
       },
       child: Container(
         decoration: BoxDecoration(

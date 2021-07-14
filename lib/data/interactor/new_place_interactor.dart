@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/mocks.dart';
 
-class PlaceInteractor {
+class NewPlaceInteractor {
   String categoryName = "";
 
   List<String> get imageList => mocks.first.urls;
@@ -31,8 +31,11 @@ class PlaceInteractor {
       _choicedCategoryController.stream;
 
   TextEditingController nameTextController = TextEditingController();
+
   TextEditingController lonTextController = TextEditingController();
+
   TextEditingController latTextController = TextEditingController();
+
   TextEditingController descTextController = TextEditingController();
 
   void validate() {

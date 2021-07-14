@@ -10,7 +10,7 @@ import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
 import 'package:places/ui/screen/filters_screen.dart';
-import 'package:places/ui/screen/search_place__screen.dart';
+import 'package:places/ui/screen/search_place_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:places/store/places_store/places_store.dart';

@@ -45,7 +45,7 @@ class TextFormFieldWidget extends StatelessWidget {
           onEditingComplete: () {
             FocusScope.of(context).nextFocus();
           },
-          onChanged: (s) => context.read<PlaceInteractor>().validate(),
+          onChanged: (s) => context.read<NewPlaceInteractor>().validate(),
           maxLines: maxLines,
           cursorHeight: 24,
           cursorColor: Theme.of(context).accentColor,
