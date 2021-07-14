@@ -14,10 +14,11 @@ import 'package:places/ui/screen/category_choice_screen.dart';
 import 'package:provider/provider.dart';
 
 /// Экран добавления нового места
-class AddPlaceScreen extends StatelessWidget {
+class AddNewPlaceScreen extends StatelessWidget {
+  const AddNewPlaceScreen() : super();
+
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 90,
@@ -33,87 +34,94 @@ class AddPlaceScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 24,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                const _PicturesGalleryWidget(),
-                const SizedBox(height: 24),
-                const _CategoryChoiceTile(),
-                const SizedBox(height: 24),
-                TextFormFieldWidget(
-                  textController: placeModel.nameTextController,
-                  label: placeNameText,
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.text,
-                  maxLines: 1,
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: TextFormFieldWidget(
-                        textController: placeModel.latTextController,
-                        maxLines: 1,
-                        textInputAction: TextInputAction.next,
-                        label: placeLatText,
-                        textInputType: TextInputType.number,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: const SizedBox(width: 16),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: TextFormFieldWidget(
-                        textController: placeModel.lonTextController,
-                        maxLines: 1,
-                        label: placeLonText,
-                        textInputAction: TextInputAction.next,
-                        textInputType: TextInputType.number,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                const _GetMapCoordinates(),
-                const SizedBox(height: 37),
-                TextFormFieldWidget(
-                  textController: placeModel.descTextController,
-                  textInputAction: TextInputAction.done,
-                  label: placeDescText,
-                  maxLines: 3,
-                  hintText: inputValueHintText,
-                  textInputType: TextInputType.multiline,
-                ),
-              ]),
-            ),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            fillOverscroll: true,
-            child: Container(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 24,
-                    horizontal: 16,
+      body: Provider<PlaceInteractor>(
+        create: (context) => PlaceInteractor(),
+        builder: (context, w) => CustomScrollView(
+          slivers: <Widget>[
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 24,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const _PicturesGalleryWidget(),
+                  const SizedBox(height: 24),
+                  const _CategoryChoiceTile(),
+                  const SizedBox(height: 24),
+                  TextFormFieldWidget(
+                    textController:
+                        context.read<PlaceInteractor>().nameTextController,
+                    label: placeNameText,
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.text,
+                    maxLines: 1,
                   ),
-                  child: const _CreateNewPlaceButton(),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: TextFormFieldWidget(
+                          textController:
+                              context.read<PlaceInteractor>().latTextController,
+                          maxLines: 1,
+                          textInputAction: TextInputAction.next,
+                          label: placeLatText,
+                          textInputType: TextInputType.number,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: const SizedBox(width: 16),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: TextFormFieldWidget(
+                          textController:
+                              context.read<PlaceInteractor>().lonTextController,
+                          maxLines: 1,
+                          label: placeLonText,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  const _GetMapCoordinates(),
+                  const SizedBox(height: 37),
+                  TextFormFieldWidget(
+                    textController:
+                        context.read<PlaceInteractor>().descTextController,
+                    textInputAction: TextInputAction.done,
+                    label: placeDescText,
+                    maxLines: 3,
+                    hintText: inputValueHintText,
+                    textInputType: TextInputType.multiline,
+                  ),
+                ]),
+              ),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              fillOverscroll: true,
+              child: Container(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 24,
+                      horizontal: 16,
+                    ),
+                    child: const _CreateNewPlaceButton(),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

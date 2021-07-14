@@ -146,7 +146,7 @@ class _PlaceCardTop extends StatelessWidget {
             ? ImageWidget(
                 url: imgUrls.first,
               )
-            : Container(),
+            : const SizedBox.shrink(),
       ),
     );
   }

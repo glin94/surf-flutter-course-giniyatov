@@ -10,12 +10,9 @@ import 'package:places/ui/screen/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
 /// Экран настроек
-class SettingsScreen extends StatefulWidget {
-  @override
-  _SettingsScreenState createState() => _SettingsScreenState();
-}
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key key}) : super(key: key);
 
-class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 trailing: CupertinoSwitch(
                   value: settingsInteractor.isDark,
-                  onChanged: (val) =>
-                      setState(() => settingsInteractor.changeTheme = val),
+                  onChanged: (val) => settingsInteractor.changeTheme = val,
                 ),
               ),
               const Separator(),

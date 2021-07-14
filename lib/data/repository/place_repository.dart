@@ -7,12 +7,13 @@ class PlaceRepository {
 
   final ApiClient _apiClient;
 
-  Future<List<dynamic>> fetchPlaces() async {
+  Future<List<Place>> fetchPlaces() async {
     final places = await _apiClient.get(placeEndpoint);
-    return places.map((json) => Place.fromJson(json)).toList();
+    return List<Place>.from(
+        places.map((json) => Place.fromJson(json)).toList());
   }
 
-  Future<dynamic> fetchPlaceById(String id) async {
+  Future<Place> fetchPlaceById(String id) async {
     final place = await _apiClient.get("$placeEndpoint/$id");
     return Place.fromJson(place);
   }

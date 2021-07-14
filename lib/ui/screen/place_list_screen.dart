@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mobx/mobx.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/common/widgets/add_new_place_button.dart';
@@ -8,14 +9,29 @@ import 'package:places/ui/common/widgets/place_card.dart';
 import 'package:places/ui/common/widgets/search_bar.dart';
 import 'package:places/ui/common/widgets/waiting_indicator.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
-import 'package:places/ui/screen/error_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/search_place__screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:places/store/places_store/places_store.dart';
 
 /// Экран отображения списка интересных мест
-class PlaceListScreen extends StatelessWidget {
+class PlaceListScreen extends StatefulWidget {
   const PlaceListScreen({Key key}) : super(key: key);
+
+  @override
+  _PlaceListScreenState createState() => _PlaceListScreenState();
+}
+
+class _PlaceListScreenState extends State<PlaceListScreen> {
+  PlacesStore _store;
+
+  @override
+  void initState() {
+    super.initState();
+    _store = context.read<PlacesStore>();
+    _store.getPlaces();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,28 +94,35 @@ class PlaceListScreen extends StatelessWidget {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: StreamBuilder<List<dynamic>>(
-                  stream: context.read<PlaceInteractor>().placeStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final placeList = snapshot.data.cast<Place>();
-                      if (placeList.isEmpty) {
-                        return Container();
-                      } else
-                        return _PlacesGrid(places: placeList);
-                    } else if (snapshot.hasError) {
-                      return const ErrorScreen();
-                    } else
-                      return const WaitingIndicator();
-                  },
+                padding: const EdgeInsets.all(16),
+                sliver: SliverToBoxAdapter(
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      return _store.getPlacesFuture.status ==
+                              FutureStatus.pending
+                          ? const WaitingIndicator()
+                          : _PlacesGrid(places: _store.getPlacesFuture.value);
+                    },
+                  ),
+                )
+
+                // StreamBuilder<List<dynamic>>(
+                //   stream: context.read<PlaceInteractor>().placeStream,
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       final placeList = snapshot.data.cast<Place>();
+                //       if (placeList.isEmpty) {
+                //         return Container();
+                //       } else
+                //         return _PlacesGrid(places: placeList);
+                //     } else if (snapshot.hasError) {
+                //       return const ErrorScreen();
+                //     } else
+                //       return const WaitingIndicator();
+                //   },
+                // ),
+                // ),
                 ),
-              ),
-            ),
           ],
         ),
       ),
