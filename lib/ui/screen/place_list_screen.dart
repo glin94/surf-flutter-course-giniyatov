@@ -94,10 +94,7 @@ class _PlaceListScreenState extends State<PlaceListScreen> {
               ),
             ),
             SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
+                padding: const EdgeInsets.all(16),
                 sliver: SliverToBoxAdapter(
                   child: Observer(
                     builder: (BuildContext context) {

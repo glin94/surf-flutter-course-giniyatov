@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
     const PlaceListScreen(),
     Container(),
     VisitingScreen(),
-    SettingsScreen(),
+    const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) => setState(() => _selectedIndex = index);
