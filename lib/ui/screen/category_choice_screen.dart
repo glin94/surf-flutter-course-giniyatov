@@ -30,9 +30,7 @@ class CategoryChoiceScreen extends StatelessWidget {
                 context
                     .watch<SearchInteractor>()
                     .filterValues
-                    .map(
-                      (item) => _CategoryTile(name: item["name"]),
-                    )
+                    .map((item) => _CategoryTile(name: item["name"]))
                     .toList(),
               ),
             ),
@@ -67,7 +65,7 @@ class _SaveCategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
+    final placeModel = context.watch<NewPlaceInteractor>();
     return StreamBuilder<String>(
         initialData: placeModel.categoryName,
         stream: placeModel.choicedCategoryControllerStream,
@@ -99,7 +97,7 @@ class _CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
+    final placeModel = context.watch<NewPlaceInteractor>();
 
     return StreamBuilder<String>(
       initialData: placeModel.categoryName,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/app.dart';
+import 'package:places/data/interactor/new_place_interactor.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
@@ -27,6 +28,7 @@ class AppDependecies extends StatelessWidget {
     final _placeInteractor = PlaceInteractor(_placeRepository);
     final _searchInteractor = SearchInteractor(_filterRepository);
     final _settingsInteractor = SettingsInteractor();
+    final _newPlaceInteractor = NewPlaceInteractor();
 
     final _placesStore = PlacesStore(_placeRepository);
 
@@ -35,6 +37,7 @@ class AppDependecies extends StatelessWidget {
         ChangeNotifierProvider.value(value: _settingsInteractor),
         Provider.value(value: _placeInteractor),
         Provider.value(value: _searchInteractor),
+        Provider.value(value: _newPlaceInteractor),
         Provider.value(value: _placesStore),
       ],
       child: app,

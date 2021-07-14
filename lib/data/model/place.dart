@@ -28,7 +28,7 @@ class Place {
   List<int> openingHours = const [9, 18];
 
   /// Дата посещения места
-  DateTime visitingDate = DateTime(2021, 04, 13);
+  DateTime visitingDate = DateTime(2021, 08, 13);
 
   bool isFavorite;
 

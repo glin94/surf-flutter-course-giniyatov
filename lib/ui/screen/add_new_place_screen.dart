@@ -34,8 +34,8 @@ class AddNewPlaceScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Provider<PlaceInteractor>(
-        create: (context) => PlaceInteractor(),
+      body: Provider<NewPlaceInteractor>(
+        create: (context) => NewPlaceInteractor(),
         builder: (context, w) => CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
@@ -51,7 +51,7 @@ class AddNewPlaceScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   TextFormFieldWidget(
                     textController:
-                        context.read<PlaceInteractor>().nameTextController,
+                        context.read<NewPlaceInteractor>().nameTextController,
                     label: placeNameText,
                     textInputAction: TextInputAction.next,
                     textInputType: TextInputType.text,
@@ -64,8 +64,9 @@ class AddNewPlaceScreen extends StatelessWidget {
                       Expanded(
                         flex: 8,
                         child: TextFormFieldWidget(
-                          textController:
-                              context.read<PlaceInteractor>().latTextController,
+                          textController: context
+                              .read<NewPlaceInteractor>()
+                              .latTextController,
                           maxLines: 1,
                           textInputAction: TextInputAction.next,
                           label: placeLatText,
@@ -79,8 +80,9 @@ class AddNewPlaceScreen extends StatelessWidget {
                       Expanded(
                         flex: 8,
                         child: TextFormFieldWidget(
-                          textController:
-                              context.read<PlaceInteractor>().lonTextController,
+                          textController: context
+                              .read<NewPlaceInteractor>()
+                              .lonTextController,
                           maxLines: 1,
                           label: placeLonText,
                           textInputAction: TextInputAction.next,
@@ -94,7 +96,7 @@ class AddNewPlaceScreen extends StatelessWidget {
                   const SizedBox(height: 37),
                   TextFormFieldWidget(
                     textController:
-                        context.read<PlaceInteractor>().descTextController,
+                        context.read<NewPlaceInteractor>().descTextController,
                     textInputAction: TextInputAction.done,
                     label: placeDescText,
                     maxLines: 3,
@@ -135,7 +137,7 @@ class _CreateNewPlaceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
+    final placeModel = context.watch<NewPlaceInteractor>();
 
     return StreamBuilder<bool>(
         initialData: false,
@@ -185,7 +187,7 @@ class _GetMapCoordinates extends StatelessWidget {
   }
 }
 
-///Форма выбора категории
+/// Форма выбора категории
 class _CategoryChoiceTile extends StatelessWidget {
   const _CategoryChoiceTile({
     Key key,
@@ -193,7 +195,7 @@ class _CategoryChoiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
+    final placeModel = context.watch<NewPlaceInteractor>();
 
     return Column(
       children: [
@@ -237,8 +239,7 @@ class _PicturesGalleryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeModel = context.watch<PlaceInteractor>();
-
+    final placeModel = context.watch<NewPlaceInteractor>();
     return Container(
       height: 72,
       child: StreamBuilder<List<String>>(

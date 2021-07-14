@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/strings/common_strings.dart';
+import 'package:places/ui/screen/favorite_places_screen.dart';
 import 'package:places/ui/screen/place_list_screen.dart';
 import 'package:places/ui/screen/settings_screens.dart';
-import 'package:places/ui/screen/visiting_screen.dart';
 
 /// Главный экран
 class MainScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   static List<Widget> _screens = <Widget>[
     const PlaceListScreen(),
     Container(),
-    VisitingScreen(),
+    FavoritePlacesScreen(),
     const SettingsScreen(),
   ];
 
